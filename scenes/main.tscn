@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://x6rvsc2ejisq"]
+
+[ext_resource type="Script" uid="uid://valkn7w8h688" path="res://scenes/dungeon_generation.gd" id="1_ig7tw"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_ig7tw")
+map_width = 99
+map_height = 99
+target_floor_percent = 0.5
