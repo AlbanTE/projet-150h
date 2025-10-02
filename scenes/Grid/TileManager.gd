@@ -1,0 +1,70 @@
+extends Node
+class_name CustomTileManager
+
+
+func build_from_grid(map_layer: TileMapLayer, grid_data: Array, offset: Vector2i = Vector2i.ZERO) -> void:
+	if not _is_valid_map_layer(map_layer) or grid_data.is_empty():
+		return
+	
+	var tile_positions = _collect_tile_positions(grid_data, offset)
+	
+	if tile_positions.size() > 0:
+		map_layer.set_cells_terrain_connect(tile_positions, 0, 0)
+	
+
+func _collect_tile_positions(grid_data: Array, offset: Vector2i) -> Array[Vector2i]:
+	var positions: Array[Vector2i] = []
+	
+	for row_index in grid_data.size():
+		var row = grid_data[row_index]
+		
+		if not row is Array:
+			continue
+		
+		for col_index in row.size():
+			var cell_value = row[col_index]
+			
+			if cell_value != 0:
+				var world_position = offset + Vector2i(col_index, row_index)
+				positions.append(world_position)
+	
+	return positions
+
+func _is_valid_map_layer(map_layer: TileMapLayer) -> bool:
+	if not map_layer:
+		push_error("Map layer is missing")
+		return false
+	
+	if not map_layer.tile_set:
+		push_error("Tile set is missing")
+		return false
+	
+	return true
+
+
+func create_test_grid(width: int, height: int) -> Array:
+	var grid_data: Array = []
+	grid_data.resize(height)
+	
+	for row_index in height:
+		var row: Array = []
+		row.resize(width)
+		
+		for col_index in width:
+			row[col_index] = 1
+		
+		grid_data[row_index] = row
+	
+	return grid_data
+
+func test_small_grid(map_layer: TileMapLayer) -> void:
+	var small_grid = create_test_grid(10, 10)
+	build_from_grid(map_layer, small_grid, Vector2i(-5, -5))
+
+func test_medium_grid(map_layer: TileMapLayer) -> void:
+	var medium_grid = create_test_grid(50, 50)
+	build_from_grid(map_layer, medium_grid, Vector2i(-25, -25))
+
+func test_large_grid(map_layer: TileMapLayer) -> void:
+	var large_grid = create_test_grid(100, 100)
+	build_from_grid(map_layer, large_grid, Vector2i(-50, -50))

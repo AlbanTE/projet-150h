@@ -23,7 +23,7 @@ extends Node2D
 @export var safe_wall_margin: int = 1   # min distance from wall for objects/spawns
 
 # --- Internal stuff ---
-enum Tile { EMPTY, ROOM, CORRIDOR }
+enum Tile { EMPTY, ROOM, CORRIDOR, PLAYER, EXIT, OBJECT }
 
 class Cell:
 	var rect: Rect2
@@ -45,6 +45,24 @@ var exit_room_idx: int
 var object_positions: Array = []
 var player_pos: Vector2
 var exit_pos: Vector2
+
+func generate_dungeon(seed) -> Array:
+	if seed == -1:
+		rng.randomize()
+	else:
+		rng.seed = seed
+
+	_generate_cells()
+	_separate_cells()
+	_fill_tile_map_from_cells()
+	_select_rooms()
+	_build_graph_delaunay()
+	_build_mst_and_add_loops()
+	_carve_corridors()
+	_place_spawns_and_objects()
+	
+	return map_tiles
+	
 
 # --- Startup ---------------------------------------------------------------
 func _ready():
@@ -319,6 +337,7 @@ func _place_spawns_and_objects():
 			best_idx=i
 	player_room_idx=best_idx
 	player_pos=_pick_room_tile(rooms[player_room_idx])
+	map_tiles[player_pos.y][player_pos.x] = Tile.PLAYER
 
 	# BFS graph to find farthest room
 	var graph={}
@@ -345,14 +364,15 @@ func _place_spawns_and_objects():
 			max_d=dist[i]
 			exit_room_idx=i
 	exit_pos=_pick_room_tile(rooms[exit_room_idx])
+	map_tiles[exit_pos.y][exit_pos.x] = Tile.EXIT
 
 	# Object/chest spawns
-	object_positions.clear()
 	for i in range(rooms.size()):
 		if i==player_room_idx or i==exit_room_idx:
 			continue
 		if rng.randf()<object_spawn_chance:
-			object_positions.append(_pick_room_tile(rooms[i]))
+			var object_pos = _pick_room_tile(rooms[i])
+			map_tiles[object_pos.y][object_pos.x] = Tile.OBJECT
 
 func _pick_room_tile(room:Cell) -> Vector2:
 	var candidates:Array=[]
@@ -362,11 +382,22 @@ func _pick_room_tile(room:Cell) -> Vector2:
 	var h=int(room.rect.size.y)
 	for yy in range(y0+safe_wall_margin,y0+h-safe_wall_margin):
 		for xx in range(x0+safe_wall_margin,x0+w-safe_wall_margin):
-			if map_tiles[yy][xx]==Tile.ROOM:
-				candidates.append(Vector2(xx,yy))
-	if candidates.size()==0:
-		return Vector2(x0+w/2, y0+h/2)
-	return candidates[rng.randi_range(0,candidates.size()-1)]
+			if xx>=0 and xx<map_tiles_w and yy>=0 and yy<map_tiles_h:
+				if map_tiles[yy][xx]==Tile.ROOM:
+					candidates.append(Vector2(xx,yy))
+
+	if candidates.size()>0:
+		return candidates[rng.randi_range(0,candidates.size()-1)]
+
+	# fallback: search brute-force for ANY valid ROOM tile in this room
+	for yy in range(y0,y0+h):
+		for xx in range(x0,x0+w):
+			if xx>=0 and xx<map_tiles_w and yy>=0 and yy<map_tiles_h:
+				if map_tiles[yy][xx]==Tile.ROOM:
+					return Vector2(xx,yy)
+
+	# final fallback: center
+	return Vector2(clamp(x0+w/2,0,map_tiles_w-1), clamp(y0+h/2,0,map_tiles_h-1))
 
 # --- ASCII Debug ---
 func _print_ascii_map():
@@ -377,6 +408,9 @@ func _print_ascii_map():
 				Tile.ROOM: s+="."
 				Tile.CORRIDOR: s+="+"
 				Tile.EMPTY: s+="#"
+				Tile.PLAYER: s+="P"
+				Tile.EXIT: s+="E"
+				Tile.OBJECT: s+="O"
 		s+="\n"
 	print(s)
 
