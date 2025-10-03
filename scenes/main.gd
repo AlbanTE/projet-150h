@@ -60,9 +60,10 @@ func build_dungeon_area():
 
 	var player_spawn: Vector2i = Vector2i(0, 0)
 	for y in dungeon.size():
-		for x in dungeon[y]:
+		for x in dungeon[y].size():
 			if dungeon[y][x] == DungeonGenerator.Tile.PLAYER:
 				player_spawn = Vector2i(x, y)
+				print("Found player spawn !")
 
 	# Move player to spawn
 	teleport_player_to_spawn(player_spawn, offset)

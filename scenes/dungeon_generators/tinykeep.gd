@@ -14,7 +14,7 @@ extends Node2D
 @export var separation_iters: int = 100
 @export var extra_edge_chance: float = 0.25
 @export var room_area_threshold: int = 6
-@export var carve_width: int = 1
+@export var carve_width: int = 0
 @export var draw_grid_offset: Vector2 = Vector2.ZERO
 @export var min_room_count: int = 8
 

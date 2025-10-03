@@ -206,7 +206,8 @@ texture_region_size = Vector2i(8, 8)
 9:0/0 = 0
 9:0/0/terrain_set = 0
 9:0/0/terrain = 0
-9:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
+9:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, -2, -4, -2, -2, -4, -2)
+9:0/0/physics_layer_0/polygon_1/points = PackedVector2Array(-4, 2, -2, 2, -2, 4, -4, 4)
 9:0/0/terrains_peering_bit/right_side = 0
 9:0/0/terrains_peering_bit/bottom_right_corner = 0
 9:0/0/terrains_peering_bit/bottom_side = 0
@@ -216,7 +217,8 @@ texture_region_size = Vector2i(8, 8)
 10:0/0 = 0
 10:0/0/terrain_set = 0
 10:0/0/terrain = 0
-10:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
+10:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(4, -4, 4, 4, 4, -2, 2, -2, 2, -4)
+10:0/0/physics_layer_0/polygon_1/points = PackedVector2Array(-2, -4, -2, -2, -4, -2, -4, -4)
 10:0/0/terrains_peering_bit/right_side = 0
 10:0/0/terrains_peering_bit/bottom_right_corner = 0
 10:0/0/terrains_peering_bit/bottom_side = 0
@@ -226,7 +228,8 @@ texture_region_size = Vector2i(8, 8)
 10:1/0 = 0
 10:1/0/terrain_set = 0
 10:1/0/terrain = 0
-10:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
+10:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(4, 4, -4, 4, 2, 4, 2, 2, 4, 2)
+10:1/0/physics_layer_0/polygon_1/points = PackedVector2Array(4, -2, 2, -2, 2, -4, 4, -4)
 10:1/0/terrains_peering_bit/right_side = 0
 10:1/0/terrains_peering_bit/bottom_side = 0
 10:1/0/terrains_peering_bit/bottom_left_corner = 0
@@ -236,7 +239,8 @@ texture_region_size = Vector2i(8, 8)
 9:1/0 = 0
 9:1/0/terrain_set = 0
 9:1/0/terrain = 0
-9:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
+9:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, 4, -4, -4, -4, 2, -2, 2, -2, 4)
+9:1/0/physics_layer_0/polygon_1/points = PackedVector2Array(2, 4, 2, 2, 4, 2, 4, 4)
 9:1/0/terrains_peering_bit/right_side = 0
 9:1/0/terrains_peering_bit/bottom_side = 0
 9:1/0/terrains_peering_bit/left_side = 0
@@ -411,7 +415,7 @@ script = ExtResource("6_main")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(0, 1)
-scale = Vector2(4, 4)
+scale = Vector2(16, 16)
 tile_set = SubResource("TileSet_tefeu")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
@@ -429,6 +433,8 @@ shape = SubResource("RectangleShape2D_jyhfs")
 
 [node name="MovementPlayer" type="Node" parent="CharacterBody2D"]
 script = ExtResource("1_0wfyh")
+vitesse = 500.0
+acceleration = 140.0
 
 [node name="HealthComponent" type="Node" parent="CharacterBody2D"]
 script = ExtResource("3_healthcomponent")
