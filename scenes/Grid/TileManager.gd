@@ -2,18 +2,23 @@ extends Node
 class_name CustomTileManager
 
 
-func build_from_grid(map_layer: TileMapLayer, grid_data: Array, offset: Vector2i = Vector2i.ZERO) -> void:
-	if not _is_valid_map_layer(map_layer) or grid_data.is_empty():
+func build_from_grid(ground_layer: TileMapLayer, wall_layer: TileMapLayer, grid_data: Array, offset: Vector2i = Vector2i.ZERO) -> void:
+	if not _is_valid_map_layer(ground_layer) or not _is_valid_map_layer(wall_layer) or grid_data.is_empty():
 		return
 	
-	var tile_positions = _collect_tile_positions(grid_data, offset)
+	var all_positions = _collect_tile_positions(grid_data, offset)
+	var tile_positions = all_positions[0]
+	var wall_positions = all_positions[1]
 	
 	if tile_positions.size() > 0:
-		map_layer.set_cells_terrain_connect(tile_positions, 0, 0)
+		ground_layer.set_cells_terrain_connect(tile_positions, 0, 0)
+	if wall_positions.size() > 0:
+		wall_layer.set_cells_terrain_connect(wall_positions, 0, 0)
 	
 
-func _collect_tile_positions(grid_data: Array, offset: Vector2i) -> Array[Vector2i]:
+func _collect_tile_positions(grid_data: Array, offset: Vector2i):
 	var positions: Array[Vector2i] = []
+	var others: Array[Vector2i] = []
 	
 	for row_index in grid_data.size():
 		var row = grid_data[row_index]
@@ -23,12 +28,13 @@ func _collect_tile_positions(grid_data: Array, offset: Vector2i) -> Array[Vector
 		
 		for col_index in row.size():
 			var cell_value = row[col_index]
-			
+			var world_position = offset + Vector2i(col_index, row_index)
 			if cell_value != 0:
-				var world_position = offset + Vector2i(col_index, row_index)
 				positions.append(world_position)
+			else:
+				others.append(world_position)
 	
-	return positions
+	return [positions, others]
 
 func _is_valid_map_layer(map_layer: TileMapLayer) -> bool:
 	if not map_layer:
@@ -57,14 +63,14 @@ func create_test_grid(width: int, height: int) -> Array:
 	
 	return grid_data
 
-func test_small_grid(map_layer: TileMapLayer) -> void:
+func test_small_grid(map_layer: TileMapLayer, wall_layer: TileMapLayer) -> void:
 	var small_grid = create_test_grid(10, 10)
-	build_from_grid(map_layer, small_grid, Vector2i(-5, -5))
+	build_from_grid(map_layer, wall_layer, small_grid, Vector2i(-5, -5))
 
-func test_medium_grid(map_layer: TileMapLayer) -> void:
+func test_medium_grid(map_layer: TileMapLayer, wall_layer: TileMapLayer) -> void:
 	var medium_grid = create_test_grid(50, 50)
-	build_from_grid(map_layer, medium_grid, Vector2i(-25, -25))
+	build_from_grid(map_layer, wall_layer, medium_grid, Vector2i(-25, -25))
 
-func test_large_grid(map_layer: TileMapLayer) -> void:
+func test_large_grid(map_layer: TileMapLayer, wall_layer: TileMapLayer) -> void:
 	var large_grid = create_test_grid(100, 100)
-	build_from_grid(map_layer, large_grid, Vector2i(-50, -50))
+	build_from_grid(map_layer, wall_layer, large_grid, Vector2i(-50, -50))

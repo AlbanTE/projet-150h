@@ -1,16 +1,17 @@
 extends Node2D
 
 const TileManager = preload("res://scenes/Grid/TileManager.gd")
-const DungeonGenerator = preload("res://scenes/dungeon_generators/tinykeep.gd")
+const DungeonGenerator = preload("res://scenes/dungeon_generators/DungeonGenerator.gd")
 
 @onready var player = $CharacterBody2D
-@export var map_layer: TileMapLayer
+@export var ground_layer: TileMapLayer
+@export var wall_layer: TileMapLayer
 var tile_builder: TileManager
-var dungeon_generator: DungeonGenerator
+@export var dungeon_generator: DungeonGenerator
+@export var _seed: int = -1
 
 func _ready():
 	tile_builder = TileManager.new()
-	dungeon_generator = DungeonGenerator.new()
 
 func _input(event):
 	if not event is InputEventKey or not event.pressed:
@@ -28,25 +29,28 @@ func _input(event):
 
 func build_small_test_area():
 	print("Building small test area (10x10)")
-	map_layer.clear()
-	tile_builder.test_small_grid(map_layer)
+	ground_layer.clear()
+	wall_layer.clear()
+	tile_builder.test_small_grid(ground_layer, wall_layer)
 
 func build_medium_test_area():
 	print("Building medium test area (50x50)")
-	map_layer.clear()
-	tile_builder.test_medium_grid(map_layer)
+	ground_layer.clear()
+	wall_layer.clear()
+	tile_builder.test_medium_grid(ground_layer, wall_layer)
 
 func build_large_test_area():
 	print("Building large test area (100x100)")
-	map_layer.clear()
-	tile_builder.test_large_grid(map_layer)
+	ground_layer.clear()
+	wall_layer.clear()
+	tile_builder.test_large_grid(ground_layer, wall_layer)
 	
 func build_dungeon_area():
 	print("Building dungeon...")
-	map_layer.clear()
+	ground_layer.clear()
+	wall_layer.clear()
 	
-	dungeon_generator = DungeonGenerator.new()
-	var dungeon: Array = dungeon_generator.generate_dungeon(-1)
+	var dungeon: Array = dungeon_generator.generate_dungeon(_seed)
 	
 	dungeon_generator._print_ascii_map()
 
@@ -56,7 +60,7 @@ func build_dungeon_area():
 	var offset = Vector2i(-half_w, -half_h)
 
 	# Build dungeon tiles
-	tile_builder.build_from_grid(map_layer, dungeon, offset)
+	tile_builder.build_from_grid(ground_layer, wall_layer, dungeon, offset)
 
 	var player_spawn: Vector2i = Vector2i(0, 0)
 	for y in dungeon.size():
@@ -77,8 +81,8 @@ func teleport_player_to_spawn(spawn_tile: Vector2i, offset: Vector2i) -> void:
 	var tile_coord: Vector2i = spawn_tile + offset
 
 	# Convert to world position manually
-	var tile_size: Vector2 = map_layer.tile_set.tile_size
-	var world_pos: Vector2 = Vector2(tile_coord.x, tile_coord.y) * tile_size * map_layer.scale
-	world_pos += (tile_size * map_layer.scale) / 2  # center of tile
+	var tile_size: Vector2 = ground_layer.tile_set.tile_size
+	var world_pos: Vector2 = Vector2(tile_coord.x, tile_coord.y) * tile_size * ground_layer.scale
+	world_pos += (tile_size * ground_layer.scale) / 2  # center of tile
 
 	player.global_position = world_pos
