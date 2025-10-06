@@ -4,7 +4,7 @@ const TileManager = preload("res://scenes/Grid/TileManager.gd")
 const DungeonGenerator = preload("res://scenes/dungeon_generators/tinykeep.gd")
 
 @onready var player = $CharacterBody2D
-@onready var map_layer = $TileMapLayer
+@export var map_layer: TileMapLayer
 var tile_builder: TileManager
 var dungeon_generator: DungeonGenerator
 
