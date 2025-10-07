@@ -1,6 +1,8 @@
 extends Node
 class_name CustomTileManager
 
+const DungeonGenerator = preload("res://scenes/dungeon_generators/DungeonGenerator.gd")
+
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var torch: PackedScene = preload("res://scenes/objects/torch.tscn")
 

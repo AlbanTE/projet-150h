@@ -6,12 +6,12 @@ const DungeonGenerator = preload("res://scenes/dungeon_generators/DungeonGenerat
 @onready var player = $CharacterBody2D
 @export var ground_layer: TileMapLayer
 @export var wall_layer: TileMapLayer
-var tile_builder: TileManager
+var tile_builder: CustomTileManager
 @export var dungeon_generator: DungeonGenerator
 @export var _seed: int = -1
 
 func _ready():
-	tile_builder = TileManager.new()
+	tile_builder = CustomTileManager.new()
 
 func _input(event):
 	if not event is InputEventKey or not event.pressed:
