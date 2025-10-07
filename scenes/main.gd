@@ -55,8 +55,8 @@ func build_dungeon_area():
 	dungeon_generator._print_ascii_map()
 
 	# Find half dimensions to center dungeon at (0,0)
-	var half_w = dungeon[0].size() / 2
-	var half_h = dungeon.size() / 2
+	var half_w: int = int(dungeon[0].size() / 2.)
+	var half_h: int = int(dungeon.size() / 2.)
 	var offset = Vector2i(-half_w, -half_h)
 
 	# Build dungeon tiles

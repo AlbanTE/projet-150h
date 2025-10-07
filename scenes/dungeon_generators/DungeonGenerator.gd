@@ -7,7 +7,7 @@ enum Tile { EMPTY, ROOM, CORRIDOR, PLAYER, EXIT, OBJECT }
 var map_tiles: Array = []
 
 
-func generate_dungeon(seed: int) -> Array:
+func generate_dungeon(_seed: int) -> Array:
 	push_error("generate_dungeon() not implemented in %s" % self)
 	return []
 

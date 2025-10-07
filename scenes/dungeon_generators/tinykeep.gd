@@ -88,8 +88,8 @@ func _biased_random_size(min_val:int, max_val:int) -> int:
 func erf_approx(x:float) -> float:
 	var t = 1.0 / (1.0 + 0.5 * abs(x))
 	var tau = t * exp(-x*x -1.26551223 + 1.00002368*t +0.37409196*t*t +0.09678418*pow(t,3) -0.18628806*pow(t,4)+0.27886807*pow(t,5)-1.13520398*pow(t,6)+1.48851587*pow(t,7)-0.82215223*pow(t,8)+0.17087277*pow(t,9))
-	var sign = 1 if x>=0 else -1
-	return sign*(1.0 - tau)
+	var _sign = 1 if x>=0 else -1
+	return _sign*(1.0 - tau)
 
 func _separate_cells():
 	for iter in range(separation_iters):
@@ -281,7 +281,7 @@ func _carve_wide_at(cx:int,cy:int):
 # --- BFS + Spawn Placement ---
 func _place_spawns_and_objects():
 	# Player room near center
-	var center=Vector2(map_tiles_w/2,map_tiles_h/2)
+	var center=Vector2(map_tiles_w/2.,map_tiles_h/2.)
 	var best_idx=0
 	var best_dist=INF
 	for i in range(rooms.size()):
@@ -352,7 +352,7 @@ func _pick_room_tile(room:Cell) -> Vector2:
 					return Vector2(xx,yy)
 
 	# final fallback: center
-	return Vector2(clamp(x0+w/2,0,map_tiles_w-1), clamp(y0+h/2,0,map_tiles_h-1))
+	return Vector2(clamp(x0+w/2.,0,map_tiles_w-1), clamp(y0+h/2.,0,map_tiles_h-1))
 
 func _clean_lone_walls():
 	for y in range(1, map_tiles.size() - 1):

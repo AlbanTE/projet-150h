@@ -29,7 +29,7 @@ func _collect_tile_positions(grid_data: Array, offset: Vector2i):
 		for col_index in row.size():
 			var cell_value = row[col_index]
 			var world_position = offset + Vector2i(col_index, row_index)
-			if cell_value != 0:
+			if cell_value != DungeonGenerator.Tile.EMPTY:
 				positions.append(world_position)
 			else:
 				others.append(world_position)
