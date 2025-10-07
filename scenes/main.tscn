@@ -1596,6 +1596,7 @@ scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_85g3d")
 
 [node name="EnemyType1" type="CharacterBody2D" parent="."]
+visible = false
 position = Vector2(264, 250)
 collision_layer = 2
 script = ExtResource("9_enemy1")
@@ -1604,6 +1605,7 @@ script = ExtResource("9_enemy1")
 shape = SubResource("RectangleShape2D_jyhfs")
 
 [node name="EnemyType2" type="CharacterBody2D" parent="."]
+visible = false
 position = Vector2(-490, 117)
 collision_layer = 2
 script = ExtResource("10_enemy2")
@@ -1612,6 +1614,7 @@ script = ExtResource("10_enemy2")
 shape = SubResource("RectangleShape2D_jyhfs")
 
 [node name="EnemyType3" type="CharacterBody2D" parent="."]
+visible = false
 position = Vector2(348, -169)
 collision_layer = 2
 script = ExtResource("11_enemy3")
