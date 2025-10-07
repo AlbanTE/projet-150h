@@ -1,25 +1,58 @@
 extends Node2D
 
 const TileManager = preload("res://scenes/Grid/TileManager.gd")
-const DungeonGenerator = preload("res://scenes/dungeon_generators/DungeonGenerator.gd")
+const DungeonGeneratorScript = preload("res://scenes/dungeon_generators/DungeonGenerator.gd")
+
+# Préchargement des scripts d'ennemis
+const EnemyType1Script = preload("res://scenes/enemies/EnemyType1.gd")
+const EnemyType2Script = preload("res://scenes/enemies/EnemyType2.gd")
+const EnemyType3Script = preload("res://scenes/enemies/EnemyType3.gd")
+
+# Types d'ennemis disponibles
+enum EnemyTypes { TYPE1, TYPE2, TYPE3 }
 
 @onready var player = $CharacterBody2D
 @export var ground_layer: TileMapLayer
 @export var wall_layer: TileMapLayer
 var tile_builder: CustomTileManager
-@export var dungeon_generator: DungeonGenerator
+@export var dungeon_generator: DungeonGeneratorScript
 @export var _seed: int = -1
 
 func _ready():
 	tile_builder = CustomTileManager.new()
+
+func SpawnEnnemi(world_position: Vector2, enemy_type: EnemyTypes) -> Enemy:
+	# Créer une nouvelle instance d'ennemi
+	var enemy = CharacterBody2D.new()
+	
+	# Assigner le script selon le type
+	match enemy_type:
+		EnemyTypes.TYPE1:
+			enemy.set_script(EnemyType1Script)
+			enemy.name = "EnemyType1_" + str(randi())
+		EnemyTypes.TYPE2:
+			enemy.set_script(EnemyType2Script)
+			enemy.name = "EnemyType2_" + str(randi())
+		EnemyTypes.TYPE3:
+			enemy.set_script(EnemyType3Script)
+			enemy.name = "EnemyType3_" + str(randi())
+		_:
+			push_error("Type d'ennemi non reconnu: " + str(enemy_type))
+			enemy.queue_free()
+			return null
+	
+	# Positionner et ajouter à la scène
+	enemy.global_position = world_position
+	add_child(enemy)
+	
+	print("Ennemi ", enemy.name, " spawné à la position ", world_position)
+	return enemy
 
 func _input(event):
 	if not event is InputEventKey or not event.pressed:
 		return
 	
 	match event.keycode:
-		KEY_G:
-			test_enemies()
 		KEY_H:
 			kill_nearest_enemy()
 		KEY_K:
@@ -67,56 +100,6 @@ func teleport_player_to_spawn(spawn_tile: Vector2i, offset: Vector2i) -> void:
 
 	player.global_position = world_pos
 
-func test_enemies():
-	# Clear existing enemies
-	for child in get_children():
-		if child.has_method("take_damage") and child != player:
-			child.queue_free()
-	
-	
-	# Layer 1: Walls/Environment 
-	# Layer 2: Enemies   
-	# Layer 4: Player 
-	
-	# Load enemy scripts
-	var enemy_type1_script = preload("res://scenes/enemies/EnemyType1.gd")
-	var enemy_type2_script = preload("res://scenes/enemies/EnemyType2.gd")
-	var enemy_type3_script = preload("res://scenes/enemies/EnemyType3.gd")
-	
-	# Create enemy instances (positions will be set relative to player)
-	var enemy1 = CharacterBody2D.new()
-	enemy1.set_script(enemy_type1_script)
-	enemy1.name = "Orange"
-	
-	var enemy2 = CharacterBody2D.new()
-	enemy2.set_script(enemy_type2_script)
-	enemy2.name = "Red"
-	
-	var enemy3 = CharacterBody2D.new()
-	enemy3.set_script(enemy_type3_script)
-	enemy3.name = "Purple"
-	
-	var player_pos = Vector2.ZERO
-	if player:
-		player_pos = player.global_position
-	
-	enemy1.position = player_pos + Vector2(150, 100)  
-	enemy2.position = player_pos + Vector2(-180, 180)
-	enemy3.position = player_pos + Vector2(250, -200)  
-	
-	
-	for enemy in [enemy1, enemy2, enemy3]:
-		var collision_shape = CollisionShape2D.new()
-		var rect_shape = RectangleShape2D.new()
-		rect_shape.size = Vector2(32, 32)
-		collision_shape.shape = rect_shape
-		enemy.add_child(collision_shape)
-		
-		enemy.collision_layer = 2  
-		enemy.collision_mask = 1   
-		
-		add_child(enemy)
-	
 	
 func kill_nearest_enemy():
 	if not player:

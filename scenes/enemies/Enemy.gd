@@ -3,13 +3,13 @@ class_name Enemy
 
 enum AttackType { MELEE, RANGED }
 
-@export var health: int
-@export var speed: float
-@export var attack_type: AttackType
-@export var damage: int
-@export var detection_radius: float
-@export var follow_range: float
-@export var attack_range: float
+@export var health: int = 100
+@export var speed: float = 80.0
+@export var attack_type: AttackType = AttackType.MELEE
+@export var damage: int = 20
+@export var detection_radius: float = 200.0
+@export var attack_range: float = 50.0
+@export var navigation_tilemap: TileMapLayer
 
 var player: Player = null
 var is_alive: bool = true
@@ -24,15 +24,36 @@ var sprite: ColorRect
 var enemy_color: Color = Color.RED
 
 func _ready():
+	setup_collision()
+	setup_navigation()
 	create_visual_representation()
 	find_player()
-	setup_navigation()
+
+func setup_collision():
+	collision_layer = 2
+	collision_mask = 1
+	
+	if not has_node("CollisionShape2D"):
+		var collision_shape = CollisionShape2D.new()
+		var rect_shape = RectangleShape2D.new()
+		rect_shape.size = Vector2(32, 32)
+		collision_shape.shape = rect_shape
+		collision_shape.name = "CollisionShape2D"
+		add_child(collision_shape)
 
 func setup_navigation():
 	navigation_agent = NavigationAgent2D.new()
 	navigation_agent.target_desired_distance = 8.0
 	navigation_agent.radius = 16.0
 	add_child(navigation_agent)
+	
+	if not navigation_tilemap:
+		auto_assign_navigation()
+
+func auto_assign_navigation():
+	var main_scene = get_tree().current_scene
+	if main_scene and main_scene.has_method("get") and main_scene.ground_layer:
+		navigation_tilemap = main_scene.ground_layer
 
 func create_visual_representation():
 	sprite = ColorRect.new()
@@ -65,8 +86,7 @@ func handle_movement(delta):
 	var distance_to_player = global_position.distance_to(player.global_position)
 	
 	if not is_following and distance_to_player <= detection_radius:
-		if distance_to_player <= follow_range:
-			is_following = true
+		is_following = true
 	
 	if is_following:
 		follow_player(player.global_position, delta)
@@ -94,9 +114,14 @@ func die():
 	is_alive = false
 	is_following = false
 	velocity = Vector2.ZERO
+	queue_free()
 
 func attack():
 	pass
+
+
+# DEBUG VISUEL - paramètre debug_navigation 
+
 
 func _draw():
 	if not is_alive:
