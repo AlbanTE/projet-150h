@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://lvds0l4f8rww" path="res://assets/dungeon-gathering-assets/Set 1.0.png" id="2_tipki"]
 [ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/player/components/HealthComponent.gd" id="3_healthcomponent"]
 [ext_resource type="Script" uid="uid://swhibyo66w2d" path="res://scenes/player/Player.gd" id="4_player"]
-[ext_resource type="Shader" uid="uid://ce4sr8akrqun2" path="res://scenes/flash_effect.gdshader" id="6_choun"]
+[ext_resource type="Shader" uid="uid://ce4sr8akrqun2" path="res://shaders/flash_effect.gdshader" id="6_choun"]
 [ext_resource type="Script" uid="uid://bo3tbcvkj0tx6" path="res://scenes/main.gd" id="6_main"]
 [ext_resource type="Texture2D" uid="uid://cb3w81afn5w4k" path="res://assets/dungeon-gathering-assets/Set 1.png" id="7_o6xl0"]
 
@@ -61,7 +61,7 @@ _data = {
 }
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
-offsets = PackedFloat32Array(0.23394495, 0.57798165)
+offsets = PackedFloat32Array(0, 0.5504587)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_eb6dy"]
@@ -1193,12 +1193,13 @@ libraries = {
 }
 
 [node name="PointLight2D" type="PointLight2D" parent="CharacterBody2D"]
+color = Color(0.99561507, 0.9884071, 0.64249647, 1)
 energy = 1.5
 range_item_cull_mask = 3
 shadow_enabled = true
 shadow_filter = 1
 texture = SubResource("GradientTexture2D_eb6dy")
-texture_scale = 2.0
+texture_scale = 1.5
 
 [node name="TileSets" type="Node2D" parent="."]
 
@@ -1213,4 +1214,4 @@ scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_85g3d")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.060530342, 0.06053035, 0.060530327, 1)
+color = Color(0.0253638, 0.0253638, 0.025363814, 1)

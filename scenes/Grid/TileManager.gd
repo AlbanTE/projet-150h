@@ -1,6 +1,8 @@
 extends Node
 class_name CustomTileManager
 
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var torch: PackedScene = preload("res://scenes/objects/torch.tscn")
 
 func build_from_grid(ground_layer: TileMapLayer, wall_layer: TileMapLayer, grid_data: Array, offset: Vector2i = Vector2i.ZERO) -> void:
 	if not _is_valid_map_layer(ground_layer) or not _is_valid_map_layer(wall_layer) or grid_data.is_empty():
@@ -14,7 +16,30 @@ func build_from_grid(ground_layer: TileMapLayer, wall_layer: TileMapLayer, grid_
 		ground_layer.set_cells_terrain_connect(tile_positions, 0, 0)
 	if wall_positions.size() > 0:
 		wall_layer.set_cells_terrain_connect(wall_positions, 0, 0)
+		add_light_sources(wall_layer, 10)
+		
+func add_light_sources(wall_layer: TileMapLayer, min_dist: float) -> void:
+	var candidates = wall_layer.get_used_cells_by_id(0, Vector2i(2,2))
+	var half_tile_size = wall_layer.tile_set.tile_size / 2
 	
+	var added: Array[Vector2i] = []
+	
+	for i in range(candidates.size()):
+		var cell: Vector2i = candidates.pick_random()
+		var too_close: bool = false
+		for other in added:
+			if cell.distance_to(other) < min_dist:
+				too_close = true
+				
+		if too_close: continue
+		
+		
+		var world_position = wall_layer.tile_set.tile_size * cell + half_tile_size
+		var torch_instance: Node2D = torch.instantiate()
+		torch_instance.global_position = world_position
+		wall_layer.add_child(torch_instance)
+		added.append(cell)
+		candidates.erase(cell)
 
 func _collect_tile_positions(grid_data: Array, offset: Vector2i):
 	var positions: Array[Vector2i] = []
