@@ -20,6 +20,7 @@ func take_damage(damage: int):
 	
 	current_health = max(0, current_health - damage)
 	health_changed.emit(current_health, max_health)
+	$"../FlashEffectAnim".play("hit")
 	
 	if current_health <= 0:
 		health_depleted.emit()

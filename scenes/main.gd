@@ -1,16 +1,17 @@
 extends Node2D
 
 const TileManager = preload("res://scenes/Grid/TileManager.gd")
-const DungeonGenerator = preload("res://scenes/dungeon_generators/tinykeep.gd")
+const DungeonGenerator = preload("res://scenes/dungeon_generators/DungeonGenerator.gd")
 
 @onready var player = $CharacterBody2D
-@export var map_layer: TileMapLayer
+@export var ground_layer: TileMapLayer
+@export var wall_layer: TileMapLayer
 var tile_builder: TileManager
-var dungeon_generator: DungeonGenerator
+@export var dungeon_generator: DungeonGenerator
+@export var _seed: int = -1
 
 func _ready():
 	tile_builder = TileManager.new()
-	dungeon_generator = DungeonGenerator.new()
 
 func _input(event):
 	if not event is InputEventKey or not event.pressed:
@@ -24,24 +25,23 @@ func _input(event):
 		KEY_K:
 			build_dungeon_area()
 
-			
-
 func build_dungeon_area():
-	map_layer.clear()
+	print("Building dungeon...")
+	ground_layer.clear()
+	wall_layer.clear()
 	
-	dungeon_generator = DungeonGenerator.new()
-	var dungeon: Array = dungeon_generator.generate_dungeon(-1)
+	var dungeon: Array = dungeon_generator.generate_dungeon(_seed)
 	
 	dungeon_generator._print_ascii_map()
 
 	# Find half dimensions to center dungeon at (0,0)
-	var half_w = dungeon[0].size() / 2
-	var half_h = dungeon.size() / 2
+	var half_w: int = int(dungeon[0].size() / 2.)
+	var half_h: int = int(dungeon.size() / 2.)
 	var offset = Vector2i(-half_w, -half_h)
 
 	# Build dungeon tiles
-	tile_builder.build_from_grid(map_layer, dungeon, offset)
-	
+	tile_builder.build_from_grid(ground_layer, wall_layer, dungeon, offset)
+
 	var player_spawn: Vector2i = Vector2i(0, 0)
 	for y in dungeon.size():
 		for x in dungeon[y].size():
@@ -61,9 +61,9 @@ func teleport_player_to_spawn(spawn_tile: Vector2i, offset: Vector2i) -> void:
 	var tile_coord: Vector2i = spawn_tile + offset
 
 	# Convert to world position manually
-	var tile_size: Vector2 = map_layer.tile_set.tile_size
-	var world_pos: Vector2 = Vector2(tile_coord.x, tile_coord.y) * tile_size * map_layer.scale
-	world_pos += (tile_size * map_layer.scale) / 2  # center of tile
+	var tile_size: Vector2 = ground_layer.tile_set.tile_size
+	var world_pos: Vector2 = Vector2(tile_coord.x, tile_coord.y) * tile_size * ground_layer.scale
+	world_pos += (tile_size * ground_layer.scale) / 2  # center of tile
 
 	player.global_position = world_pos
 

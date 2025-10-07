@@ -1,9 +1,10 @@
 # TinyKeep-style dungeon pipeline (Delaunay + spawns/objects)
 # Drop on a Node2D in Godot 4.x
-extends Node2D
+extends DungeonGenerator
+class_name TinyKeepDungeon
+
 
 # --- Tunables (export for quick iteration) ---
-@export var _seed: int = -1
 @export var cell_count: int = 150
 @export var map_tiles_w: int = 96
 @export var map_tiles_h: int = 96
@@ -20,10 +21,7 @@ extends Node2D
 
 # --- Spawn/Object Parameters ---
 @export var object_spawn_chance: float = 0.1
-@export var safe_wall_margin: int = 1   # min distance from wall for objects/spawns
-
-# --- Internal stuff ---
-enum Tile { EMPTY, ROOM, CORRIDOR, PLAYER, EXIT, OBJECT }
+@export var safe_EMPTY_margin: int = 1   # min distance from EMPTY for objects/spawns
 
 class Cell:
 	var rect: Rect2
@@ -35,7 +33,6 @@ class Cell:
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var cells: Array = []
 var rooms: Array = []
-var map_tiles: Array = []
 var edges: Array = []
 var final_edges: Array = []
 
@@ -46,26 +43,7 @@ var object_positions: Array = []
 var player_pos: Vector2
 var exit_pos: Vector2
 
-func generate_dungeon(seed) -> Array:
-	if seed == -1:
-		rng.randomize()
-	else:
-		rng.seed = seed
-
-	_generate_cells()
-	_separate_cells()
-	_fill_tile_map_from_cells()
-	_select_rooms()
-	_build_graph_delaunay()
-	_build_mst_and_add_loops()
-	_carve_corridors()
-	_place_spawns_and_objects()
-	
-	return map_tiles
-	
-
-# --- Startup ---------------------------------------------------------------
-func _ready():
+func generate_dungeon(_seed) -> Array:
 	if _seed == -1:
 		rng.randomize()
 	else:
@@ -78,33 +56,10 @@ func _ready():
 	_build_graph_delaunay()
 	_build_mst_and_add_loops()
 	_carve_corridors()
+	_clean_lone_walls()
 	_place_spawns_and_objects()
-	_print_ascii_map()
-	queue_redraw()
-
-# --- Drawing ---------------------------------------------------------------
-func _draw():
-	for y in range(map_tiles.size()):
-		for x in range(map_tiles[y].size()):
-			var t = map_tiles[y][x]
-			var px = (x * tile_size) + draw_grid_offset.x
-			var py = (y * tile_size) + draw_grid_offset.y
-			var r = Rect2(px, py, tile_size - 1, tile_size - 1)
-			if t == Tile.ROOM:
-				draw_rect(r, Color(0.85, 0.85, 0.8))
-			elif t == Tile.CORRIDOR:
-				draw_rect(r, Color(0.9, 0.75, 0.6))
-
-	# Draw spawns/objects
-	if player_pos:
-		draw_rect(Rect2(player_pos * tile_size + draw_grid_offset, Vector2(tile_size-1, tile_size-1)), Color(0.2, 0.4, 1.0)) # blue
-	if exit_pos:
-		draw_rect(Rect2(exit_pos * tile_size + draw_grid_offset, Vector2(tile_size-1, tile_size-1)), Color(1.0, 0.2, 0.2)) # red
-	for op in object_positions:
-		draw_rect(Rect2(op * tile_size + draw_grid_offset, Vector2(tile_size-1, tile_size-1)), Color(0.2, 0.9, 0.2)) # green
-
-	# optional border
-	draw_rect(Rect2(draw_grid_offset, Vector2(map_tiles_w * tile_size, map_tiles_h * tile_size)), Color(1,1,1,0), false)
+	
+	return map_tiles
 
 # --- Dungeon Generation Steps ---------------------------------------------
 func _generate_cells():
@@ -133,8 +88,8 @@ func _biased_random_size(min_val:int, max_val:int) -> int:
 func erf_approx(x:float) -> float:
 	var t = 1.0 / (1.0 + 0.5 * abs(x))
 	var tau = t * exp(-x*x -1.26551223 + 1.00002368*t +0.37409196*t*t +0.09678418*pow(t,3) -0.18628806*pow(t,4)+0.27886807*pow(t,5)-1.13520398*pow(t,6)+1.48851587*pow(t,7)-0.82215223*pow(t,8)+0.17087277*pow(t,9))
-	var sign = 1 if x>=0 else -1
-	return sign*(1.0 - tau)
+	var _sign = 1 if x>=0 else -1
+	return _sign*(1.0 - tau)
 
 func _separate_cells():
 	for iter in range(separation_iters):
@@ -326,7 +281,7 @@ func _carve_wide_at(cx:int,cy:int):
 # --- BFS + Spawn Placement ---
 func _place_spawns_and_objects():
 	# Player room near center
-	var center=Vector2(map_tiles_w/2,map_tiles_h/2)
+	var center=Vector2(map_tiles_w/2.,map_tiles_h/2.)
 	var best_idx=0
 	var best_dist=INF
 	for i in range(rooms.size()):
@@ -380,8 +335,8 @@ func _pick_room_tile(room:Cell) -> Vector2:
 	var y0=int(room.rect.position.y)
 	var w=int(room.rect.size.x)
 	var h=int(room.rect.size.y)
-	for yy in range(y0+safe_wall_margin,y0+h-safe_wall_margin):
-		for xx in range(x0+safe_wall_margin,x0+w-safe_wall_margin):
+	for yy in range(y0+safe_EMPTY_margin,y0+h-safe_EMPTY_margin):
+		for xx in range(x0+safe_EMPTY_margin,x0+w-safe_EMPTY_margin):
 			if xx>=0 and xx<map_tiles_w and yy>=0 and yy<map_tiles_h:
 				if map_tiles[yy][xx]==Tile.ROOM:
 					candidates.append(Vector2(xx,yy))
@@ -397,22 +352,68 @@ func _pick_room_tile(room:Cell) -> Vector2:
 					return Vector2(xx,yy)
 
 	# final fallback: center
-	return Vector2(clamp(x0+w/2,0,map_tiles_w-1), clamp(y0+h/2,0,map_tiles_h-1))
+	return Vector2(clamp(x0+w/2.,0,map_tiles_w-1), clamp(y0+h/2.,0,map_tiles_h-1))
 
-# --- ASCII Debug ---
-func _print_ascii_map():
-	var s=""
-	for y in range(map_tiles.size()):
-		for x in range(map_tiles[y].size()):
-			match map_tiles[y][x]:
-				Tile.ROOM: s+="."
-				Tile.CORRIDOR: s+="+"
-				Tile.EMPTY: s+="#"
-				Tile.PLAYER: s+="P"
-				Tile.EXIT: s+="E"
-				Tile.OBJECT: s+="O"
-		s+="\n"
-	print(s)
+func _clean_lone_walls():
+	for y in range(1, map_tiles.size() - 1):
+		for x in range(1, map_tiles[y].size() - 1):
+			if map_tiles[y][x] != Tile.EMPTY:
+				continue
+			
+			# Get all neighbors
+			var up         = map_tiles[y - 1][x]
+			var down       = map_tiles[y + 1][x]
+			var left       = map_tiles[y][x - 1]
+			var right      = map_tiles[y][x + 1]
+			var up_left    = map_tiles[y - 1][x - 1]
+			var up_right   = map_tiles[y - 1][x + 1]
+			var down_left  = map_tiles[y + 1][x - 1]
+			var down_right = map_tiles[y + 1][x + 1]
+			
+			var empty_voisins: int = 0 
+			for dir in [left, right, up, down, up_left, up_right, down_left, down_right]: 
+				if dir == Tile.EMPTY: 
+					empty_voisins += 1
+			
+			if right == Tile.EMPTY and down_right == Tile.EMPTY and empty_voisins == 2:
+				map_tiles[y][x] = Tile.ROOM
+			if right == Tile.EMPTY and up_right == Tile.EMPTY and empty_voisins == 2:
+				map_tiles[y][x] = Tile.ROOM
+			if right == Tile.EMPTY and up_right == Tile.EMPTY and left == Tile.EMPTY and empty_voisins == 3:
+				map_tiles[y][x] = Tile.ROOM
+			if right == Tile.EMPTY and down_right == Tile.EMPTY and left == Tile.EMPTY and empty_voisins == 3:
+				map_tiles[y][x] = Tile.ROOM
+			if left == Tile.EMPTY and up_left == Tile.EMPTY and empty_voisins == 2:
+				map_tiles[y][x] = Tile.ROOM
+			if left == Tile.EMPTY and down_left == Tile.EMPTY and empty_voisins == 2:
+				map_tiles[y][x] = Tile.ROOM
+			if left == Tile.EMPTY and down_left == Tile.EMPTY and right == Tile.EMPTY and empty_voisins == 3:
+				map_tiles[y][x] = Tile.ROOM
+			if left == Tile.EMPTY and up_left == Tile.EMPTY and right == Tile.EMPTY and empty_voisins == 3:
+				map_tiles[y][x] = Tile.ROOM
+				
+	for y in range(1, map_tiles.size() - 1):
+		for x in range(1, map_tiles[y].size() - 1):
+			if map_tiles[y][x] != Tile.EMPTY:
+				continue
+			
+			# Get all neighbors
+			var up         = map_tiles[y - 1][x]
+			var down       = map_tiles[y + 1][x]
+			var left       = map_tiles[y][x - 1]
+			var right      = map_tiles[y][x + 1]
+			var up_left    = map_tiles[y - 1][x - 1]
+			var up_right   = map_tiles[y - 1][x + 1]
+			var down_left  = map_tiles[y + 1][x - 1]
+			var down_right = map_tiles[y + 1][x + 1]
+			
+			var empty_voisins: int = 0 
+			for dir in [left, right, up, down, up_left, up_right, down_left, down_right]: 
+				if dir == Tile.EMPTY: 
+					empty_voisins += 1
+			if empty_voisins == 0:
+				map_tiles[y][x] = Tile.ROOM
+
 
 # --- Union-Find ---
 class _UnionFind:
