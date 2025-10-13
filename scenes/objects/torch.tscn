@@ -92,7 +92,6 @@ animation = &"burn"
 autoplay = "burn"
 
 [node name="PointLight2D" type="PointLight2D" parent="AnimatedSprite2D"]
-position = Vector2(0, 15)
 color = Color(0.9043261, 0.5873669, 0.15170373, 1)
 energy = 0.75
 range_item_cull_mask = 3
