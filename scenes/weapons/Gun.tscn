@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://djhulh5j7qa4i"]
+
+[ext_resource type="Script" uid="uid://mo35c7bib8fh" path="res://scenes/weapons/Gun.gd" id="1_13jah"]
+[ext_resource type="Texture2D" uid="uid://dy1g6hnlridox" path="res://assets/weapons/shot gun.png" id="1_x3s45"]
+[ext_resource type="PackedScene" uid="uid://dqtwli6nqof26" path="res://scenes/projectiles/Bullet.tscn" id="2_tsij3"]
+
+[node name="Gun" type="Node2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_13jah")
+projectile_scene = ExtResource("2_tsij3")
+ammo = 100
+max_ammo = 100
+
+[node name="GunSprite" type="Sprite2D" parent="."]
+position = Vector2(8, 0)
+texture = ExtResource("1_x3s45")
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(22, -3)

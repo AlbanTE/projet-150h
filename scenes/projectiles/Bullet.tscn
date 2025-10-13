@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqtwli6nqof26"]
+
+[ext_resource type="Script" uid="uid://dhfyw83w5u5p3" path="res://scenes/projectiles/Bullet.gd" id="1_36ope"]
+[ext_resource type="Texture2D" uid="uid://dc2nn2r1irgxw" path="res://assets/weapons/bullet.png" id="1_ci251"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_36ope"]
+radius = 8.0
+height = 25.0
+
+[node name="Area2D" type="Area2D"]
+scale = Vector2(3, 3)
+script = ExtResource("1_36ope")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_36ope")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5707964
+texture = ExtResource("1_ci251")
