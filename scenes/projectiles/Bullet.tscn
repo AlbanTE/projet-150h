@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqtwli6nqof26"]
+[gd_scene load_steps=6 format=3 uid="uid://dqtwli6nqof26"]
 
 [ext_resource type="Script" uid="uid://dhfyw83w5u5p3" path="res://scenes/projectiles/Bullet.gd" id="1_36ope"]
 [ext_resource type="Texture2D" uid="uid://dc2nn2r1irgxw" path="res://assets/weapons/bullet.png" id="1_ci251"]
@@ -6,6 +6,17 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_36ope"]
 radius = 8.0
 height = 25.0
+
+[sub_resource type="Gradient" id="Gradient_36ope"]
+offsets = PackedFloat32Array(0, 0.24309392, 0.5635359)
+colors = PackedColorArray(0.9005525, 0.9005525, 0.9005525, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kghso"]
+gradient = SubResource("Gradient_36ope")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.55, 0.5)
 
 [node name="Area2D" type="Area2D"]
 scale = Vector2(3, 3)
@@ -18,3 +29,9 @@ shape = SubResource("CapsuleShape2D_36ope")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5707964
 texture = ExtResource("1_ci251")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(0.38509116, 0.24804688)
+color = Color(1, 0.29096648, 0.18785837, 1)
+energy = 0.5
+texture = SubResource("GradientTexture2D_kghso")
