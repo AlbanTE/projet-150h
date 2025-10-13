@@ -4,6 +4,7 @@ class_name Player
 # Component references
 @onready var movement_component = $MovementPlayer
 @onready var health_component = $HealthComponent
+@onready var weapon_component = $WeaponComponent
 
 # Player state
 var is_alive: bool = true
@@ -26,10 +27,7 @@ func _ready():
 func _physics_process(_delta):
 	# Only allow movement if player is alive
 	if is_alive and movement_component:
-		movement_component.handle_input()
-		velocity.x = move_toward(velocity.x, movement_component.vect_direction.x * movement_component.vitesse, movement_component.acceleration)
-		velocity.y = move_toward(velocity.y, movement_component.vect_direction.y * movement_component.vitesse, movement_component.acceleration)
-		move_and_slide()
+		movement_component.update_movement(self, _delta)
 
 func _on_health_depleted():
 	print("Player died!")
@@ -46,3 +44,7 @@ func take_damage(damage: int):
 func heal(heal_amount: int):
 	if health_component:
 		health_component.heal(heal_amount)
+
+func _input(event):
+	if weapon_component:
+		weapon_component.handle_input(event)
