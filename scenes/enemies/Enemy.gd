@@ -1,72 +1,73 @@
 extends CharacterBody2D
 class_name Enemy
 
-enum AttackType { MELEE, RANGED }
-
+# Enemy Stats (configurable in scenes)
+@export_group("Stats")
 @export var health: int = 100
 @export var speed: float = 80.0
-@export var attack_type: AttackType = AttackType.MELEE
 @export var damage: int = 20
-@export var detection_radius: float = 200.0
-@export var attack_range: float = 50.0
-@export var navigation_tilemap: TileMapLayer
 
+@export_group("AI Behavior")
+@export var path_update_interval: float = 0.2
+
+@export_group("Debug")
+@export var debug_navigation: bool = true
+
+# Internal state
 var player: Player = null
 var is_alive: bool = true
 var is_following: bool = false
-
-var navigation_agent: NavigationAgent2D
 var path_update_timer: float = 0.0
-var path_update_interval: float = 0.2
-@export var debug_navigation: bool = true
 
-var sprite: ColorRect
-var enemy_color: Color = Color.RED
+# AI ranges (read from scene Area2D)
+var detection_radius: float = 200.0
+var attack_range: float = 50.0
+
+# Node references
+var navigation_agent: NavigationAgent2D
+var detection_area: Area2D
+var attack_area: Area2D
+var hitbox_area: Area2D
+var animated_sprite: AnimatedSprite2D
 
 func _ready():
-	# setup_collision()
-	setup_navigation()
-	create_visual_representation()
+	collision_layer = 2  # Enemies on layer 2
+	collision_mask = 1 | 2  # walls (1)  enemies (2)
+	
+	_get_references()
+	_connect_signals()
 	find_player()
-
-#func setup_collision():
-	#collision_layer = 2
-	#collision_mask = 1
-	#
-	#if not has_node("CollisionShape2D"):
-		#var collision_shape = CollisionShape2D.new()
-		#var rect_shape = RectangleShape2D.new()
-		#rect_shape.size = Vector2(32, 32)
-		#collision_shape.shape = rect_shape
-		#collision_shape.name = "CollisionShape2D"
-		#add_child(collision_shape)
-
-func setup_navigation():
-	navigation_agent = NavigationAgent2D.new()
-	navigation_agent.target_desired_distance = 8.0
-	navigation_agent.radius = 16.0
-	add_child(navigation_agent)
 	
-	if not navigation_tilemap:
-		auto_assign_navigation()
+	_on_enemy_ready()
 
-func auto_assign_navigation():
-	var main_scene = get_tree().current_scene
-	if main_scene and main_scene.has_method("get") and main_scene.ground_layer:
-		navigation_tilemap = main_scene.ground_layer
 
-func create_visual_representation():
-	#sprite = ColorRect.new()
-	#sprite.size = Vector2(32, 32)
-	#sprite.position = Vector2(-16, -16)
-	#sprite.color = enemy_color
-	#add_child(sprite)
+func _get_references():
+	navigation_agent = $NavigationAgent2D
+	detection_area = $DetectionArea
+	attack_area = $AttackArea
+	hitbox_area = $HitboxArea
 	
-	var carre = load("res://scenes/enemies/carre.tscn")
-	var instance: Node2D = carre.instantiate()
-	instance.get_child(1).color = enemy_color
-	instance.position = Vector2(0, 0)
-	add_child(instance)
+	detection_radius = (detection_area.get_child(0) as CollisionShape2D).shape.radius
+	attack_range = (attack_area.get_child(0) as CollisionShape2D).shape.radius
+	
+	# Get AnimatedSprite2D if it exists (optional for enemies without animation)
+	if has_node("Visual/AnimatedSprite2D"):
+		animated_sprite = $Visual/AnimatedSprite2D
+
+
+func _connect_signals():
+	
+	if detection_area:
+		detection_area.body_entered.connect(_on_detection_area_entered)
+		detection_area.body_exited.connect(_on_detection_area_exited)
+	
+	if attack_area:
+		attack_area.body_entered.connect(_on_attack_area_entered)
+		attack_area.body_exited.connect(_on_attack_area_exited)
+	
+	if hitbox_area:
+		hitbox_area.area_entered.connect(_on_hitbox_area_entered)
+		hitbox_area.area_exited.connect(_on_hitbox_area_exited)
 	
 
 func _physics_process(delta):
@@ -99,6 +100,7 @@ func handle_movement(delta):
 		follow_player(player.global_position, delta)
 	else:
 		velocity = Vector2.ZERO
+		_stop_animation()
 
 func follow_player(player_position: Vector2, _delta):
 	var distance_to_player = global_position.distance_to(player_position)
@@ -111,24 +113,93 @@ func follow_player(player_position: Vector2, _delta):
 		var next_pos = navigation_agent.get_next_path_position()
 		var direction = global_position.direction_to(next_pos)
 		velocity = direction * speed
+		_play_move_animation()
 	else:
 		velocity = Vector2.ZERO
+		_stop_animation()
 
-func take_damage(_amount: int):
+# Animation helpers
+func _play_move_animation():
+	if animated_sprite and animated_sprite.sprite_frames.has_animation("move"):
+		if animated_sprite.animation != "move" or not animated_sprite.is_playing():
+			animated_sprite.play("move")
+
+func _stop_animation():
+	if animated_sprite and animated_sprite.is_playing():
+		animated_sprite.stop()
+
+
+# ========================================
+# METHODS 
+# ========================================
+
+func _on_enemy_ready() -> void:
+	pass
+
+# DETECTION DU PLAYER 
+
+func _on_detection_area_entered(body: Node2D) -> void:
+	if body is Player:
+		is_following = true
+
+func _on_detection_area_exited(_body: Node2D) -> void:
+	pass
+
+# ATTACK DU PLAYER
+
+func _on_attack_area_entered(body: Node2D) -> void:
+	if body is Player:
+		attack()
+
+func _on_attack_area_exited(_body: Node2D) -> void:
+	pass
+
+# HITBOX AREA SIGNALS
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if area is Bullet:
+		var bullet = area as Bullet
+		var damage_amount = bullet.get_damage()
+		print("Ennemi détecte projectile avec ", damage_amount, " dégâts")
+		take_damage(damage_amount)
+		bullet.queue_free()
+
+func _on_hitbox_area_exited(_area: Area2D) -> void:
+	pass
+
+# ========================================
+# PUBLIC API - DAMAGE SYSTEM
+# ========================================
+
+func take_damage(amount: int):
+	health -= amount
+	
+	# FUTUR visuels ou sonores 
+	_apply_damage_effects(amount)
+	
+	if health <= 0:
+		die()
+
+func _apply_damage_effects(_amount: int):
 	pass
 
 func die():
 	is_alive = false
 	is_following = false
 	velocity = Vector2.ZERO
+	
+	# FUTUR visuels ou sonores
+	_apply_death_effects()
 	queue_free()
+
+func _apply_death_effects():
+	pass
 
 func attack():
 	pass
 
 
 # DEBUG VISUEL - paramètre debug_navigation 
-
 
 func _draw():
 	if not is_alive:

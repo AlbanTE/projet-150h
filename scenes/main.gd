@@ -3,12 +3,11 @@ extends Node2D
 const TileManager = preload("res://scenes/Grid/TileManager.gd")
 const DungeonGeneratorScript = preload("res://scenes/dungeon_generators/DungeonGenerator.gd")
 
-# Préchargement des scripts d'ennemis
-const EnemyType1Script = preload("res://scenes/enemies/EnemyType1.gd")
-const EnemyType2Script = preload("res://scenes/enemies/EnemyType2.gd")
-const EnemyType3Script = preload("res://scenes/enemies/EnemyType3.gd")
+# Préchargement des scènes d'ennemis
+const EnemyType1Scene = preload("res://scenes/enemies/EnemyType1.tscn")
+const EnemyType2Scene = preload("res://scenes/enemies/EnemyType2.tscn")
 
-const ENEMY_TYPE_COUNT = 3
+const ENEMY_TYPE_COUNT = 2
 
 @onready var player = $CharacterBody2D
 @export var ground_layer: TileMapLayer
@@ -22,21 +21,17 @@ func _ready():
 	build_dungeon_area()
 
 func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
-	var enemy = CharacterBody2D.new()
+	var enemy: Enemy = null
 	
 	match enemy_type:
 		0:
-			enemy.set_script(EnemyType1Script)
+			enemy = EnemyType1Scene.instantiate()
 			enemy.name = "EnemyType1_" + str(randi())
 		1:
-			enemy.set_script(EnemyType2Script)
+			enemy = EnemyType2Scene.instantiate()
 			enemy.name = "EnemyType2_" + str(randi())
-		2:
-			enemy.set_script(EnemyType3Script)
-			enemy.name = "EnemyType3_" + str(randi())
 		_:
 			push_error("Type d'ennemi non reconnu: " + str(enemy_type))
-			enemy.queue_free()
 			return null
 	
 	enemy.global_position = world_position
