@@ -21,6 +21,12 @@ func build_from_grid(ground_layer: TileMapLayer, wall_layer: TileMapLayer, grid_
 		add_light_sources(wall_layer, 10)
 		
 func add_light_sources(wall_layer: TileMapLayer, min_dist: float) -> void:
+	
+	var torches = wall_layer.get_tree().get_nodes_in_group("Torches")
+	print("Removed ", torches.size(), " torches.")
+	for t in torches:
+		t.queue_free()
+	
 	var candidates = wall_layer.get_used_cells_by_id(0, Vector2i(2,2))
 	var half_tile_size = wall_layer.tile_set.tile_size / 2
 	
@@ -38,10 +44,13 @@ func add_light_sources(wall_layer: TileMapLayer, min_dist: float) -> void:
 		
 		var world_position = wall_layer.tile_set.tile_size * cell + half_tile_size
 		var torch_instance: Node2D = torch.instantiate()
+		torch_instance.add_to_group("Torches")
 		torch_instance.global_position = world_position
 		wall_layer.add_child(torch_instance)
 		added.append(cell)
 		candidates.erase(cell)
+	
+	print("Added ", added.size(), " torches.")
 
 func _collect_tile_positions(grid_data: Array, offset: Vector2i):
 	var positions: Array[Vector2i] = []

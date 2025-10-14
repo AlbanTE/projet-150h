@@ -19,6 +19,7 @@ var tile_builder: CustomTileManager
 
 func _ready():
 	tile_builder = CustomTileManager.new()
+	build_dungeon_area()
 
 func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	var enemy = CharacterBody2D.new()

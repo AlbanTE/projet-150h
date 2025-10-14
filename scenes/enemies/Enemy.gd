@@ -24,22 +24,22 @@ var sprite: ColorRect
 var enemy_color: Color = Color.RED
 
 func _ready():
-	setup_collision()
+	# setup_collision()
 	setup_navigation()
 	create_visual_representation()
 	find_player()
 
-func setup_collision():
-	collision_layer = 2
-	collision_mask = 1
-	
-	if not has_node("CollisionShape2D"):
-		var collision_shape = CollisionShape2D.new()
-		var rect_shape = RectangleShape2D.new()
-		rect_shape.size = Vector2(32, 32)
-		collision_shape.shape = rect_shape
-		collision_shape.name = "CollisionShape2D"
-		add_child(collision_shape)
+#func setup_collision():
+	#collision_layer = 2
+	#collision_mask = 1
+	#
+	#if not has_node("CollisionShape2D"):
+		#var collision_shape = CollisionShape2D.new()
+		#var rect_shape = RectangleShape2D.new()
+		#rect_shape.size = Vector2(32, 32)
+		#collision_shape.shape = rect_shape
+		#collision_shape.name = "CollisionShape2D"
+		#add_child(collision_shape)
 
 func setup_navigation():
 	navigation_agent = NavigationAgent2D.new()
@@ -56,11 +56,18 @@ func auto_assign_navigation():
 		navigation_tilemap = main_scene.ground_layer
 
 func create_visual_representation():
-	sprite = ColorRect.new()
-	sprite.size = Vector2(32, 32)
-	sprite.position = Vector2(-16, -16)
-	sprite.color = enemy_color
-	add_child(sprite)
+	#sprite = ColorRect.new()
+	#sprite.size = Vector2(32, 32)
+	#sprite.position = Vector2(-16, -16)
+	#sprite.color = enemy_color
+	#add_child(sprite)
+	
+	var carre = load("res://scenes/enemies/carre.tscn")
+	var instance: Node2D = carre.instantiate()
+	instance.get_child(1).color = enemy_color
+	instance.position = Vector2(0, 0)
+	add_child(instance)
+	
 
 func _physics_process(delta):
 	if not is_alive or not player:

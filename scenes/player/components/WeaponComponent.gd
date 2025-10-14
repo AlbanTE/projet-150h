@@ -22,7 +22,7 @@ func handle_input(event):
 	if not current_weapon:
 		return
 	if event.is_action_pressed("trigger_weapon"):
-		print("Shooting !")
+		# print("Shooting !")
 		current_weapon.fire(get_parent())
 	#if event.is_action_pressed("reload"):
 		#current_weapon.reload()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://x6rvsc2ejisq"]
+[gd_scene load_steps=82 format=3 uid="uid://x6rvsc2ejisq"]
 
 [ext_resource type="Script" uid="uid://c8jr3cc8mkcw4" path="res://scenes/player/components/MovementPlayer.gd" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://epuexnwso7gw" path="res://scenes/dungeon_generators/tinykeep.gd" id="2_85g3d"]
@@ -11,9 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://cb3w81afn5w4k" path="res://assets/dungeon-gathering-assets/Set 1.png" id="7_o6xl0"]
 [ext_resource type="Shader" uid="uid://br6w5b48kf4l" path="res://shaders/shield.gdshader" id="8_trceg"]
 [ext_resource type="Texture2D" uid="uid://bkmhrqwlk5x7q" path="res://assets/textures/polygon.jpg" id="9_a8y0u"]
-[ext_resource type="Script" uid="uid://bc82mxcksspc5" path="res://scenes/enemies/EnemyType1.gd" id="9_enemy1"]
-[ext_resource type="Script" uid="uid://cltp0rhbsuo1u" path="res://scenes/enemies/EnemyType2.gd" id="10_enemy2"]
-[ext_resource type="Script" uid="uid://6yx5s8soegxh" path="res://scenes/enemies/EnemyType3.gd" id="11_enemy3"]
 [ext_resource type="Script" uid="uid://dkhdjry5qxu1f" path="res://scenes/player/components/WeaponComponent.gd" id="11_muem4"]
 [ext_resource type="PackedScene" uid="uid://djhulh5j7qa4i" path="res://scenes/weapons/Gun.tscn" id="12_dp3eg"]
 [ext_resource type="Script" uid="uid://nb60gggyf1cf" path="res://scenes/player/components/Shield.gd" id="12_shield"]
@@ -1501,6 +1498,7 @@ dungeon_generator = SubResource("Resource_choun")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 z_index = 1
+collision_layer = 2
 script = ExtResource("4_player")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
@@ -1549,7 +1547,6 @@ offset_bottom = 64.0
 color = Color(0, 0, 0, 1)
 script = ExtResource("12_shield")
 shield_color = Color(0.8691386, 0.6388793, 0.11995826, 1)
-is_active = true
 
 [node name="WeaponComponent" type="Node2D" parent="CharacterBody2D"]
 script = ExtResource("11_muem4")
@@ -1565,33 +1562,6 @@ tile_set = SubResource("TileSet_choun")
 [node name="dungeon_terrain" type="TileMapLayer" parent="TileSets"]
 scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_85g3d")
-
-[node name="EnemyType1" type="CharacterBody2D" parent="."]
-visible = false
-position = Vector2(264, 250)
-collision_layer = 2
-script = ExtResource("9_enemy1")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyType1"]
-shape = SubResource("RectangleShape2D_jyhfs")
-
-[node name="EnemyType2" type="CharacterBody2D" parent="."]
-visible = false
-position = Vector2(-490, 117)
-collision_layer = 2
-script = ExtResource("10_enemy2")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyType2"]
-shape = SubResource("RectangleShape2D_jyhfs")
-
-[node name="EnemyType3" type="CharacterBody2D" parent="."]
-visible = false
-position = Vector2(348, -169)
-collision_layer = 2
-script = ExtResource("11_enemy3")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyType3"]
-shape = SubResource("RectangleShape2D_jyhfs")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0.0142752165, 0.014275219, 0.014275211, 1)
