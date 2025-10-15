@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://epuexnwso7gw" path="res://scenes/dungeon_generators/tinykeep.gd" id="2_85g3d"]
 [ext_resource type="Texture2D" uid="uid://dbfnfib1hsmkp" path="res://icon.svg" id="2_sugp2"]
 [ext_resource type="Texture2D" uid="uid://lvds0l4f8rww" path="res://assets/dungeon-gathering-assets/Set 1.0.png" id="2_tipki"]
-[ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/player/components/HealthComponent.gd" id="3_healthcomponent"]
+[ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/generic_components/HealthComponent.gd" id="3_healthcomponent"]
 [ext_resource type="Script" uid="uid://swhibyo66w2d" path="res://scenes/player/Player.gd" id="4_player"]
 [ext_resource type="Shader" uid="uid://ce4sr8akrqun2" path="res://shaders/flash_effect.gdshader" id="6_choun"]
 [ext_resource type="Script" uid="uid://bo3tbcvkj0tx6" path="res://scenes/main.gd" id="6_main"]

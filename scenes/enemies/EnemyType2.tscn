@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bc2co6rdjhtm8"]
+[gd_scene load_steps=8 format=3 uid="uid://bc2co6rdjhtm8"]
 
 [ext_resource type="Script" uid="uid://cltp0rhbsuo1u" path="res://scenes/enemies/EnemyType2.gd" id="1_1i6kl"]
+[ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/generic_components/HealthComponent.gd" id="2_jd3ge"]
+[ext_resource type="Script" uid="uid://ctad5dfg4nsm6" path="res://scenes/generic_components/HurtboxComponent.gd" id="4_hl4sy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_r8ucr"]
 radius = 12.0
@@ -12,7 +14,7 @@ radius = 300.0
 radius = 28.01785
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hitbox"]
-radius = 15.0
+radius = 12.0
 
 [node name="EnemyType2" type="CharacterBody2D"]
 collision_layer = 2
@@ -22,6 +24,10 @@ damage = 30
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_r8ucr")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_jd3ge")
+max_health = 50
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 8.0
@@ -41,11 +47,13 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 shape = SubResource("CircleShape2D_2")
 
-[node name="HitboxArea" type="Area2D" parent="."]
+[node name="HurtboxComponent" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 16
+script = ExtResource("4_hl4sy")
+health_component = NodePath("../HealthComponent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 shape = SubResource("CircleShape2D_hitbox")
 
 [node name="Visual" type="Node2D" parent="."]

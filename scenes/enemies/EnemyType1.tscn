@@ -1,8 +1,12 @@
-[gd_scene load_steps=18 format=3 uid="uid://xpdepp3as7tr"]
+[gd_scene load_steps=20 format=3 uid="uid://xpdepp3as7tr"]
 
 [ext_resource type="Script" uid="uid://bc82mxcksspc5" path="res://scenes/enemies/EnemyType1.gd" id="1_0h5gj"]
-[ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/player/components/HealthComponent.gd" id="2_jd3ge"]
+[ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/generic_components/HealthComponent.gd" id="2_jd3ge"]
 [ext_resource type="Texture2D" uid="uid://r2imhnitcr5o" path="res://assets/ennemies/red-slime-spritesheet.png" id="3_hl4sy"]
+[ext_resource type="Script" uid="uid://ctad5dfg4nsm6" path="res://scenes/generic_components/HurtboxComponent.gd" id="4_hl4sy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hl4sy"]
+size = Vector2(50, 37)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
 radius = 200.0
@@ -102,14 +106,13 @@ script = ExtResource("1_0h5gj")
 speed = 100.0
 damage = 15
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_hl4sy")
+
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_jd3ge")
 metadata/_custom_type_script = "uid://dkgjxovaxsw7m"
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2(0.15153885, 0.08863449)
-scale = Vector2(0.9969262, 0.997159)
-polygon = PackedVector2Array(-14, -23, -30, -4, -30, 12, -25, 18, 26, 18, 31, 12, 31, -5, 13, -26, -10, -26)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 8.0
@@ -130,15 +133,6 @@ collision_mask = 4
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_2")
 
-[node name="HitboxArea" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 16
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxArea"]
-position = Vector2(0, 5.9604645e-08)
-scale = Vector2(1.1067357, 1.0987538)
-polygon = PackedVector2Array(-14, -23, -30, -4, -30, 12, -25, 18, 26, 18, 31, 12, 31, -5, 13, -26, -10, -26)
-
 [node name="Visual" type="Node2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
@@ -147,3 +141,13 @@ scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_8uly8")
 animation = &"move"
 frame_progress = 0.2000706
+
+[node name="HurtboxComponent" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 16
+script = ExtResource("4_hl4sy")
+health_component = NodePath("../HealthComponent")
+metadata/_custom_type_script = "uid://ctad5dfg4nsm6"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("RectangleShape2D_hl4sy")
