@@ -1,47 +1,72 @@
 extends CharacterBody2D
 class_name Player
 
-# Component references
-@onready var movement_component = $MovementPlayer
-@onready var health_component = $HealthComponent
-@onready var weapon_component = $WeaponComponent
+# ────────────────
+# Component 
+# ────────────────
+@onready var movement_component: Node = $MovementPlayer
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var weapon_component: Node = $WeaponComponent
 
+# ────────────────
 # Player state
+# ────────────────
 var is_alive: bool = true
 
-func _ready():
+# ────────────────
+# Main logic
+# ────────────────
+func _ready() -> void:
 	add_to_group("player")
-	
-	collision_layer = 4  #  player 4
-	collision_mask = 1   #  walls
-	
+
+	collision_layer = 4  # Player layer
+	collision_mask = 1   # Collides with walls
+
 	if health_component:
 		health_component.health_depleted.connect(_on_health_depleted)
 		health_component.health_changed.connect(_on_health_changed)
-	
+
+	print("Player ready with %d HP" % health_component.current_health)
+
+
+func _physics_process(delta: float) -> void:
+	if not is_alive:
+		return
 	if movement_component:
-		print("Movement component ready")
+		movement_component.update_movement(self, delta)
 
-func _physics_process(_delta):
-	if is_alive and movement_component:
-		movement_component.update_movement(self, _delta)
 
-func _on_health_depleted():
+# ────────────────
+# callbacks
+# ────────────────
+func _on_health_changed(current_health: int, max_health: int) -> void:
+	print("Health: %d/%d" % [current_health, max_health])
+
+
+func _on_health_depleted() -> void:
 	print("Player died!")
 	is_alive = false
 	velocity = Vector2.ZERO
+	# death animation or respawn 
 
-func _on_health_changed(current_health: int, max_health: int):
-	print("Health changed: %d/%d" % [current_health, max_health])
 
-func take_damage(damage: int):
-	if health_component and is_alive:
-		health_component.take_damage(damage)
+# ────────────────
+# Damage & Heal 
+# ────────────────
+func take_damage(damage: int) -> void:
+	if not is_alive or not health_component:
+		return
+	health_component.damage(damage)
 
-func heal(heal_amount: int):
-	if health_component:
-		health_component.heal(heal_amount)
 
-func _input(event):
-	if weapon_component:
+func heal(amount: int) -> void:
+	if not is_alive or not health_component:
+		return
+	health_component.heal(amount)
+
+# ────────────────
+# Input
+# ────────────────
+func _input(event: InputEvent) -> void:
+	if weapon_component and is_alive:
 		weapon_component.handle_input(event)

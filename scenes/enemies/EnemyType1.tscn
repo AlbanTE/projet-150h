@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://xpdepp3as7tr"]
+[gd_scene load_steps=18 format=3 uid="uid://xpdepp3as7tr"]
 
 [ext_resource type="Script" uid="uid://bc82mxcksspc5" path="res://scenes/enemies/EnemyType1.gd" id="1_0h5gj"]
+[ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/player/components/HealthComponent.gd" id="2_jd3ge"]
 [ext_resource type="Texture2D" uid="uid://r2imhnitcr5o" path="res://assets/ennemies/red-slime-spritesheet.png" id="3_hl4sy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
@@ -98,9 +99,12 @@ animations = [{
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_0h5gj")
-health = 50
 speed = 100.0
 damage = 15
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_jd3ge")
+metadata/_custom_type_script = "uid://dkgjxovaxsw7m"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(0.15153885, 0.08863449)

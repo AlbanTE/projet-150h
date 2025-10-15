@@ -1,9 +1,15 @@
 extends CharacterBody2D
 class_name Enemy
 
-# Enemy Stats (configurable in scenes)
+# ────────────────
+# Components
+# ────────────────
+@onready var health_component: HealthComponent = $HealthComponent
+
+# ────────────────
+# ⚙️ Enemy Stats 
+# ────────────────
 @export_group("Stats")
-@export var health: int = 100
 @export var speed: float = 80.0
 @export var damage: int = 20
 
@@ -13,13 +19,15 @@ class_name Enemy
 @export_group("Debug")
 @export var debug_navigation: bool = true
 
-# Internal state
+# ────────────────
+# state
+# ────────────────
 var player: Player = null
 var is_alive: bool = true
 var is_following: bool = false
 var path_update_timer: float = 0.0
 
-# AI ranges (read from scene Area2D)
+# ranges 
 var detection_radius: float = 200.0
 var attack_range: float = 50.0
 
@@ -30,17 +38,27 @@ var attack_area: Area2D
 var hitbox_area: Area2D
 var animated_sprite: AnimatedSprite2D
 
+
+# ────────────────
+# Main Logic
+# ────────────────
 func _ready():
 	collision_layer = 2  # Enemies on layer 2
-	collision_mask = 1 | 2  # walls (1)  enemies (2)
+	collision_mask = 1 | 2  # Walls (1) + Enemies (2)
 	
 	_get_references()
 	_connect_signals()
 	find_player()
-	
 	_on_enemy_ready()
 
+	# connect health component
+	if health_component:
+		health_component.health_changed.connect(_on_health_changed)
+		health_component.health_depleted.connect(_on_health_depleted)
 
+# ────────────────
+#  setup
+# ────────────────
 func _get_references():
 	navigation_agent = $NavigationAgent2D
 	detection_area = $DetectionArea
@@ -50,13 +68,11 @@ func _get_references():
 	detection_radius = (detection_area.get_child(0) as CollisionShape2D).shape.radius
 	attack_range = (attack_area.get_child(0) as CollisionShape2D).shape.radius
 	
-	# Get AnimatedSprite2D if it exists (optional for enemies without animation)
 	if has_node("Visual/AnimatedSprite2D"):
 		animated_sprite = $Visual/AnimatedSprite2D
 
 
 func _connect_signals():
-	
 	if detection_area:
 		detection_area.body_entered.connect(_on_detection_area_entered)
 		detection_area.body_exited.connect(_on_detection_area_exited)
@@ -68,8 +84,11 @@ func _connect_signals():
 	if hitbox_area:
 		hitbox_area.area_entered.connect(_on_hitbox_area_entered)
 		hitbox_area.area_exited.connect(_on_hitbox_area_exited)
-	
 
+
+# ────────────────
+# Physics Loop
+# ────────────────
 func _physics_process(delta):
 	if not is_alive or not player:
 		return
@@ -78,6 +97,10 @@ func _physics_process(delta):
 	handle_movement(delta)
 	move_and_slide()
 
+
+# ────────────────
+# Logic player
+# ────────────────
 func find_player():
 	var main_scene = get_tree().current_scene
 	if main_scene:
@@ -86,6 +109,7 @@ func find_player():
 			var players = get_tree().get_nodes_in_group("player")
 			if players.size() > 0:
 				player = players[0] as Player
+
 
 func handle_movement(delta):
 	if not player:
@@ -101,6 +125,7 @@ func handle_movement(delta):
 	else:
 		velocity = Vector2.ZERO
 		_stop_animation()
+
 
 func follow_player(player_position: Vector2, _delta):
 	var distance_to_player = global_position.distance_to(player_position)
@@ -118,7 +143,10 @@ func follow_player(player_position: Vector2, _delta):
 		velocity = Vector2.ZERO
 		_stop_animation()
 
-# Animation helpers
+
+# ────────────────
+# Animation
+# ────────────────
 func _play_move_animation():
 	if animated_sprite and animated_sprite.sprite_frames.has_animation("move"):
 		if animated_sprite.animation != "move" or not animated_sprite.is_playing():
@@ -129,23 +157,20 @@ func _stop_animation():
 		animated_sprite.stop()
 
 
-# ========================================
-# METHODS 
-# ========================================
 
 func _on_enemy_ready() -> void:
 	pass
 
-# DETECTION DU PLAYER 
 
+# ────────────────
+# Combat / Detection
+# ────────────────
 func _on_detection_area_entered(body: Node2D) -> void:
 	if body is Player:
 		is_following = true
 
 func _on_detection_area_exited(_body: Node2D) -> void:
 	pass
-
-# ATTACK DU PLAYER
 
 func _on_attack_area_entered(body: Node2D) -> void:
 	if body is Player:
@@ -154,53 +179,67 @@ func _on_attack_area_entered(body: Node2D) -> void:
 func _on_attack_area_exited(_body: Node2D) -> void:
 	pass
 
-# HITBOX AREA SIGNALS
 
+# ────────────────
+# Hitbox 
+# ────────────────
 func _on_hitbox_area_entered(area: Area2D) -> void:
+	if not is_alive:
+		return
 	if area is Bullet:
 		var bullet = area as Bullet
 		var damage_amount = bullet.get_damage()
-		print("Ennemi détecte projectile avec ", damage_amount, " dégâts")
+		print("Enemy hit by projectile: ", damage_amount, " damage")
 		take_damage(damage_amount)
 		bullet.queue_free()
+
 
 func _on_hitbox_area_exited(_area: Area2D) -> void:
 	pass
 
-# ========================================
-# PUBLIC API - DAMAGE SYSTEM
-# ========================================
 
-func take_damage(amount: int):
-	health -= amount
-	
-	# FUTUR visuels ou sonores 
-	_apply_damage_effects(amount)
-	
-	if health <= 0:
-		die()
+# ────────────────
+# ❤️ Health Integration
+# ────────────────
+func take_damage(amount: int) -> void:
+	if health_component:
+		health_component.damage(amount)
+		_apply_damage_effects(amount)
 
-func _apply_damage_effects(_amount: int):
-	pass
 
-func die():
+func heal(amount: int) -> void:
+	if health_component:
+		health_component.heal(amount)
+
+
+func _on_health_changed(current_health: int, max_health: int) -> void:
+	print("Enemy HP: %d/%d" % [current_health, max_health])
+
+
+func _on_health_depleted() -> void:
+	print("Enemy died.")
+	die()
+
+func die() -> void:
 	is_alive = false
 	is_following = false
 	velocity = Vector2.ZERO
-	
-	# FUTUR visuels ou sonores
 	_apply_death_effects()
 	queue_free()
 
-func _apply_death_effects():
+
+func _apply_damage_effects(_amount: int) -> void:
 	pass
 
-func attack():
+func _apply_death_effects() -> void:
 	pass
 
+func attack() ->void :
+	pass
 
-# DEBUG VISUEL - paramètre debug_navigation 
-
+# ────────────────
+# Debug Drawing
+# ────────────────
 func _draw():
 	if not is_alive:
 		return
