@@ -41,7 +41,7 @@ func _physics_process(delta: float) -> void:
 # ────────────────
 func _on_health_changed(current_health: int, max_health: int) -> void:
 	print("Health: %d/%d" % [current_health, max_health])
-
+	$FlashEffectAnim.play("hit")
 
 func _on_health_depleted() -> void:
 	print("Player died!")

@@ -13,6 +13,8 @@ class_name Enemy
 @export_group("Stats")
 @export var speed: float = 80.0
 @export var damage: int = 20
+@export var attack_cooldown: float = 0.75
+var can_attack: bool = false
 
 @export_group("AI Behavior")
 @export var path_update_interval: float = 0.2
@@ -77,6 +79,7 @@ func _connect_signals() -> void:
 
 	if attack_area:
 		attack_area.body_entered.connect(_on_attack_area_entered)
+		attack_area.body_exited.connect(_on_attack_area_exited)
 
 
 # ────────────────
@@ -130,9 +133,15 @@ func follow_player(player_position: Vector2, _delta: float) -> void:
 		navigation_agent.target_position = player_position
 		path_update_timer = 0.0
 
+	#var min_dist_to_player: float = 300
+
 	if distance_to_player > attack_range and not navigation_agent.is_navigation_finished():
 		var next_pos = navigation_agent.get_next_path_position()
 		var direction = global_position.direction_to(next_pos)
+		
+		#if distance_to_player < min_dist_to_player:
+			#direction *= -1
+		
 		velocity = direction * speed
 		_play_move_animation()
 	else:
@@ -162,7 +171,14 @@ func _on_detection_area_entered(body: Node2D) -> void:
 
 func _on_attack_area_entered(body: Node2D) -> void:
 	if body is Player:
+		can_attack = true
+		print("Start attacking...")
 		attack()
+		
+func _on_attack_area_exited(body: Node2D) -> void:
+	if body is Player:
+		can_attack = false
+		print("Stop attacking.")
 
 # ────────────────
 # Hurtbox callback
@@ -203,6 +219,7 @@ func _apply_death_effects() -> void:
 	pass
 
 func attack() -> void:
+	get_tree().create_timer(attack_cooldown).timeout.connect(func(): if can_attack: attack())
 	pass
 
 
