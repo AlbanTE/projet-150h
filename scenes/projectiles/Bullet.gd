@@ -4,6 +4,8 @@ class_name Bullet
 
 @export var speed: float = 800.0
 @export var damage: int = 10
+@export var knockback: float = 1
+
 var direction: Vector2 = Vector2.RIGHT
 
 func _ready():
@@ -22,13 +24,16 @@ func _physics_process(delta):
 func get_damage() -> int:
 	return damage
 
+func get_knockback() -> float:
+	return knockback
+
 func _on_area_entered(area: Area2D):
 	print("Bullet hit area: ", area.name, " (", area.get_script().get_global_name() if area.get_script() else "no script", ")")
 	# Don't delete the bullet here - let the HurtboxComponent handle it
 
 func _on_body_entered(body):
 	print("Bullet hit body: ", body.name)
-	queue_free()
+	delete_bullet()
 
 func delete_bullet():
 	queue_free()

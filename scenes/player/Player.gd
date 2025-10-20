@@ -39,9 +39,16 @@ func _physics_process(delta: float) -> void:
 # ────────────────
 # callbacks
 # ────────────────
-func _on_health_changed(current_health: int, max_health: int) -> void:
+func _on_health_changed(prev_health: int, current_health: int, max_health: int) -> void:
 	print("Health: %d/%d" % [current_health, max_health])
-	$FlashEffectAnim.play("hit")
+	if (current_health > prev_health):
+		# Play heal effect
+		pass
+	elif (current_health == prev_health):
+		# Play block effect or something...
+		pass
+	else:
+		$FlashEffectAnim.play("hit")
 
 func _on_health_depleted() -> void:
 	print("Player died!")

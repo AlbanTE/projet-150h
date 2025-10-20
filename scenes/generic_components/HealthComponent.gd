@@ -12,14 +12,16 @@ signal health_depleted
 ## ────────────────
 @export var max_health: int = 100:
 	set(value):
+		var prev_health = current_health
 		max_health = max(value, 1)
 		current_health = clamp(current_health, 0, max_health)
-		emit_signal("health_changed", current_health, max_health)
+		emit_signal("health_changed", prev_health, current_health, max_health)
 
 var current_health: int = max_health:
 	set(value):
+		var prev_health = current_health
 		current_health = clamp(value, 0, max_health)
-		emit_signal("health_changed", current_health, max_health)
+		emit_signal("health_changed", prev_health, current_health, max_health)
 		if current_health == 0:
 			emit_signal("health_depleted")
 
@@ -28,7 +30,7 @@ var current_health: int = max_health:
 ## ────────────────
 func _ready() -> void:
 	current_health = clamp(current_health, 0, max_health)
-	emit_signal("health_changed", current_health, max_health)
+	# emit_signal("health_changed", current_health, current_health, max_health)
 
 
 func damage(amount: int) -> void:

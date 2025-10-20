@@ -13,7 +13,7 @@ var health: HealthComponent = null
 # ────────────────
 # Signals
 # ────────────────
-signal hit_by_bullet(bullet: Node, damage: int)
+signal hit_by_bullet(bullet: Node, damage: int, knockback: float)
 
 # ────────────────
 # Lifecycle
@@ -44,7 +44,7 @@ func _on_body_entered(_body: Node2D) -> void:
 # ────────────────
 #  logic
 # ────────────────
-func _handle_bullet_collision(bullet: Node) -> void:
+func _handle_bullet_collision(bullet: Node2D) -> void:
 	if not bullet:
 		return
 
@@ -53,9 +53,15 @@ func _handle_bullet_collision(bullet: Node) -> void:
 		damage = bullet.get_damage()
 	else:
 		push_warning("Bullet does not have get_damage()")
+		
+	var knockback := 0
+	if "get_knockback" in bullet:
+		knockback = bullet.get_knockback()
+	else:
+		push_warning("Bullet does not have get_knockback()")
 
-	print("HurtboxComponent: Bullet hit for ", damage, " damage")
-	emit_signal("hit_by_bullet", bullet, damage)
+	print("HurtboxComponent: Bullet hit for ", damage, " damage, and ", knockback, " knockback")
+	emit_signal("hit_by_bullet", bullet, damage, knockback)
 
 	if health:
 		health.damage(damage)

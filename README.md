@@ -18,3 +18,4 @@ Projet de 150h de développement d'un jeu vidéo 2D de type roguelike/dungeon cr
 - https://opengameart.org/content/pixel-bullet
 - https://destus-gamez.itch.io/pixel-art-gun-pack
 - https://snowhex.itch.io/dungeon-gathering
+- https://xyezawr.itch.io/gif-free-pixel-effects-pack-5-blood-effects

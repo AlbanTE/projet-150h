@@ -183,19 +183,28 @@ func _on_attack_area_exited(body: Node2D) -> void:
 # ────────────────
 # Hurtbox callback
 # ────────────────
-func _on_hit_by_bullet(_bullet: Node, bullet_damage: int) -> void:
+func _on_hit_by_bullet(_bullet: Node2D, bullet_damage: int, bullet_knockback: float) -> void:
 	if not is_alive:
 		return
 	print("Enemy: Hit by bullet signal received")
 	_apply_damage_effects(bullet_damage)
+	_apply_knockback(global_position - _bullet.global_position, bullet_knockback)
 
 
 # ────────────────
 # Health callback
 # ────────────────
-func _on_health_changed(_current_health: int, _max_health: int) -> void:
+func _on_health_changed(prev_health: int, current_health: int, _max_health: int) -> void:
 	print("Enemy: health changed signal received")
-	_apply_damage_effects(_current_health)
+	if (current_health > prev_health):
+		# Play heal effect
+		pass
+	elif (current_health == prev_health):
+		# Play block effect or something...
+		pass
+	else:
+		_apply_damage_effects(current_health)
+	
 
 func _on_health_depleted() -> void:
 	print("Enemy: Die signal received")
@@ -214,6 +223,12 @@ func die() -> void:
 # ────────────────
 func _apply_damage_effects(_amount: int) -> void:
 	pass
+
+func _apply_knockback(direction: Vector2, amount: float) -> void:
+	print("Knockback for ", amount, " in direction: ", direction)
+	velocity = direction.normalized() * amount * 1000
+	move_and_slide()
+	
 
 func _apply_death_effects() -> void:
 	pass

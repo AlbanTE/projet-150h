@@ -1,8 +1,25 @@
 extends Enemy
 class_name EnemyType1
 
+# ────────────────
+# Visuals
+# ────────────────
+@onready var anim_player: AnimationPlayer = $Visual/FlashEffectAnim
+@onready var blood_particles: AnimatedSprite2D = $Visual/BloodSprite
+
+
 func _apply_damage_effects(_amount: int) -> void:
-	pass
+	print("Supposed to play hit effect")
+	if anim_player and anim_player.has_animation("hit"):
+		anim_player.play("hit")
+		
+	blood_particles.show()
+	blood_particles.play()
+	get_tree().create_timer(1).timeout.connect(func(): 
+		blood_particles.stop()
+		blood_particles.hide()
+	)
+	
 
 func _apply_death_effects() -> void:
 	print("Slime mort — trucs a faire.")
