@@ -19,10 +19,11 @@ fill = 1
 fill_from = Vector2(0.55, 0.5)
 
 [node name="Area2D" type="Area2D"]
-scale = Vector2(3, 3)
+scale = Vector2(2, 2)
 collision_layer = 16
 collision_mask = 9
 script = ExtResource("1_36ope")
+speed = 100.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5707964

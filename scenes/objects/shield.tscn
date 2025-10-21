@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://tyfanids7lpg"]
+
+[ext_resource type="Shader" uid="uid://br6w5b48kf4l" path="res://shaders/shield.gdshader" id="1_kdf5a"]
+[ext_resource type="Script" uid="uid://cvkgdd2el6qeo" path="res://scenes/player/components/ShieldComponent.gd" id="1_shield_comp"]
+[ext_resource type="Texture2D" uid="uid://bkmhrqwlk5x7q" path="res://assets/textures/polygon.jpg" id="2_i3nqv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i3nqv"]
+shader = ExtResource("1_kdf5a")
+shader_parameter/Color_Shield = Color(0.4129755, 0.3179309, 0.58243096, 1)
+shader_parameter/Step = 0.7
+shader_parameter/Speed = Vector3(0, -0.1, 0)
+shader_parameter/Texture = ExtResource("2_i3nqv")
+shader_parameter/Size_Inner = 0.2
+shader_parameter/Opaticy = 0.3
+shader_parameter/Size_Outer = 0.3
+
+[node name="ShieldComponent" type="Node2D"]
+scale = Vector2(4, 4)
+script = ExtResource("1_shield_comp")
+
+[node name="Shield" type="ColorRect" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_i3nqv")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true

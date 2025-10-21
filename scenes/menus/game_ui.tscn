@@ -1,0 +1,87 @@
+[gd_scene load_steps=4 format=3 uid="uid://biarr6h25aa4"]
+
+[ext_resource type="Material" uid="uid://df5t35brb3oqk" path="res://materials/blur.tres" id="1_6v45u"]
+[ext_resource type="Texture2D" uid="uid://cl50nk3spxr4b" path="res://assets/UI/Pxiel Art UI borders.png" id="2_6v45u"]
+[ext_resource type="Theme" uid="uid://cri857iigtf4x" path="res://assets/UI/ButtonDefault.tres" id="3_030jj"]
+
+[node name="gameUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Blur" type="ColorRect" parent="."]
+material = ExtResource("1_6v45u")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InGameMenu" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainPauseMenu" type="MarginContainer" parent="InGameMenu"]
+texture_filter = 1
+custom_minimum_size = Vector2(800, 800)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ColorRect" type="ColorRect" parent="InGameMenu/MainPauseMenu"]
+layout_mode = 2
+color = Color(0.32004195, 0.25499195, 0.32004195, 1)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="InGameMenu/MainPauseMenu"]
+layout_mode = 2
+texture = ExtResource("2_6v45u")
+region_rect = Rect2(19, 275, 90, 90)
+patch_margin_left = 13
+patch_margin_top = 13
+patch_margin_right = 13
+patch_margin_bottom = 13
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InGameMenu/MainPauseMenu"]
+custom_minimum_size = Vector2(300, 500)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Button" type="Button" parent="InGameMenu/MainPauseMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_030jj")
+text = "RESUME"
+autowrap_trim_flags = 0
+
+[node name="Button2" type="Button" parent="InGameMenu/MainPauseMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_030jj")
+text = "RESTART"
+autowrap_trim_flags = 0
+
+[node name="Button3" type="Button" parent="InGameMenu/MainPauseMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_030jj")
+text = "OPTIONS"
+autowrap_trim_flags = 0
+
+[node name="Button4" type="Button" parent="InGameMenu/MainPauseMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_030jj")
+text = "QUIT"
+autowrap_trim_flags = 0
