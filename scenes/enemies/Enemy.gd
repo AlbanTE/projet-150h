@@ -126,7 +126,7 @@ func handle_movement(delta: float) -> void:
 		_stop_animation()
 
 
-func follow_player(player_position: Vector2, _delta: float) -> void:
+func follow_player(player_position: Vector2, _delta: float) -> float:
 	var distance_to_player = global_position.distance_to(player_position)
 
 	if path_update_timer >= path_update_interval:
@@ -143,10 +143,11 @@ func follow_player(player_position: Vector2, _delta: float) -> void:
 			#direction *= -1
 		
 		velocity = direction * speed
-		_play_move_animation()
+		# _play_move_animation()
 	else:
 		velocity = Vector2.ZERO
-		_stop_animation()
+		# _stop_animation()
+	return distance_to_player
 
 
 # ────────────────
@@ -154,8 +155,12 @@ func follow_player(player_position: Vector2, _delta: float) -> void:
 # ────────────────
 func _play_move_animation() -> void:
 	if animated_sprite and animated_sprite.sprite_frames.has_animation("move"):
-		if animated_sprite.animation != "move" or not animated_sprite.is_playing():
+		if not animated_sprite.is_playing():
 			animated_sprite.play("move")
+
+func _play_attack_animation() -> void:
+	if animated_sprite and animated_sprite.sprite_frames.has_animation("attack"):
+		animated_sprite.play("attack")
 
 func _stop_animation() -> void:
 	if animated_sprite and animated_sprite.is_playing():
@@ -188,7 +193,17 @@ func _on_hit_by_bullet(_bullet: Node2D, bullet_damage: int, bullet_knockback: fl
 		return
 	print("Enemy: Hit by bullet signal received")
 	_apply_damage_effects(bullet_damage)
-	_apply_knockback(global_position - _bullet.global_position, bullet_knockback)
+	
+	# Test de la distance avec le joueur
+	# Permet d'éviter les knockbacks bizarres quand l'ennemi est trop proche du joueur, et que le bullet hit "par derrière"
+	var knockback_dir: Vector2
+	var player_dist: float = (global_position - player.global_position).length()
+	print("Knockback dist from player: ", player_dist)
+	if player_dist < 50:
+		knockback_dir = global_position - player.global_position
+	else:
+		knockback_dir = global_position - _bullet.global_position
+	_apply_knockback(knockback_dir, bullet_knockback)
 
 
 # ────────────────

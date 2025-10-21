@@ -77,3 +77,5 @@ func heal(amount: int) -> void:
 func _input(event: InputEvent) -> void:
 	if weapon_component and is_alive:
 		weapon_component.handle_input(event)
+		
+		
