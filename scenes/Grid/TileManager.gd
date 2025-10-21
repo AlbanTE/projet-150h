@@ -5,6 +5,7 @@ const DungeonGenerator = preload("res://scenes/dungeon_generators/DungeonGenerat
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var torch: PackedScene = preload("res://scenes/objects/torch.tscn")
+var exit: PackedScene = preload("res://scenes/objects/exit_stairs.tscn")
 
 func build_from_grid(ground_layer: TileMapLayer, wall_layer: TileMapLayer, grid_data: Array, offset: Vector2i = Vector2i.ZERO) -> void:
 	if not _is_valid_map_layer(ground_layer) or not _is_valid_map_layer(wall_layer) or grid_data.is_empty():
@@ -20,6 +21,27 @@ func build_from_grid(ground_layer: TileMapLayer, wall_layer: TileMapLayer, grid_
 		wall_layer.set_cells_terrain_connect(wall_positions, 0, 0)
 		add_light_sources(wall_layer, 10)
 		
+	var exit_coords: Vector2i = Vector2i(0, 0)
+	for y in grid_data.size():
+		for x in grid_data[y].size():
+			if grid_data[y][x] == DungeonGenerator.Tile.EXIT:
+				exit_coords = Vector2i(x, y)
+				break
+				
+	# Tile coordinate in grid space
+	var tile_coord: Vector2i = exit_coords + offset
+
+	# Convert to world position manually
+	var tile_size: Vector2 = ground_layer.tile_set.tile_size
+	var exit_position: Vector2 = Vector2(tile_coord.x, tile_coord.y) * tile_size #* ground_layer.scale
+	exit_position += tile_size / 2  # center of tile
+	
+	var exit_instance: Node2D = exit.instantiate()
+	exit_instance.global_position = exit_position
+	ground_layer.add_child(exit_instance)
+	print("Added exit at: ", exit_coords)
+
+
 func add_light_sources(wall_layer: TileMapLayer, min_dist: float) -> void:
 	
 	var torches = wall_layer.get_tree().get_nodes_in_group("Torches")

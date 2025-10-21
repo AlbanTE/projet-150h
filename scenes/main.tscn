@@ -1482,6 +1482,7 @@ script = ExtResource("6_main")
 ground_layer = NodePath("TileSets/dungeon_terrain")
 wall_layer = NodePath("TileSets/wall_terrain")
 dungeon_generator = SubResource("Resource_choun")
+_seed = 1
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 z_index = 1
@@ -1534,4 +1535,5 @@ scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_85g3d")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.0142752165, 0.014275219, 0.014275211, 1)
