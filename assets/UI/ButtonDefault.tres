@@ -1,51 +1,51 @@
 [gd_resource type="Theme" load_steps=9 format=3 uid="uid://cri857iigtf4x"]
 
 [ext_resource type="FontFile" uid="uid://bp1p26pik0ici" path="res://assets/UI/monogram.ttf" id="1_m22bn"]
-[ext_resource type="Texture2D" uid="uid://cl50nk3spxr4b" path="res://assets/UI/Pxiel Art UI borders.png" id="2_46rww"]
-[ext_resource type="Texture2D" uid="uid://hfdqfh623foj" path="res://assets/UI/UI_sheet.png" id="2_u7rp0"]
+[ext_resource type="Texture2D" uid="uid://blfe54bgsr4qx" path="res://assets/UI/Pxiel Art UI borders_x5.png" id="2_46rww"]
+[ext_resource type="Texture2D" uid="uid://bdgilv0xrop8n" path="res://assets/UI/UI_sheet_x5.png" id="4_03x42"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u7rp0"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fytsh"]
 texture = ExtResource("2_46rww")
-texture_margin_left = 8.0
-texture_margin_top = 8.0
-texture_margin_right = 8.0
-texture_margin_bottom = 8.0
-expand_margin_left = 5.0
-expand_margin_top = 5.0
-expand_margin_right = 5.0
-expand_margin_bottom = 5.0
-region_rect = Rect2(307, 275, 90, 90)
+texture_margin_left = 40.0
+texture_margin_top = 40.0
+texture_margin_right = 40.0
+texture_margin_bottom = 40.0
+expand_margin_left = 25.0
+expand_margin_top = 25.0
+expand_margin_right = 25.0
+expand_margin_bottom = 25.0
+region_rect = Rect2(1535, 1376, 450, 449)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_03x42"]
-content_margin_bottom = 8.0
-texture = ExtResource("2_u7rp0")
-texture_margin_left = 5.0
-texture_margin_top = 5.0
-texture_margin_right = 5.0
-texture_margin_bottom = 5.0
-region_rect = Rect2(742, 39, 18, 18)
+content_margin_bottom = 35.0
+texture = ExtResource("4_03x42")
+texture_margin_left = 25.0
+texture_margin_top = 25.0
+texture_margin_right = 25.0
+texture_margin_bottom = 25.0
+region_rect = Rect2(3555, 185, 90, 100)
 modulate_color = Color(0.32156864, 0.19215687, 0.34509805, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u7rp0"]
-content_margin_bottom = 10.0
-texture = ExtResource("2_u7rp0")
-texture_margin_left = 5.0
-texture_margin_top = 5.0
-texture_margin_right = 5.0
-texture_margin_bottom = 5.0
-region_rect = Rect2(711, 37, 18, 20)
+content_margin_bottom = 35.0
+texture = ExtResource("4_03x42")
+texture_margin_left = 25.0
+texture_margin_top = 25.0
+texture_margin_right = 25.0
+texture_margin_bottom = 25.0
+region_rect = Rect2(3555, 185, 90, 100)
 modulate_color = Color(0.34916127, 0.26791948, 0.41184098, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_46rww"]
-content_margin_bottom = 8.0
-texture = ExtResource("2_u7rp0")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
-region_rect = Rect2(742, 39, 18, 18)
+content_margin_bottom = 35.0
+texture = ExtResource("4_03x42")
+texture_margin_left = 25.0
+texture_margin_top = 25.0
+texture_margin_right = 25.0
+texture_margin_bottom = 25.0
+region_rect = Rect2(3710, 195, 90, 90)
 modulate_color = Color(0.31962937, 0.19120166, 0.34680745, 1)
 
 [resource]

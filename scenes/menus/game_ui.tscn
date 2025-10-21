@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://biarr6h25aa4"]
 
 [ext_resource type="Material" uid="uid://df5t35brb3oqk" path="res://materials/blur.tres" id="1_6v45u"]
-[ext_resource type="Texture2D" uid="uid://cl50nk3spxr4b" path="res://assets/UI/Pxiel Art UI borders.png" id="2_6v45u"]
+[ext_resource type="Texture2D" uid="uid://blfe54bgsr4qx" path="res://assets/UI/Pxiel Art UI borders_x5.png" id="2_030jj"]
 [ext_resource type="Theme" uid="uid://cri857iigtf4x" path="res://assets/UI/ButtonDefault.tres" id="3_030jj"]
 
 [node name="gameUI" type="Control"]
@@ -33,29 +33,26 @@ grow_vertical = 2
 
 [node name="MainPauseMenu" type="MarginContainer" parent="InGameMenu"]
 texture_filter = 1
-custom_minimum_size = Vector2(800, 800)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 
 [node name="ColorRect" type="ColorRect" parent="InGameMenu/MainPauseMenu"]
 layout_mode = 2
 color = Color(0.32004195, 0.25499195, 0.32004195, 1)
 
 [node name="NinePatchRect" type="NinePatchRect" parent="InGameMenu/MainPauseMenu"]
+clip_contents = true
 layout_mode = 2
-texture = ExtResource("2_6v45u")
-region_rect = Rect2(19, 275, 90, 90)
-patch_margin_left = 13
-patch_margin_top = 13
-patch_margin_right = 13
-patch_margin_bottom = 13
+texture = ExtResource("2_030jj")
+region_rect = Rect2(95, 1375, 450, 450)
+patch_margin_left = 65
+patch_margin_top = 65
+patch_margin_right = 65
+patch_margin_bottom = 65
 
 [node name="VBoxContainer" type="VBoxContainer" parent="InGameMenu/MainPauseMenu"]
-custom_minimum_size = Vector2(300, 500)
+custom_minimum_size = Vector2(300, 800)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
 alignment = 1
 
 [node name="Button" type="Button" parent="InGameMenu/MainPauseMenu/VBoxContainer"]
