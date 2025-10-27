@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://x6rvsc2ejisq"]
+[gd_scene load_steps=79 format=3 uid="uid://x6rvsc2ejisq"]
 
 [ext_resource type="Script" uid="uid://c8jr3cc8mkcw4" path="res://scenes/player/components/MovementPlayer.gd" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://epuexnwso7gw" path="res://scenes/dungeon_generators/tinykeep.gd" id="2_85g3d"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cb3w81afn5w4k" path="res://assets/dungeon-gathering-assets/Set 1.png" id="7_o6xl0"]
 [ext_resource type="Script" uid="uid://dkhdjry5qxu1f" path="res://scenes/player/components/WeaponComponent.gd" id="11_muem4"]
 [ext_resource type="PackedScene" uid="uid://djhulh5j7qa4i" path="res://scenes/weapons/Gun.tscn" id="12_dp3eg"]
+[ext_resource type="PackedScene" uid="uid://biarr6h25aa4" path="res://scenes/menus/game_ui.tscn" id="12_eb6dy"]
 
 [sub_resource type="Resource" id="Resource_choun"]
 script = ExtResource("2_85g3d")
@@ -1535,5 +1536,12 @@ scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_85g3d")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.0142752165, 0.014275219, 0.014275211, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("12_eb6dy")]
+light_mask = 1024
+visibility_layer = 1024
+z_index = 5
+z_as_relative = false
