@@ -17,6 +17,7 @@ var tile_builder: CustomTileManager
 @export var _seed: int = -1
 
 func _ready():
+	seed(_seed)
 	tile_builder = CustomTileManager.new()
 	build_dungeon_area()
 
