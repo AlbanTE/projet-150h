@@ -9,7 +9,7 @@ const EnemyType2Scene = preload("res://scenes/enemies/EnemyType2.tscn")
 
 const ENEMY_TYPE_COUNT = 2
 
-@onready var player = $CharacterBody2D
+@onready var player = $Character
 @export var ground_layer: TileMapLayer
 @export var wall_layer: TileMapLayer
 var tile_builder: CustomTileManager

@@ -40,6 +40,12 @@ func _physics_process(delta: float) -> void:
 		return
 	if movement_component:
 		movement_component.update_movement(self, delta)
+		
+		if velocity != Vector2.ZERO and velocity.normalized() != Vector2.UP and velocity.normalized() != Vector2.DOWN:
+			if abs(rad_to_deg(velocity.angle())) > 90:
+				$AnimatedSprite2D.flip_h = false
+			else:
+				$AnimatedSprite2D.flip_h = true
 
 
 # ────────────────

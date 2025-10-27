@@ -8,12 +8,16 @@
 scale = Vector2(2, 2)
 script = ExtResource("1_13jah")
 projectile_scene = ExtResource("2_tsij3")
+damage = 30
 ammo = 100
 max_ammo = 100
 
 [node name="GunSprite" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(8, 0)
 texture = ExtResource("1_x3s45")
 
-[node name="Muzzle" type="Marker2D" parent="."]
+[node name="OldMuzzle" type="Marker2D" parent="."]
 position = Vector2(22, -3)
+
+[node name="Muzzle" type="Marker2D" parent="."]

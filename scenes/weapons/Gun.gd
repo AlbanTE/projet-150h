@@ -9,7 +9,7 @@ func fire(player: Node2D) -> void:
 		return
 
 	_can_fire = false
-	ammo -= 1
+	# ammo -= 1
 
 	# Spawn projectile
 	if projectile_scene:
