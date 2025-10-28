@@ -27,7 +27,7 @@ var can_attack: bool = false
 # ────────────────
 var player: Player = null
 var is_alive: bool = true
-var is_following: bool = false
+# var is_following: bool = false
 var path_update_timer: float = 0.0
 
 var detection_radius: float = 200.0
@@ -37,7 +37,7 @@ var attack_range: float = 50.0
 # Node References
 # ────────────────
 var navigation_agent: NavigationAgent2D
-var detection_area: Area2D
+# var detection_area: Area2D
 var attack_area: Area2D
 var animated_sprite: AnimatedSprite2D
 
@@ -59,14 +59,13 @@ func _ready() -> void:
 
 	if hurtbox_component:
 		hurtbox_component.hit_by_bullet.connect(_on_hit_by_bullet)
-
-
+		
 func _get_references() -> void:
 	navigation_agent = $NavigationAgent2D
-	detection_area = $DetectionArea
+	# detection_area = $DetectionArea
 	attack_area = $AttackArea
 	
-	detection_radius = (detection_area.get_child(0) as CollisionShape2D).shape.radius
+	# detection_radius = (detection_area.get_child(0) as CollisionShape2D).shape.radius
 	attack_range = (attack_area.get_child(0) as CollisionShape2D).shape.radius
 
 	if has_node("Visual/AnimatedSprite2D"):
@@ -74,8 +73,8 @@ func _get_references() -> void:
 
 
 func _connect_signals() -> void:
-	if detection_area:
-		detection_area.body_entered.connect(_on_detection_area_entered)
+	#if detection_area:
+		#detection_area.body_entered.connect(_on_detection_area_entered)
 
 	if attack_area:
 		attack_area.body_entered.connect(_on_attack_area_entered)
@@ -114,16 +113,17 @@ func handle_movement(delta: float) -> void:
 	if not player:
 		return
 
-	var distance_to_player = global_position.distance_to(player.global_position)
+	#var distance_to_player = global_position.distance_to(player.global_position)
 
-	if not is_following and distance_to_player <= detection_radius:
-		is_following = true
+	#if not is_following and distance_to_player <= detection_radius:
+		#is_following = true
 
-	if is_following:
-		follow_player(player.global_position, delta)
-	else:
-		velocity = Vector2.ZERO
-		_stop_animation()
+	# if is_following:
+		#follow_player(player.global_position, delta)
+	#else:
+		#velocity = Vector2.ZERO
+		#_stop_animation()
+	follow_player(player.global_position, delta)
 
 
 func follow_player(player_position: Vector2, _delta: float) -> void:
@@ -165,9 +165,9 @@ func _stop_animation() -> void:
 # ────────────────
 # Combat
 # ────────────────
-func _on_detection_area_entered(body: Node2D) -> void:
-	if body is Player:
-		is_following = true
+#func _on_detection_area_entered(body: Node2D) -> void:
+	#if body is Player:
+		#is_following = true
 
 func _on_attack_area_entered(body: Node2D) -> void:
 	if body is Player:
@@ -212,7 +212,7 @@ func _on_health_depleted() -> void:
 
 func die() -> void:
 	is_alive = false
-	is_following = false
+	#is_following = false
 	velocity = Vector2.ZERO
 	_apply_death_effects()
 	queue_free()
@@ -245,12 +245,12 @@ func _draw() -> void:
 	if not is_alive:
 		return
 
-	if not is_following:
-		draw_arc(Vector2.ZERO, detection_radius, 0, TAU, 64, Color.BLUE, 2.0, true)
+	#if not is_following:
+		#draw_arc(Vector2.ZERO, detection_radius, 0, TAU, 64, Color.BLUE, 2.0, true)
 
 	draw_arc(Vector2.ZERO, attack_range, 0, TAU, 64, Color.RED, 2.0, true)
 
-	if debug_navigation and navigation_agent and is_following:
+	if debug_navigation and navigation_agent: #and is_following:
 		var path = navigation_agent.get_current_navigation_path()
 		if path.size() > 1:
 			for i in range(path.size() - 1):

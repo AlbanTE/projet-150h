@@ -11,7 +11,7 @@ radius = 12.0
 radius = 300.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2"]
-radius = 28.01785
+radius = 28.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hitbox"]
 radius = 12.0
@@ -34,6 +34,7 @@ target_desired_distance = 8.0
 radius = 16.0
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 4
 
@@ -64,3 +65,8 @@ offset_top = -8.0
 offset_right = 8.0
 offset_bottom = 8.0
 color = Color(1, 0, 0, 1)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-28, -28, 56, 56)
+
+[connection signal="screen_entered" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_entered"]

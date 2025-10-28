@@ -8,6 +8,8 @@ class_name EnemyType1
 @onready var blood_particles: AnimatedSprite2D = $Visual/BloodSprite
 
 
+var activated: bool = false
+
 func _apply_damage_effects(_amount: int) -> void:
 	print("Supposed to play hit effect")
 	if anim_player and anim_player.has_animation("hit"):
@@ -40,5 +42,11 @@ func aim_slime_towards_player():
 		$Visual/AnimatedSprite2D.flip_h = false
 
 func _process(_delta: float):
+	if not activated:
+		return
 	aim_slime_towards_player()
 	super(_delta)
+
+
+func _on_visible_on_screen_enabler_2d_screen_entered() -> void:
+	activated = true
