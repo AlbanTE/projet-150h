@@ -4,9 +4,9 @@ class_name Player
 # ────────────────
 # Component 
 # ────────────────
-@onready var movement_component: Node = $MovementPlayer
+@onready var movement_component: MovementComponent = $MovementPlayer
 @onready var health_component: HealthComponent = $HealthComponent
-@onready var weapon_component: Node = $WeaponComponent
+@onready var weapon_component: WeaponComponent = $WeaponComponent
 var shield_component: ShieldComponent
 # ────────────────
 # Player state

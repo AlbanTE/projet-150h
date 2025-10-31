@@ -1,0 +1,92 @@
+[gd_scene load_steps=12 format=3 uid="uid://b2uefmga0icjy"]
+
+[ext_resource type="Texture2D" uid="uid://cdtbgt0o25ovh" path="res://assets/textures/portal.png" id="1_8uu6y"]
+[ext_resource type="Script" uid="uid://o0idtejsrqkh" path="res://scenes/objects/portal_item.gd" id="1_mog7k"]
+[ext_resource type="Texture2D" uid="uid://fa2nwsbyd1aa" path="res://assets/textures/question_mark.png" id="2_mog7k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gj3l4"]
+atlas = ExtResource("1_8uu6y")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5c258"]
+atlas = ExtResource("1_8uu6y")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2h1kb"]
+atlas = ExtResource("1_8uu6y")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_in0mp"]
+atlas = ExtResource("1_8uu6y")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g46pt"]
+atlas = ExtResource("1_8uu6y")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0tf0"]
+atlas = ExtResource("1_8uu6y")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0rrpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gj3l4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5c258")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2h1kb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_in0mp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g46pt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0tf0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gj3l4"]
+radius = 20.0
+
+[node name="PortalItem" type="Area2D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_mog7k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0rrpc")
+autoplay = "default"
+frame_progress = 0.16568492
+
+[node name="Sprite2D" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+pivot_offset = Vector2(16, 16)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_mog7k")
+stretch_mode = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_gj3l4")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
