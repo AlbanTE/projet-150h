@@ -1428,9 +1428,10 @@ _seed = 3
 [node name="Character" parent="." instance=ExtResource("3_o6xl0")]
 
 [node name="Heal" parent="Character" instance=ExtResource("3_tipki")]
+visible = false
 show_behind_parent = true
-position = Vector2(0, 15)
-scale = Vector2(1.5, 1.5)
+position = Vector2(0, 18)
+scale = Vector2(1.4, 1.4)
 
 [node name="TileSets" type="Node2D" parent="."]
 

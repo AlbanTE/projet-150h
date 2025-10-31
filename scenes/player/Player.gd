@@ -7,7 +7,7 @@ class_name Player
 @onready var movement_component: MovementComponent = $MovementPlayer
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var weapon_component: WeaponComponent = $WeaponComponent
-var shield_component: ShieldComponent
+@onready var shield_spell_component: Node = $ShieldSpellComponent
 # ────────────────
 # Player state
 # ────────────────
@@ -28,13 +28,8 @@ func _ready() -> void:
 
 	print("Player ready with %d HP" % health_component.current_health)
 	
-	# Shield Logic - Dynamic instantiation
-	var shield_scene = preload("res://scenes/objects/shield.tscn")
-	shield_component = shield_scene.instantiate() as ShieldComponent
-	add_child(shield_component)
-	shield_component.position = Vector2.ZERO
-
-
+	# Shield spell is automatically set up by ShieldSpellComponent
+		
 func _physics_process(delta: float) -> void:
 	if not is_alive:
 		return
@@ -89,5 +84,5 @@ func heal(amount: int) -> void:
 func _input(event: InputEvent) -> void:
 	if weapon_component and is_alive:
 		weapon_component.handle_input(event)
-	if shield_component:
-		shield_component.handle_input(event)
+	if shield_spell_component:
+		shield_spell_component.handle_input(event)
