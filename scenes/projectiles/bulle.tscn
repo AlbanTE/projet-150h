@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://jk8ehohuqoj0"]
+
+[ext_resource type="Script" uid="uid://66imgx2icws5" path="res://scenes/projectiles/bulle.gd" id="1_cp2nb"]
+[ext_resource type="Texture2D" uid="uid://fo52265rlvks" path="res://assets/weapons/projectile_bulle.png" id="1_l0dhw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l0dhw"]
+radius = 16.0
+
+[sub_resource type="Gradient" id="Gradient_36ope"]
+offsets = PackedFloat32Array(0, 0.24309392, 0.5635359)
+colors = PackedColorArray(0.9005525, 0.9005525, 0.9005525, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kghso"]
+gradient = SubResource("Gradient_36ope")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.55, 0.5)
+
+[node name="Node2D" type="Area2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 16
+collision_mask = 9
+script = ExtResource("1_cp2nb")
+speed = 200.0
+damage = 20
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_l0dhw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_l0dhw")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(0.38509116, 0.24804688)
+color = Color(0.678431, 0.847059, 1, 1)
+energy = 0.3
+texture = SubResource("GradientTexture2D_kghso")

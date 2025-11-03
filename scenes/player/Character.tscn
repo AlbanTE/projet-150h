@@ -1,13 +1,14 @@
-[gd_scene load_steps=23 format=3 uid="uid://cxyn22o6bqdfj"]
+[gd_scene load_steps=24 format=3 uid="uid://cxyn22o6bqdfj"]
 
 [ext_resource type="Script" uid="uid://swhibyo66w2d" path="res://scenes/player/Player.gd" id="1_uxdko"]
 [ext_resource type="Script" uid="uid://c8jr3cc8mkcw4" path="res://scenes/player/components/MovementPlayer.gd" id="2_lqr8u"]
 [ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/generic_components/HealthComponent.gd" id="3_pwldm"]
 [ext_resource type="Script" uid="uid://dkhdjry5qxu1f" path="res://scenes/player/components/WeaponComponent.gd" id="4_v32km"]
+[ext_resource type="PackedScene" uid="uid://o3nhmew8d6ly" path="res://scenes/weapons/BulleGun.tscn" id="5_bullegun"]
 [ext_resource type="PackedScene" uid="uid://djhulh5j7qa4i" path="res://scenes/weapons/Gun.tscn" id="5_rlo5i"]
 [ext_resource type="Shader" uid="uid://ce4sr8akrqun2" path="res://shaders/flash_effect.gdshader" id="6_8grqf"]
 [ext_resource type="Texture2D" uid="uid://cptgddc1u64sh" path="res://assets/textures/WitchFlying.png" id="7_qn341"]
-[ext_resource type="Script" uid="uid://dplmslac2psil" path="res://scenes/player/components/ShieldSpellComponent.gd" id="8_shield_spell"]
+[ext_resource type="Script" path="res://scenes/player/components/ShieldSpellComponent.gd" id="8_shield_spell"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
 size = Vector2(44, 52)
@@ -155,6 +156,7 @@ texture_scale = 1.5
 [node name="WeaponComponent" type="Node2D" parent="."]
 script = ExtResource("4_v32km")
 starting_weapon_scene = ExtResource("5_rlo5i")
+weapon_scenes = Array[PackedScene]([ExtResource("5_rlo5i"), ExtResource("5_bullegun")])
 metadata/_custom_type_script = "uid://dkhdjry5qxu1f"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
