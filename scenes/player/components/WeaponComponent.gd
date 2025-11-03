@@ -3,7 +3,7 @@ extends Node2D
 class_name WeaponComponent
 
 @export var starting_weapon_scene: PackedScene
-var current_weapon: Node2D
+var current_weapon: Weapon
 var weapon_scale: float = 1
 
 func _ready():
