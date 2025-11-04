@@ -1451,7 +1451,6 @@ script = ExtResource("12_trceg")
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("12_eb6dy")]
 light_mask = 1024
 visibility_layer = 1024
-z_index = 5
 z_as_relative = false
 
 [node name="Label" type="Label" parent="CanvasLayer"]

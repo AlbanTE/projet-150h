@@ -25,6 +25,9 @@ var current_health: int = max_health:
 		if current_health == 0:
 			emit_signal("health_depleted")
 
+# For zone-based damage tracking
+var last_zone_damage_time: Dictionary = {}  # zone_id -> timestamp
+
 ## ────────────────
 ## Methods
 ## ────────────────
@@ -56,3 +59,21 @@ func set_current_health(value: int) -> void:
 
 func is_alive() -> bool:
 	return current_health > 0
+
+
+func zone_damage(zone_id: int, amount: int, interval: float) -> void:
+	"""Apply damage from a zone-based weapon. Uses interval to prevent spam damage."""
+	if amount <= 0:
+		return
+	
+	var current_time = Time.get_ticks_msec() / 1000.0
+	
+	# Check if enough time has passed since last damage from this zone
+	if zone_id in last_zone_damage_time:
+		var last_time = last_zone_damage_time[zone_id]
+		if current_time - last_time < interval:
+			return  # Not enough time passed, skip damage
+	
+	# Apply damage and update timestamp
+	last_zone_damage_time[zone_id] = current_time
+	damage(amount)

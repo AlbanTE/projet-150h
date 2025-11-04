@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2q3t4v5w6x7y"]
+
+[ext_resource type="Script" path="res://scenes/projectiles/Tomate.gd" id="1_tomate"]
+[ext_resource type="Texture2D" uid="uid://nyhcpb0ir8ve" path="res://assets/weapons/tomate_weapon.png" id="2_egker"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_egker"]
+radius = 9.0
+height = 22.0
+
+[node name="Tomate" type="Area2D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_tomate")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_egker")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_egker")
