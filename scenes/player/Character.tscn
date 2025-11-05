@@ -133,8 +133,6 @@ shape = SubResource("RectangleShape2D_jyhfs")
 
 [node name="MovementPlayer" type="Node" parent="."]
 script = ExtResource("2_lqr8u")
-vitesse = 500.0
-acceleration = 140.0
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_pwldm")

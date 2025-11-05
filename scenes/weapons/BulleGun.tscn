@@ -12,8 +12,6 @@ fire_rate = 0.4
 projectile_scene = ExtResource("2_tsij3")
 projectile_speed = 180.0
 damage = 8
-ammo = 200
-max_ammo = 200
 projectile_count = 3
 
 [node name="GunSprite" type="Sprite2D" parent="."]

@@ -4,21 +4,9 @@ class_name BulleGun
 
 @onready var muzzle = $Muzzle
 
-@export var projectile_count: int = 3
-
-func fire(player: Node2D) -> void:
-	if not can_fire():
-		return
-	
-	_can_fire = false
-	
+func spawn_projectile(player: Node2D) -> void:
 	var cible = get_direction_to_mouse()
-	
-	for i in projectile_count:
-		creer_projectile(cible, player)
-	
-	await get_tree().create_timer(fire_rate).timeout
-	_can_fire = true
+	creer_projectile(cible, player)
 
 func get_direction_to_mouse() -> Vector2:
 	var mouse_pos = get_global_mouse_position()

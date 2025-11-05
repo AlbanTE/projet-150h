@@ -7,17 +7,25 @@ class_name Weapon
 @export var projectile_scene: PackedScene
 @export var projectile_speed: float = 800.0
 @export var damage: int = 10
-@export var ammo: int = 10
-@export var max_ammo: int = 10
+@export var projectile_count: int = 1
 
 var _can_fire := true
 
 func can_fire() -> bool:
-	return _can_fire and ammo > 0
+	return _can_fire
 
-func fire(_player: Node2D) -> void:
-	# Implemented by child classes (Gun, Bow, etc.)
+func spawn_projectile(_player: Node2D) -> void:
 	pass
 
-func reload() -> void:
-	ammo = max_ammo
+func fire(player: Node2D) -> void:
+	if not can_fire():
+		return
+	
+	_can_fire = false
+	
+	for i in projectile_count + PlayerStats.additional_projectiles:
+		spawn_projectile(player)
+		await get_tree().create_timer(0.05).timeout
+	
+	await get_tree().create_timer(fire_rate / PlayerStats.attack_speed).timeout
+	_can_fire = true

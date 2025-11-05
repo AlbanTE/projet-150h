@@ -1,10 +1,6 @@
 extends Node
 class_name MovementComponent
 
-# Movement variables
-@export var vitesse: float = 250.0
-@export var acceleration: float = 70.0
-
 # Input directions
 var vect_direction: Vector2 = Vector2.ZERO
 
@@ -16,5 +12,5 @@ func handle_input():
 
 func update_movement(player: CharacterBody2D, _delta):
 	handle_input()
-	player.velocity = player.velocity.move_toward(vect_direction * vitesse, acceleration)
+	player.velocity = player.velocity.move_toward(vect_direction * PlayerStats.vitesse, PlayerStats.acceleration)
 	player.move_and_slide()
