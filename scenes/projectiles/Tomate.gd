@@ -4,7 +4,7 @@ class_name Tomate
 
 # VARIABLES STANDARD
 @export var speed: float = 500.0
-@export var damage: int = 15
+@export var damage: float = 15
 @export var knockback: float = 0.5
 
 # VARIABLES AOE
@@ -95,7 +95,7 @@ func _land():
 	get_tree().create_timer(zone_duration).timeout.connect(queue_free)
 	set_physics_process(false) 
 
-func get_damage() -> int:
+func get_damage() -> float:
 	return damage
 
 func get_knockback() -> float:

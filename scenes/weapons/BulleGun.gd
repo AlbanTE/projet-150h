@@ -22,7 +22,9 @@ func creer_projectile(base_direction: Vector2, player: Node2D):
 	
 	bulle.direction = random_direction
 	bulle.rotation = random_direction.angle()
-	bulle.speed = random_speed
-	bulle.damage = damage
+	bulle.speed = random_speed * PlayerStats.projectile_speed
+	bulle.damage = damage * PlayerStats.damage_multiplier
+	bulle.scale *= Vector2(PlayerStats.projectile_size, PlayerStats.projectile_size)
+	bulle.knockback *= PlayerStats.knockback
 	
 	player.get_tree().current_scene.add_child(bulle)
