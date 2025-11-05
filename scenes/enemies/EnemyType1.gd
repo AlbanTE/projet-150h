@@ -28,9 +28,18 @@ func _apply_death_effects() -> void:
 
 
 func attack() -> void:
-	print(" Slime attacks !")
 	player.take_damage(10)
 	super()
+	
+func follow_player(player_position: Vector2, _delta: float) -> float:
+	var distance_to_player = super(player_position, _delta)
+	
+	if distance_to_player > 4 * $AttackArea/CollisionShape2D.shape.radius:
+		_play_move_animation()
+	else:
+		_play_attack_animation()
+		
+	return distance_to_player
 
 func aim_slime_towards_player():
 	var player_pos = player.global_position
