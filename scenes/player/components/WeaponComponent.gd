@@ -4,7 +4,7 @@ class_name WeaponComponent
 
 @export var starting_weapon_scene: PackedScene
 @export var weapon_scenes: Array[PackedScene] = []
-var current_weapon: Node2D
+var current_weapon: Weapon
 var current_weapon_index: int = 0
 var weapon_scale: float = 1
 
