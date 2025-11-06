@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b2q3t4v5w6x7y"]
+[gd_scene load_steps=6 format=3 uid="uid://b2q3t4v5w6x7y"]
 
 [ext_resource type="Script" path="res://scenes/projectiles/Tomate.gd" id="1_tomate"]
 [ext_resource type="Texture2D" uid="uid://nyhcpb0ir8ve" path="res://assets/weapons/tomate_weapon.png" id="2_egker"]
@@ -6,6 +6,17 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_egker"]
 radius = 9.0
 height = 22.0
+
+[sub_resource type="Gradient" id="Gradient_36ope"]
+offsets = PackedFloat32Array(0, 0.19592476, 0.69905955)
+colors = PackedColorArray(0.9005525, 0.9005525, 0.9005525, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_egker"]
+gradient = SubResource("Gradient_36ope")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [node name="Tomate" type="Area2D"]
 collision_layer = 16
@@ -21,3 +32,10 @@ shape = SubResource("CapsuleShape2D_egker")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5707964
 texture = ExtResource("2_egker")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-0.4999981, 0.5)
+scale = Vector2(0.12109376, 0.11328125)
+color = Color(1, 0.49803922, 0.5176471, 1)
+energy = 0.3
+texture = SubResource("GradientTexture2D_egker")

@@ -26,7 +26,6 @@ script = ExtResource("1_oivon")
 speed = 500.0
 damage = 30.0
 knockback = 1.0
-lifetime = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5707964

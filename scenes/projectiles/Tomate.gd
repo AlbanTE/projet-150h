@@ -68,14 +68,11 @@ func _land():
 	collision_mask = 8  # On active les collisions avec les hurtbox - a voir avec les murs ???
 	
 	# TEXTURE 
-	if has_node("CollisionShape2D"):
-		var collision_shape = get_node("CollisionShape2D")
-		collision_shape.scale = Vector2(landing_area_scale, landing_area_scale)
-	
 	if has_node("Sprite2D"):
 		var sprite = get_node("Sprite2D")
 		sprite.modulate = Color(1.0, 0.3, 0.3, 0.4)
-		sprite.scale = Vector2(landing_area_scale, landing_area_scale)
+		
+	self.scale *= Vector2(landing_area_scale, landing_area_scale)
 	
 	# Forcer un monitoring_enabled pour détecter les overlaps
 	monitoring = true
