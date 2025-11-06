@@ -3,11 +3,10 @@ extends Node2D
 class_name Weapon
 
 @export var weapon_name: String = "Unnamed Weapon"
-@export var fire_rate: float = 0.2
 @export var projectile_scene: PackedScene
-@export var projectile_speed: float = 800.0
-@export var damage: int = 10
 @export var projectile_count: int = 1
+@export var cooldown: float = 0.2
+
 
 var _can_fire := true
 
@@ -27,5 +26,5 @@ func fire(player: Node2D) -> void:
 		spawn_projectile(player)
 		await get_tree().create_timer(0.05).timeout
 	
-	await get_tree().create_timer(fire_rate / PlayerStats.attack_speed).timeout
+	await get_tree().create_timer(cooldown / PlayerStats.attack_speed).timeout
 	_can_fire = true

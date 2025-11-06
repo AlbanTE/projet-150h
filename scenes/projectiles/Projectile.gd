@@ -1,12 +1,10 @@
-# res://projectiles/Bullet.gd
 extends Area2D
-class_name Bullet
+class_name Projectile
 
-@export var speed: float = 300
-@export var damage: int = 10
-@export var knockback: float = 1
-
-var direction: Vector2 = Vector2.RIGHT
+@export var speed: float = 150
+@export var damage: float = 8
+@export var knockback: float = 0.1
+@export var lifetime: float = 1
 
 func _ready():
 	
@@ -17,11 +15,19 @@ func _ready():
 	
 	area_entered.connect(_on_area_entered)
 	body_entered.connect(_on_body_entered)
+	
+	setup_stats()
+	
+	get_tree().create_timer(lifetime).timeout.connect(delete_bullet)
 
-func _physics_process(delta):
-	position += direction * speed * delta
+func setup_stats() -> void:
+	speed *= PlayerStats.projectile_speed
+	damage *= PlayerStats.damage_multiplier
+	knockback *= PlayerStats.knockback
+	scale *= Vector2(PlayerStats.projectile_size, PlayerStats.projectile_size)
+	lifetime *= PlayerStats.duration
 
-func get_damage() -> int:
+func get_damage() -> float:
 	return damage
 
 func get_knockback() -> float:

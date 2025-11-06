@@ -14,11 +14,6 @@ func spawn_projectile(player: Node2D) -> void:
 	if projectile_scene:
 		var tomate: Tomate = projectile_scene.instantiate()
 		tomate.global_position = muzzle.global_position
-		tomate.damage = damage * PlayerStats.damage_multiplier
-		tomate.speed *= PlayerStats.projectile_speed
-		tomate.knockback *= PlayerStats.knockback
-		tomate.scale *= Vector2(PlayerStats.projectile_size, PlayerStats.projectile_size)
+		tomate.setup(target_pos)
 		
 		player.get_tree().current_scene.add_child(tomate)
-		
-		tomate.setup(target_pos)

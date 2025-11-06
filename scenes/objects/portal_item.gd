@@ -17,9 +17,7 @@ func pickup() -> void:
 		apply_effects()
 
 func apply_effects() -> void:
-	PlayerStats.vitesse *= 1.5
-	PlayerStats.attack_speed = 2
-	PlayerStats.knockback = 2
+	PlayerStats.projectile_size *= 2
 	queue_free()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

@@ -69,6 +69,7 @@ func _on_aoe_tick() -> void:
 		if now >= zone_data.next_tick:
 			var damage = zone.get_damage() if zone.has_method("get_damage") else 0
 			if health and damage > 0:
+				# print("AOE: ", damage)
 				health.damage(damage)
 			
 			# Planifier le prochain tick

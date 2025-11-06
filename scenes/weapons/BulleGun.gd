@@ -13,18 +13,14 @@ func get_direction_to_mouse() -> Vector2:
 	return (mouse_pos - muzzle.global_position).normalized()
 
 func creer_projectile(base_direction: Vector2, player: Node2D):
-	var bulle = projectile_scene.instantiate()
+	var bulle: Bulle = projectile_scene.instantiate()
 	bulle.global_position = muzzle.global_position
 	
 	var angle = randf_range(-10.0, 10.0)  
 	var random_direction = base_direction.rotated(deg_to_rad(angle))
-	var random_speed = projectile_speed * randf_range(0.8, 1.2)
+	bulle.speed *= randf_range(0.8, 1.2)
 	
 	bulle.direction = random_direction
 	bulle.rotation = random_direction.angle()
-	bulle.speed = random_speed * PlayerStats.projectile_speed
-	bulle.damage = damage * PlayerStats.damage_multiplier
-	bulle.scale *= Vector2(PlayerStats.projectile_size, PlayerStats.projectile_size)
-	bulle.knockback *= PlayerStats.knockback
-	
+		
 	player.get_tree().current_scene.add_child(bulle)

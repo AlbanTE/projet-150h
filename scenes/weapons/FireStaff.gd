@@ -12,8 +12,5 @@ func spawn_projectile(player: Node2D) -> void:
 		var mouse_pos = get_global_mouse_position()
 		bullet.direction = (mouse_pos - bullet.global_position).normalized()
 		bullet.rotation = bullet.direction.angle()
-		bullet.speed = projectile_speed * PlayerStats.projectile_speed
-		bullet.damage = damage * PlayerStats.damage_multiplier
-		bullet.scale *= Vector2(PlayerStats.projectile_size, PlayerStats.projectile_size)
-		bullet.knockback *= PlayerStats.knockback
+		
 		player.get_tree().current_scene.add_child(bullet)

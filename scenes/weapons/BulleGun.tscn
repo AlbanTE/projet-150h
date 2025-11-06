@@ -8,11 +8,9 @@
 scale = Vector2(2, 2)
 script = ExtResource("1_13jah")
 weapon_name = "Bulle Gun"
-fire_rate = 0.4
 projectile_scene = ExtResource("2_tsij3")
-projectile_speed = 180.0
-damage = 8
 projectile_count = 3
+cooldown = 0.5
 
 [node name="GunSprite" type="Sprite2D" parent="."]
 visible = false

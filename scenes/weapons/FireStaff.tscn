@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://djhulh5j7qa4i"]
+
+[ext_resource type="Script" uid="uid://mo35c7bib8fh" path="res://scenes/weapons/FireStaff.gd" id="1_swko5"]
+[ext_resource type="PackedScene" uid="uid://dqtwli6nqof26" path="res://scenes/projectiles/Fireball.tscn" id="2_v10ha"]
+[ext_resource type="Texture2D" uid="uid://dy1g6hnlridox" path="res://assets/weapons/shot gun.png" id="3_lqeq7"]
+
+[node name="Gun" type="Node2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_swko5")
+projectile_scene = ExtResource("2_v10ha")
+
+[node name="GunSprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(8, 0)
+texture = ExtResource("3_lqeq7")
+
+[node name="OldMuzzle" type="Marker2D" parent="."]
+position = Vector2(22, -3)
+
+[node name="Muzzle" type="Marker2D" parent="."]

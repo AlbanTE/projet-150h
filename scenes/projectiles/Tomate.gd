@@ -1,18 +1,12 @@
 # res://projectiles/Tomate.gd
-extends Area2D
+extends Projectile
 class_name Tomate
-
-# VARIABLES STANDARD
-@export var speed: float = 500.0
-@export var damage: float = 15
-@export var knockback: float = 0.5
 
 # VARIABLES AOE
 @export var max_arc_height: float = 150.0
 @export var min_arc_height: float = 30.0
 @export var landing_area_scale: float = 5.0 # Taille de la zone AOE - modifier avec composant stats
 @export var damage_interval: float = 0.5 # Ticks
-@export var zone_duration: float = 3.0 # Duration - modifier avec composant stat
 
 var start_position: Vector2
 var target_position: Vector2
@@ -25,11 +19,14 @@ func _ready():
 	collision_layer = 16
 	collision_mask = 0  # Pas de collision du projectile (AOE)
 	start_position = global_position
+	
+	setup_stats()
+	damage_interval /= PlayerStats.attack_speed
 
 func setup(target_pos: Vector2):
 	target_position = target_pos
 	start_position = global_position
-	
+		
 	# Avoir un joli arc de cercle
 	var distance = start_position.distance_to(target_position)
 	var distance_ratio = clamp(distance / 500.0, 0.0, 1.0)
@@ -64,7 +61,8 @@ func _handle_flight(delta):
 func _land():
 	is_flying = false
 	global_position = target_position
-	rotation = 0
+	
+	rotation = (target_position-start_position).angle()
 	
 	add_to_group("aoe")
 	collision_mask = 8  # On active les collisions avec les hurtbox - a voir avec les murs ???
@@ -92,11 +90,5 @@ func _land():
 			area._on_area_entered(self)
 	
 	# AUTO DESTRUCTION (DURATION)
-	get_tree().create_timer(zone_duration).timeout.connect(queue_free)
+	get_tree().create_timer(lifetime).timeout.connect(queue_free)
 	set_physics_process(false) 
-
-func get_damage() -> float:
-	return damage
-
-func get_knockback() -> float:
-	return knockback
