@@ -12,5 +12,5 @@ func handle_input():
 
 func update_movement(player: CharacterBody2D, _delta):
 	handle_input()
-	player.velocity = player.velocity.move_toward(vect_direction * PlayerStats.vitesse, PlayerStats.acceleration)
+	player.velocity = player.velocity.move_toward(vect_direction * PlayerStats.get_vitesse(), PlayerStats.get_acceleration())
 	player.move_and_slide()

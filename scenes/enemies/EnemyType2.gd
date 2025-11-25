@@ -4,15 +4,18 @@ class_name EnemyType2
 var activated: bool = false
 
 func _apply_damage_effects(amount: int) -> void:
-	print("EnemyType2 a pris ", amount, " dégats — HP:", health_component.current_health)
+	#print("EnemyType2 a pris ", amount, " dégats — HP:", health_component.current_health)
+	pass
 
 
 func _apply_death_effects() -> void:
-	print("EnemyType2 mort — trucs a faire.")
+	#print("EnemyType2 mort — trucs a faire.")
+	pass
 
 
 func attack() -> void:
-	print("EnemyType2 attacks !")
+	#print("EnemyType2 attacks !")
+	pass
 
 func _process(_delta: float) -> void:
 	if not activated:

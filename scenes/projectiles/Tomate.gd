@@ -21,7 +21,7 @@ func _ready():
 	start_position = global_position
 	
 	setup_stats()
-	damage_interval /= PlayerStats.attack_speed
+	damage_interval /= PlayerStats.get_attack_speed()
 
 func setup(target_pos: Vector2):
 	target_position = target_pos

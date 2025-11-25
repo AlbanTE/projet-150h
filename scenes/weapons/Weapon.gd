@@ -22,9 +22,9 @@ func fire(player: Node2D) -> void:
 	
 	_can_fire = false
 	
-	for i in projectile_count + PlayerStats.additional_projectiles:
+	for i in projectile_count + PlayerStats.get_additional_projectiles():
 		spawn_projectile(player)
 		await get_tree().create_timer(0.05).timeout
 	
-	await get_tree().create_timer(cooldown / PlayerStats.attack_speed).timeout
+	await get_tree().create_timer(cooldown / PlayerStats.get_attack_speed()).timeout
 	_can_fire = true

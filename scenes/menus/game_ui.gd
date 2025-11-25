@@ -24,6 +24,7 @@ func _on_resume_button_pressed() -> void:
 
 func _on_restart_button_pressed() -> void:
 	resume()
+	PlayerStats.reset()
 	get_tree().reload_current_scene()
 
 

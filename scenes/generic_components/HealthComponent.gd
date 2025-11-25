@@ -39,7 +39,7 @@ func _ready() -> void:
 func damage(amount: int) -> void:
 	if amount <= 0:
 		return
-	print("HealthComponent: -", amount, " HP (", current_health, " -> ", max(0, current_health - amount), ")")
+	#print("HealthComponent: -", amount, " HP (", current_health, " -> ", max(0, current_health - amount), ")")
 	current_health = max(0, current_health - amount)
 
 

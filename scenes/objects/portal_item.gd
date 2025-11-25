@@ -17,7 +17,18 @@ func pickup() -> void:
 		apply_effects()
 
 func apply_effects() -> void:
-	PlayerStats.projectile_size *= 2
+	var mod = PlayerStats.add_modifier_to(
+		PlayerStats.damage_multiplier,
+		Stat.OperationTypes.ADD,
+		10,
+		self
+	)
+	var mod2 = PlayerStats.add_modifier_to(
+		PlayerStats.damage_multiplier,
+		Stat.OperationTypes.MULT,
+		0.25,
+		self
+	)
 	queue_free()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
