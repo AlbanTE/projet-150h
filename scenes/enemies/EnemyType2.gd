@@ -10,7 +10,7 @@ func _apply_damage_effects(amount: int) -> void:
 
 func _apply_death_effects() -> void:
 	#print("EnemyType2 mort — trucs a faire.")
-	pass
+	super()
 
 
 func attack() -> void:

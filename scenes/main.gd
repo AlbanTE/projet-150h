@@ -16,6 +16,9 @@ var tile_builder: CustomTileManager
 @export var dungeon_generator: DungeonGeneratorScript
 @export var _seed: int = -1
 
+func upgrade():
+	$CanvasLayer/Reward.generate_upgrade()
+
 func _ready():
 	seed(_seed)
 	tile_builder = CustomTileManager.new()

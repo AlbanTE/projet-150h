@@ -87,4 +87,24 @@ func reset():
 		knockback, duration
 	]:
 		s.reset()
-	
+
+func generate_random_buffs(n: int) -> Array[StatModifier]:
+	var buffs: Array[StatModifier] = []
+	var available_stats = [
+		vitesse, acceleration, attack_speed, additional_projectiles,
+		damage_multiplier, projectile_size, projectile_speed,
+		knockback, duration
+	]
+	for i in n:
+		var stat = available_stats.pick_random()
+		available_stats.erase(stat)
+		if randf() > 0.5:
+			var mod = Stat.OperationTypes.ADD
+			var val = randi() % 20
+			buffs.append(StatModifier.new(stat, mod, val))
+		else:
+			var mod = Stat.OperationTypes.MULT
+			var val = snappedf(randf() / 2, 0.01)
+			buffs.append(StatModifier.new(stat, mod, val))
+			
+	return buffs

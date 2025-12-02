@@ -25,7 +25,7 @@ func _apply_damage_effects(_amount: int) -> void:
 
 func _apply_death_effects() -> void:
 	#print("Slime mort — trucs a faire.")
-	pass
+	super()
 
 
 func attack() -> void:

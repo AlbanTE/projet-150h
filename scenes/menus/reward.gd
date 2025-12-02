@@ -10,6 +10,13 @@ var reward_list: Array[PlayerStats.StatModifier] = [
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	update_buttons()
+
+func update_buttons() -> void:
+	var children = $VBoxContainer.get_children()
+	for child in children:
+		child.queue_free()
+	
 	for sm in reward_list:
 		var button: StatModifierButton = StatModifierButtonScene.instantiate()
 		button.modifier = sm
@@ -17,16 +24,11 @@ func _ready() -> void:
 		button.connect("upgrade_chosen", close)
 		$VBoxContainer.add_child(button)
 
-func _input(event):
-	if not event is InputEventKey or not event.pressed:
-		return
-	
-	match event.keycode:
-		KEY_U:
-			if visible:
-				close()
-			else:
-				open()
+func generate_upgrade() -> void:
+	reward_list.clear()
+	reward_list = PlayerStats.generate_random_buffs(3)
+	update_buttons()
+	open()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

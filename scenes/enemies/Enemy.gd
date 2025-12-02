@@ -41,6 +41,8 @@ var navigation_agent: NavigationAgent2D
 var attack_area: Area2D
 var animated_sprite: AnimatedSprite2D
 
+const PortalDrop = preload("res://scenes/objects/portal_item.tscn")
+
 
 # ────────────────
 # Setup
@@ -246,7 +248,11 @@ func _apply_knockback(direction: Vector2, amount: float) -> void:
 	
 
 func _apply_death_effects() -> void:
-	pass
+	var portal: Portal = PortalDrop.instantiate()
+	portal.global_position = self.global_position
+	get_parent().call_deferred("add_child", portal)
+	portal.portal_pickup.connect(get_parent().upgrade)
+
 
 func attack() -> void:
 	get_tree().create_timer(attack_cooldown).timeout.connect(func(): if can_attack: attack())

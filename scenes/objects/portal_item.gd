@@ -1,12 +1,13 @@
 extends CharacterBody2D
-
+class_name Portal
 
 var player: Player = null
 var following: bool = false
 
-
 var pickup_kill_range: int = 30
 var pickup_speed: int = 200
+
+signal portal_pickup
 
 func pickup() -> void:
 	var dist = self.global_position.distance_to(player.global_position)
@@ -17,18 +18,7 @@ func pickup() -> void:
 		apply_effects()
 
 func apply_effects() -> void:
-	var mod = PlayerStats.add_modifier_to(
-		PlayerStats.damage_multiplier,
-		Stat.OperationTypes.ADD,
-		10,
-		self
-	)
-	var mod2 = PlayerStats.add_modifier_to(
-		PlayerStats.damage_multiplier,
-		Stat.OperationTypes.MULT,
-		0.25,
-		self
-	)
+	emit_signal("portal_pickup")
 	queue_free()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
