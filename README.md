@@ -7,10 +7,17 @@ Projet de 150h de développement d'un jeu vidéo 2D de type roguelike/dungeon cr
 - Movement with WASD keys
 - Health system with component-based architecture
 
+### 3 item rule
+- 3 weapons
+- 3 spells
+- 3 objects (passives)
+
+3 levels with final boss at the end of the last
+10 stat upgrades per level
+
 ## Controls
 - **WASD**: Move player
 - **G**: Test enemy system with pathfinding
-- **H**: Kill nearest enemy
 - **K**: Generate dungeon with navigation (set up only with BW dungeon)
 
 
@@ -20,3 +27,4 @@ Projet de 150h de développement d'un jeu vidéo 2D de type roguelike/dungeon cr
 - https://snowhex.itch.io/dungeon-gathering
 - https://xyezawr.itch.io/gif-free-pixel-effects-pack-5-blood-effects
 - https://toffeecraft.itch.io/cat-pack-halloween-edition
+- https://pixelserial.itch.io/rpg-pixel-art-chests

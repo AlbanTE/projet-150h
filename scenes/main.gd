@@ -17,7 +17,8 @@ var tile_builder: CustomTileManager
 @export var _seed: int = -1
 
 func upgrade():
-	$CanvasLayer/Reward.generate_upgrade()
+	$CanvasLayer/GameUI.openRewardMenu()
+	
 
 func _ready():
 	seed(_seed)
@@ -93,6 +94,8 @@ func build_dungeon_area():
 			if dungeon[y][x] == DungeonGenerator.Tile.PLAYER:
 				player_spawn = Vector2i(x, y)
 				break
+				
+	
 
 	# Move player to spawn
 	teleport_player_to_spawn(player_spawn, offset)

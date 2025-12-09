@@ -5,16 +5,22 @@
 [ext_resource type="Script" uid="uid://brthq2u0wfrla" path="res://scenes/menus/stat_modifier_button.gd" id="2_kfry2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8kvrh"]
-font_size = 128
+font_size = 96
 outline_size = 10
 outline_color = Color(0.71176124, 0.32632545, 0.89423114, 1)
 
 [node name="Reward" type="Control"]
 process_mode = 3
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -400.0
+offset_right = 400.0
+offset_bottom = 400.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kfry2")
@@ -53,7 +59,6 @@ theme_override_constants/separation = 50
 alignment = 1
 
 [node name="StatModifierButton" type="Button" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "MANUAL"
 script = ExtResource("2_kfry2")
@@ -61,7 +66,6 @@ custom_text = "MANUAL1"
 metadata/_custom_type_script = "uid://brthq2u0wfrla"
 
 [node name="StatModifierButton2" type="Button" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "MANUAL"
 script = ExtResource("2_kfry2")
@@ -69,7 +73,6 @@ custom_text = "MANUAL2"
 metadata/_custom_type_script = "uid://brthq2u0wfrla"
 
 [node name="StatModifierButton3" type="Button" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "MANUAL"
 script = ExtResource("2_kfry2")

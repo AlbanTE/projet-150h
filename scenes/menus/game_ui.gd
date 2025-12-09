@@ -1,28 +1,59 @@
 extends Control
 
+var isRewardMenuOpen: bool = false
+var isPauseMenuOpen: bool = false
+
 func resume():
 	get_tree().paused = false
-	$AnimationPlayer.play_backwards("blur")
 
 func pause():
 	get_tree().paused = true
-	$AnimationPlayer.play("blur")
+
+func openPauseMenu():
+	$AnimationPlayer.play("blurPause")
+	isPauseMenuOpen = true
+
+func closePauseMenu():
+	$AnimationPlayer.play_backwards("blurPause")
+	isPauseMenuOpen = false
+
+func openRewardMenu():
+	isRewardMenuOpen = true
+	$InGameMenu/Reward.generate_upgrade()
+	$AnimationPlayer.play("blurReward")
+
+func closeRewardMenu():
+	$AnimationPlayer.play_backwards("blurReward")
+	isRewardMenuOpen = false
+
+func _ready() -> void:
+	$InGameMenu/Reward.connect("close_reward_menu", closeRewardMenu)
 
 func process_input():
-	if Input.is_action_just_pressed("escape") and get_tree().paused == false:
-		pause()
-	elif Input.is_action_just_pressed("escape") and get_tree().paused == true:
-		resume()
-	
+	if Input.is_action_just_pressed("escape"):
+		if isRewardMenuOpen and isPauseMenuOpen:
+			closePauseMenu()
+		elif isPauseMenuOpen:
+			closePauseMenu()
+			resume()
+		elif isRewardMenuOpen:
+			openPauseMenu()
+		else:
+			pause()
+			openPauseMenu()
+
 func _process(_delta: float) -> void:
 	process_input()
 
 
 func _on_resume_button_pressed() -> void:
-	resume()
+	closePauseMenu()
+	if not isRewardMenuOpen:
+		resume()
 
 
 func _on_restart_button_pressed() -> void:
+	closePauseMenu()
 	resume()
 	PlayerStats.reset()
 	get_tree().reload_current_scene()

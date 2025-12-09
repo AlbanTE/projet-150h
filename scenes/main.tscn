@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://x6rvsc2ejisq"]
+[gd_scene load_steps=69 format=3 uid="uid://x6rvsc2ejisq"]
 
 [ext_resource type="Script" uid="uid://epuexnwso7gw" path="res://scenes/dungeon_generators/tinykeep.gd" id="2_85g3d"]
 [ext_resource type="Texture2D" uid="uid://lvds0l4f8rww" path="res://assets/dungeon-gathering-assets/Set 1.0.png" id="2_tipki"]
@@ -7,7 +7,6 @@
 [ext_resource type="Script" uid="uid://bo3tbcvkj0tx6" path="res://scenes/main.gd" id="6_main"]
 [ext_resource type="Texture2D" uid="uid://cb3w81afn5w4k" path="res://assets/dungeon-gathering-assets/Set 1.png" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://b2uefmga0icjy" path="res://scenes/objects/portal_item.tscn" id="9_85g3d"]
-[ext_resource type="PackedScene" uid="uid://clip5s2cpxjs6" path="res://scenes/menus/reward.tscn" id="9_choun"]
 [ext_resource type="PackedScene" uid="uid://biarr6h25aa4" path="res://scenes/menus/game_ui.tscn" id="12_eb6dy"]
 [ext_resource type="Script" uid="uid://h2y5bjiifow" path="res://scenes/fps_counter.gd" id="12_trceg"]
 
@@ -1449,7 +1448,7 @@ color = Color(0.0142752165, 0.014275219, 0.014275211, 1)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource("12_trceg")
 
-[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("12_eb6dy")]
+[node name="GameUI" parent="CanvasLayer" instance=ExtResource("12_eb6dy")]
 light_mask = 1024
 visibility_layer = 1024
 z_as_relative = false
@@ -1462,9 +1461,6 @@ offset_left = -40.0
 offset_bottom = 13.0
 grow_horizontal = 0
 theme_override_font_sizes/font_size = 64
-
-[node name="Reward" parent="CanvasLayer" instance=ExtResource("9_choun")]
-visible = false
 
 [node name="PortalItem" parent="." instance=ExtResource("9_85g3d")]
 position = Vector2(249, 0)

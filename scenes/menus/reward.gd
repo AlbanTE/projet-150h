@@ -8,6 +8,8 @@ var reward_list: Array[PlayerStats.StatModifier] = [
 	PlayerStats.StatModifier.new(PlayerStats.projectile_size, Stat.OperationTypes.MULT, 0.15)
 ]
 
+signal close_reward_menu
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	update_buttons()
@@ -41,3 +43,4 @@ func open():
 func close():
 	visible = false
 	get_tree().paused = false
+	emit_signal("close_reward_menu")
