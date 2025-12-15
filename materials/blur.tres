@@ -3,5 +3,6 @@
 [ext_resource type="Shader" uid="uid://bhx5ea1uupf6s" path="res://shaders/blur.gdshader" id="1_nrgi3"]
 
 [resource]
+resource_local_to_scene = true
 shader = ExtResource("1_nrgi3")
-shader_parameter/amount = 2.1100001
+shader_parameter/amount = 0.0

@@ -4,27 +4,32 @@ var isRewardMenuOpen: bool = false
 var isPauseMenuOpen: bool = false
 
 func resume():
+	$BlurAnimationPlayer.play_backwards("blur")
 	get_tree().paused = false
 
 func pause():
 	get_tree().paused = true
+	$BlurAnimationPlayer.play("blur")
 
 func openPauseMenu():
-	$AnimationPlayer.play("blurPause")
+	$MenuAnimationPlayer.play("pause")
 	isPauseMenuOpen = true
 
 func closePauseMenu():
-	$AnimationPlayer.play_backwards("blurPause")
+	$MenuAnimationPlayer.play_backwards("pause")
 	isPauseMenuOpen = false
 
 func openRewardMenu():
+	pause()
 	isRewardMenuOpen = true
 	$InGameMenu/Reward.generate_upgrade()
-	$AnimationPlayer.play("blurReward")
+	$MenuAnimationPlayer.play("reward")
 
 func closeRewardMenu():
-	$AnimationPlayer.play_backwards("blurReward")
+	$MenuAnimationPlayer.play_backwards("reward")
 	isRewardMenuOpen = false
+	if not isPauseMenuOpen:
+		resume()
 
 func _ready() -> void:
 	$InGameMenu/Reward.connect("close_reward_menu", closeRewardMenu)
