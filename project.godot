@@ -15,9 +15,14 @@ run/main_scene="uid://x6rvsc2ejisq"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="res://audio/default_bus_layout.tres"
+
 [autoload]
 
 PlayerStats="*res://scenes/player/player_stats.gd"
+AudioGlobal="*res://scenes/audio/audio_global.gd"
 
 [display]
 

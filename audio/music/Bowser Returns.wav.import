@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://p6l2vjrvyudx"
+path="res://.godot/imported/Bowser Returns.wav-2ae60561d41f7f2bbbc5d84a22791320.sample"
+
+[deps]
+
+source_file="res://audio/music/Bowser Returns.wav"
+dest_files=["res://.godot/imported/Bowser Returns.wav-2ae60561d41f7f2bbbc5d84a22791320.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

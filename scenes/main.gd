@@ -7,6 +7,7 @@ const DungeonGeneratorScript = preload("res://scenes/dungeon_generators/DungeonG
 const EnemyType1Scene = preload("res://scenes/enemies/EnemyType1.tscn")
 const EnemyType2Scene = preload("res://scenes/enemies/EnemyType2.tscn")
 
+
 const ENEMY_TYPE_COUNT = 2
 
 @onready var player = $Character
@@ -16,14 +17,19 @@ var tile_builder: CustomTileManager
 @export var dungeon_generator: DungeonGeneratorScript
 @export var _seed: int = -1
 
+func advance_level() -> void:
+	AudioGlobal.current_level = (AudioGlobal.current_level % 4) + 1
+	
 func upgrade():
 	$CanvasLayer/GameUI.openRewardMenu()
 	
-
 func _ready():
 	seed(_seed)
 	tile_builder = CustomTileManager.new()
 	build_dungeon_area()
+	
+	# Audio init
+	AudioGlobal.current_level = 1
 
 func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	var enemy: Enemy = null
@@ -66,10 +72,10 @@ func _input(event):
 	match event.keycode:
 		KEY_G:
 			spawn_enemy_batch()
-		KEY_H:
-			kill_nearest_enemy()
 		KEY_K:
 			build_dungeon_area()
+		KEY_M:
+			advance_level() 
 
 func build_dungeon_area():
 	print("Building dungeon...")
@@ -114,21 +120,3 @@ func teleport_player_to_spawn(spawn_tile: Vector2i, offset: Vector2i) -> void:
 	world_pos += (tile_size * ground_layer.scale) / 2  # center of tile
 
 	player.global_position = world_pos
-
-	
-func kill_nearest_enemy():
-	if not player:
-		return
-	
-	var nearest_enemy = null
-	var nearest_distance = INF
-	
-	for child in get_children():
-		if child.has_method("take_damage") and child != player and child.is_alive:
-			var distance = player.global_position.distance_to(child.global_position)
-			if distance < nearest_distance:
-				nearest_distance = distance
-				nearest_enemy = child
-	
-	if nearest_enemy:
-		nearest_enemy.die()

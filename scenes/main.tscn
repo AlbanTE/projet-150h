@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://x6rvsc2ejisq"]
+[gd_scene load_steps=75 format=3 uid="uid://x6rvsc2ejisq"]
 
 [ext_resource type="Script" uid="uid://epuexnwso7gw" path="res://scenes/dungeon_generators/tinykeep.gd" id="2_85g3d"]
 [ext_resource type="Texture2D" uid="uid://lvds0l4f8rww" path="res://assets/dungeon-gathering-assets/Set 1.0.png" id="2_tipki"]
@@ -7,8 +7,13 @@
 [ext_resource type="Script" uid="uid://bo3tbcvkj0tx6" path="res://scenes/main.gd" id="6_main"]
 [ext_resource type="Texture2D" uid="uid://cb3w81afn5w4k" path="res://assets/dungeon-gathering-assets/Set 1.png" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://b2uefmga0icjy" path="res://scenes/objects/portal_item.tscn" id="9_85g3d"]
+[ext_resource type="Script" uid="uid://cslw6gu4nq3wx" path="res://scenes/audio/audio_manager.gd" id="10_choun"]
+[ext_resource type="AudioStream" uid="uid://besjlurgb73d4" path="res://audio/music/HeatOfBattle.mp3" id="11_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://biarr6h25aa4" path="res://scenes/menus/game_ui.tscn" id="12_eb6dy"]
+[ext_resource type="AudioStream" uid="uid://p6l2vjrvyudx" path="res://audio/music/Bowser Returns.wav" id="12_jbj1t"]
 [ext_resource type="Script" uid="uid://h2y5bjiifow" path="res://scenes/fps_counter.gd" id="12_trceg"]
+[ext_resource type="AudioStream" uid="uid://be2smutcqp237" path="res://audio/music/Abnormal Circumstances.mp3" id="13_a8y0u"]
+[ext_resource type="AudioStream" uid="uid://c1yasffc8t5be" path="res://audio/music/Incoming Boss.wav" id="14_dp3eg"]
 
 [sub_resource type="Resource" id="Resource_choun"]
 script = ExtResource("2_85g3d")
@@ -1418,6 +1423,47 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_tipki")
 
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_jkv2x"]
+clip_count = 4
+clip_0/name = &"1"
+clip_0/stream = ExtResource("11_jkv2x")
+clip_0/auto_advance = 0
+clip_1/name = &"2"
+clip_1/stream = ExtResource("12_jbj1t")
+clip_1/auto_advance = 0
+clip_2/name = &"3"
+clip_2/stream = ExtResource("13_a8y0u")
+clip_2/auto_advance = 0
+clip_3/name = &"4"
+clip_3/stream = ExtResource("14_dp3eg")
+clip_3/auto_advance = 0
+_transitions = {
+Vector2i(0, 1): {
+"fade_beats": 1.0,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+},
+Vector2i(1, 2): {
+"fade_beats": 1.0,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+},
+Vector2i(2, 3): {
+"fade_beats": 1.0,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+},
+Vector2i(3, 0): {
+"fade_beats": 1.0,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+}
+}
+
 [node name="main" type="Node2D" node_paths=PackedStringArray("ground_layer", "wall_layer")]
 script = ExtResource("6_main")
 ground_layer = NodePath("TileSets/dungeon_terrain")
@@ -1464,3 +1510,12 @@ theme_override_font_sizes/font_size = 64
 
 [node name="PortalItem" parent="." instance=ExtResource("9_85g3d")]
 position = Vector2(249, 0)
+
+[node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("music_player")]
+script = ExtResource("10_choun")
+music_player = NodePath("backgroundPlayer")
+
+[node name="backgroundPlayer" type="AudioStreamPlayer" parent="AudioManager"]
+stream = SubResource("AudioStreamInteractive_jkv2x")
+volume_db = -20.0
+autoplay = true
