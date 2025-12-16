@@ -7,7 +7,9 @@ class_name Player
 @onready var movement_component: MovementComponent = $MovementPlayer
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var weapon_component: WeaponComponent = $WeaponComponent
-@onready var shield_spell_component: Node = $ShieldSpellComponent
+@onready var shield_spell_component: ShieldSpellComponent = $ShieldSpellComponent
+@onready var inventory_manager: InventoryManager = $InventoryManager
+
 # ────────────────
 # Player state
 # ────────────────
@@ -28,8 +30,6 @@ func _ready() -> void:
 
 	print("Player ready with %d HP" % health_component.current_health)
 	
-	# Shield spell is automatically set up by ShieldSpellComponent
-		
 func _physics_process(delta: float) -> void:
 	if not is_alive:
 		return

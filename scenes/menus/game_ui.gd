@@ -5,6 +5,15 @@ var isPauseMenuOpen: bool = false
 
 var player: Player
 
+func update_items():
+	for i in range(3):
+		if i == player.inventory_manager.inventory.size():
+			return
+		var item = player.inventory_manager.inventory[i]
+		if item:
+			var tex = get_node("GridContainer/Item" + str(i+1))
+			tex.set_item(item)
+
 func update_weapon():
 	$ActiveWeapon/TextureRect.texture = player.weapon_component.current_weapon.sprite
 
@@ -43,6 +52,8 @@ func _ready() -> void:
 		player = players[0] as Player
 	else:
 		push_error("No player found")
+	
+	update_items()
 
 func process_input():
 	if Input.is_action_just_pressed("escape"):
