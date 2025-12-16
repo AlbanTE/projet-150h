@@ -14,6 +14,15 @@ class_name Player
 var is_alive: bool = true
 
 # ────────────────
+# Audio streams
+# ────────────────
+@onready var damage_stream: Node = $Audio_CatScream
+
+func play_sound_by_name(audio_name : String):
+	if audio_name == "Damaged":
+		damage_stream.play()
+
+# ────────────────
 # Main logic
 # ────────────────
 func _ready() -> void:
@@ -71,6 +80,7 @@ func take_damage(damage: int) -> void:
 	if not is_alive or not health_component:
 		return
 	health_component.damage(damage)
+	play_sound_by_name("Damaged")
 
 
 func heal(amount: int) -> void:
