@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://biarr6h25aa4"]
+[gd_scene load_steps=17 format=3 uid="uid://biarr6h25aa4"]
 
 [ext_resource type="Script" uid="uid://djkc2jhnmrfc0" path="res://scenes/menus/game_ui.gd" id="1_3quv2"]
 [ext_resource type="Material" uid="uid://df5t35brb3oqk" path="res://materials/blur.tres" id="1_6v45u"]
@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://cri857iigtf4x" path="res://assets/UI/ButtonDefault.tres" id="3_030jj"]
 [ext_resource type="PackedScene" uid="uid://clip5s2cpxjs6" path="res://scenes/menus/reward.tscn" id="5_h8aso"]
 [ext_resource type="Texture2D" uid="uid://b50hi8lh6aryp" path="res://assets/weapons/lance-tomate-fixed.png" id="6_ivene"]
+[ext_resource type="Texture2D" uid="uid://cl50nk3spxr4b" path="res://assets/UI/Pxiel Art UI borders.png" id="6_v144c"]
 [ext_resource type="PackedScene" uid="uid://buf15ot11ktdr" path="res://scenes/menus/ItemBox.tscn" id="7_fhv6m"]
 
 [sub_resource type="Animation" id="Animation_v144c"]
@@ -178,21 +179,17 @@ _data = {
 &"reward": SubResource("Animation_ivene")
 }
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivene"]
-content_margin_left = 15.0
-content_margin_top = 15.0
-content_margin_right = 15.0
-content_margin_bottom = 15.0
-bg_color = Color(0, 0, 0, 0.19607843)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-corner_detail = 3
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhv6m"]
+atlas = ExtResource("6_v144c")
+region = Rect2(16, 144, 96, 96)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h8i80"]
+texture = SubResource("AtlasTexture_fhv6m")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+draw_center = false
 
 [node name="gameUI" type="Control"]
 process_mode = 3
@@ -318,7 +315,7 @@ offset_left = 20.0
 offset_top = 20.0
 offset_right = 320.0
 offset_bottom = 320.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_ivene")
+theme_override_styles/panel = SubResource("StyleBoxTexture_h8i80")
 
 [node name="TextureRect" type="TextureRect" parent="ActiveWeapon"]
 layout_mode = 2

@@ -73,4 +73,5 @@ Button/styles/focus = SubResource("StyleBoxTexture_fytsh")
 Button/styles/hover = SubResource("StyleBoxTexture_03x42")
 Button/styles/normal = SubResource("StyleBoxTexture_u7rp0")
 Button/styles/pressed = SubResource("StyleBoxTexture_46rww")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_fytsh")
 TooltipLabel/font_sizes/font_size = 32

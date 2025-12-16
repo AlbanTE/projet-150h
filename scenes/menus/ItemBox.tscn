@@ -1,25 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://buf15ot11ktdr"]
+[gd_scene load_steps=7 format=3 uid="uid://buf15ot11ktdr"]
 
 [ext_resource type="Script" uid="uid://c5n4e14qsing4" path="res://scenes/menus/item_box.gd" id="1_pgwhw"]
 [ext_resource type="Texture2D" uid="uid://bsounugeqa72m" path="res://assets/textures/RPG Chests.png" id="1_tgy1x"]
-[ext_resource type="Theme" uid="uid://cri857iigtf4x" path="res://assets/UI/ButtonDefault.tres" id="1_wcfec"]
+[ext_resource type="Texture2D" uid="uid://cl50nk3spxr4b" path="res://assets/UI/Pxiel Art UI borders.png" id="1_wcfec"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pc18a"]
-content_margin_left = 15.0
-content_margin_top = 15.0
-content_margin_right = 15.0
-content_margin_bottom = 15.0
-bg_color = Color(0.6, 0.6, 0.6, 0)
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcfec"]
+atlas = ExtResource("1_wcfec")
+region = Rect2(160, 272, 96, 96)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xdum0"]
+texture = SubResource("AtlasTexture_wcfec")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
 draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-corner_detail = 3
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g57ao"]
 atlas = ExtResource("1_tgy1x")
@@ -29,8 +24,7 @@ region = Rect2(231, 8, 18, 16)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Forgot to put tootip"
-theme = ExtResource("1_wcfec")
-theme_override_styles/panel = SubResource("StyleBoxFlat_pc18a")
+theme_override_styles/panel = SubResource("StyleBoxTexture_xdum0")
 script = ExtResource("1_pgwhw")
 
 [node name="TextureRect" type="TextureRect" parent="."]
