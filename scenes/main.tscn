@@ -8,12 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://cb3w81afn5w4k" path="res://assets/dungeon-gathering-assets/Set 1.png" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://b2uefmga0icjy" path="res://scenes/objects/portal_item.tscn" id="9_85g3d"]
 [ext_resource type="Script" uid="uid://cslw6gu4nq3wx" path="res://scenes/audio/audio_manager.gd" id="10_choun"]
-[ext_resource type="AudioStream" uid="uid://besjlurgb73d4" path="res://audio/music/HeatOfBattle.mp3" id="11_jkv2x"]
+[ext_resource type="AudioStream" uid="uid://cvkt6vm4uedhv" path="res://audio/music/Abnormal Circumstances.wav" id="11_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://biarr6h25aa4" path="res://scenes/menus/game_ui.tscn" id="12_eb6dy"]
-[ext_resource type="AudioStream" uid="uid://p6l2vjrvyudx" path="res://audio/music/Bowser Returns.wav" id="12_jbj1t"]
+[ext_resource type="AudioStream" uid="uid://clmx8bx6r8imf" path="res://audio/music/Bowser Returns.wav" id="12_jbj1t"]
 [ext_resource type="Script" uid="uid://h2y5bjiifow" path="res://scenes/fps_counter.gd" id="12_trceg"]
-[ext_resource type="AudioStream" uid="uid://be2smutcqp237" path="res://audio/music/Abnormal Circumstances.mp3" id="13_a8y0u"]
-[ext_resource type="AudioStream" uid="uid://c1yasffc8t5be" path="res://audio/music/Incoming Boss.wav" id="14_dp3eg"]
+[ext_resource type="AudioStream" uid="uid://cboh7or3uuot1" path="res://audio/music/HeatOfBattle.wav" id="13_jkv2x"]
+[ext_resource type="AudioStream" uid="uid://bymxdj3rnqutj" path="res://audio/music/Incoming Boss.wav" id="14_dp3eg"]
 
 [sub_resource type="Resource" id="Resource_choun"]
 script = ExtResource("2_85g3d")
@@ -1426,20 +1426,20 @@ sources/0 = SubResource("TileSetAtlasSource_tipki")
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_jkv2x"]
 clip_count = 4
 clip_0/name = &"1"
-clip_0/stream = ExtResource("11_jkv2x")
+clip_0/stream = ExtResource("11_a8y0u")
 clip_0/auto_advance = 0
 clip_1/name = &"2"
 clip_1/stream = ExtResource("12_jbj1t")
 clip_1/auto_advance = 0
 clip_2/name = &"3"
-clip_2/stream = ExtResource("13_a8y0u")
+clip_2/stream = ExtResource("13_jkv2x")
 clip_2/auto_advance = 0
 clip_3/name = &"4"
 clip_3/stream = ExtResource("14_dp3eg")
 clip_3/auto_advance = 0
 _transitions = {
 Vector2i(0, 1): {
-"fade_beats": 1.0,
+"fade_beats": 10.0,
 "fade_mode": 3,
 "from_time": 0,
 "to_time": 0
@@ -1512,10 +1512,12 @@ theme_override_font_sizes/font_size = 64
 position = Vector2(249, 0)
 
 [node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("music_player")]
+process_mode = 3
 script = ExtResource("10_choun")
 music_player = NodePath("backgroundPlayer")
 
 [node name="backgroundPlayer" type="AudioStreamPlayer" parent="AudioManager"]
 stream = SubResource("AudioStreamInteractive_jkv2x")
-volume_db = -20.0
+volume_db = -15.0
 autoplay = true
+bus = &"music"

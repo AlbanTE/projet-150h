@@ -13,17 +13,10 @@ func _ready():
 	current_level = AudioGlobal.current_level
 	print("Init Music : " , current_level)
 	
-func _process(_delta: float) -> void:
-	if current_level != AudioGlobal.current_level :
-		current_level = AudioGlobal.current_level
-		print("CALL SWITCH")
-		update_music()
-
 # Récupérer la track par le nom de l'audio stream Player
 func update_music():
-	if not music_player:
-		push_error("Erreur Audio Player")
-		return
+	print("Call Main -> Level changed -> UPDATE MUSIC")
+	current_level = AudioGlobal.current_level
+	# Récupérer le string associé au Stream Interactive
 	var current_level_music = str(current_level)
-	print("Update Music : " , current_level_music)	
 	music_player["parameters/switch_to_clip"] = current_level_music

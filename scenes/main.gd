@@ -19,6 +19,7 @@ var tile_builder: CustomTileManager
 
 func advance_level() -> void:
 	AudioGlobal.current_level = (AudioGlobal.current_level % 4) + 1
+	$AudioManager.update_music()
 	
 func upgrade():
 	$CanvasLayer/GameUI.openRewardMenu()
