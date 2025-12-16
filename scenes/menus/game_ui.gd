@@ -3,6 +3,11 @@ extends Control
 var isRewardMenuOpen: bool = false
 var isPauseMenuOpen: bool = false
 
+var player: Player
+
+func update_weapon():
+	$ActiveWeapon/TextureRect.texture = player.weapon_component.current_weapon.sprite
+
 func resume():
 	$BlurAnimationPlayer.play_backwards("blur")
 	get_tree().paused = false
@@ -33,6 +38,11 @@ func closeRewardMenu():
 
 func _ready() -> void:
 	$InGameMenu/Reward.connect("close_reward_menu", closeRewardMenu)
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() > 0:
+		player = players[0] as Player
+	else:
+		push_error("No player found")
 
 func process_input():
 	if Input.is_action_just_pressed("escape"):

@@ -9,7 +9,7 @@ const EnemyType2Scene = preload("res://scenes/enemies/EnemyType2.tscn")
 
 const ENEMY_TYPE_COUNT = 2
 
-@onready var player = $Character
+@onready var player: Player = $Character
 @export var ground_layer: TileMapLayer
 @export var wall_layer: TileMapLayer
 var tile_builder: CustomTileManager
@@ -19,11 +19,15 @@ var tile_builder: CustomTileManager
 func upgrade():
 	$CanvasLayer/GameUI.openRewardMenu()
 	
+func update_weapon_ui():
+	$CanvasLayer/GameUI.update_weapon()
 
 func _ready():
 	seed(_seed)
 	tile_builder = CustomTileManager.new()
 	build_dungeon_area()
+	
+	player.weapon_component.connect("weapon_equiped", update_weapon_ui)
 
 func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	var enemy: Enemy = null

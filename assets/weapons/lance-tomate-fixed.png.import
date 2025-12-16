@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btugiye645vb3"
-path="res://.godot/imported/lance-tomate.png-66decdeaab850fc7ea0147a79cfde2a1.ctex"
+uid="uid://b50hi8lh6aryp"
+path="res://.godot/imported/lance-tomate-fixed.png-acd053f6120a5227f7e262dfd7ceaca1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/weapons/lance-tomate.png"
-dest_files=["res://.godot/imported/lance-tomate.png-66decdeaab850fc7ea0147a79cfde2a1.ctex"]
+source_file="res://assets/weapons/lance-tomate-fixed.png"
+dest_files=["res://.godot/imported/lance-tomate-fixed.png-acd053f6120a5227f7e262dfd7ceaca1.ctex"]
 
 [params]
 
@@ -37,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

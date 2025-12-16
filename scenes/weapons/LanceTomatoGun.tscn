@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/weapons/LanceTomatoGun.gd" id="1_lancetomate"]
 [ext_resource type="PackedScene" uid="uid://b2q3t4v5w6x7y" path="res://scenes/projectiles/Tomate.tscn" id="2_tomate"]
-[ext_resource type="Texture2D" uid="uid://btugiye645vb3" path="res://assets/weapons/lance-tomate.png" id="3_q16ik"]
+[ext_resource type="Texture2D" uid="uid://b50hi8lh6aryp" path="res://assets/weapons/lance-tomate-fixed.png" id="3_4i8tv"]
 
 [node name="LanceTomatoGun" type="Node2D"]
 scale = Vector2(2, 2)
@@ -11,12 +11,7 @@ weapon_name = "Lance-tomate"
 projectile_scene = ExtResource("2_tomate")
 projectile_count = 3
 cooldown = 0.5
+sprite = ExtResource("3_4i8tv")
 
 [node name="Muzzle" type="Marker2D" parent="."]
 position = Vector2(20, 0)
-
-[node name="LanceTomateSprite" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(8, 0)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_q16ik")

@@ -8,6 +8,8 @@ var current_weapon: Weapon
 var current_weapon_index: int = 0
 var weapon_scale: float = 1
 
+signal weapon_equiped
+
 func _ready():
 	# Initialize weapon array with starting weapon if available
 	if starting_weapon_scene and starting_weapon_scene not in weapon_scenes:
@@ -23,6 +25,8 @@ func equip_weapon(weapon_scene: PackedScene):
 	current_weapon = weapon_scene.instantiate()
 	weapon_scale = current_weapon.scale.y
 	get_parent().add_child(current_weapon)
+	
+	emit_signal("weapon_equiped")
 	
 
 func switch_to_next_weapon():
