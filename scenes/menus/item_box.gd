@@ -1,15 +1,55 @@
-extends PanelContainer
+extends Button
 
 var item: Item
 
+var hover_cross: StyleBoxTexture
+
 func _ready() -> void:
-	pass
+	hover_cross = StyleBoxTexture.new()
+	hover_cross.texture = preload("res://assets/UI/red_cross.png")
+	
 
 
 func _process(_delta: float) -> void:
 	pass
+	
+func _draw():
+	var normal_style = get_theme_stylebox("normal")
+	if normal_style:
+		normal_style.draw(get_canvas_item(), Rect2(Vector2.ZERO, size))
+		
+	if is_hovered():
+		hover_cross.draw(get_canvas_item(), Rect2(Vector2(16, 16), size - Vector2(32, 32)))
 
 func set_item(it: Item):
 	item = it
-	$TextureRect.texture = it.item_sprite
-	tooltip_text = it.item_name + "\n\n" + it.item_desc
+	if item:
+		$TextureRect.texture = it.item_sprite
+	else:
+		$TextureRect.texture = null
+
+func _make_custom_tooltip(_text: String) -> Control:
+	if not item:
+		return
+	
+	var panel = PanelContainer.new()
+	
+	var margin = MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 8)
+	margin.add_theme_constant_override("margin_right", 8)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
+	panel.add_child(margin)
+	
+	var label = RichTextLabel.new()
+	label.custom_minimum_size.x = 300
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD
+	label.fit_content = true
+	label.bbcode_enabled = true
+	label.add_theme_font_size_override("normal_font_size", 32)
+	label.add_theme_font_size_override("bold_font_size", 48)
+	label.text = "[color=magenta]" + item.item_name + "[/color]\n\n" + item.item_desc
+	label.scroll_active = false
+	margin.add_child(label)
+	
+	return panel

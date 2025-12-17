@@ -22,12 +22,16 @@ func upgrade():
 func update_weapon_ui():
 	$CanvasLayer/GameUI.update_weapon()
 
+func update_items_ui():
+	$CanvasLayer/GameUI.update_items()
+
 func _ready():
 	seed(_seed)
 	tile_builder = CustomTileManager.new()
 	build_dungeon_area()
 	
 	player.weapon_component.connect("weapon_equiped", update_weapon_ui)
+	player.inventory_manager.connect("update_inventory", update_items_ui)
 
 func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	var enemy: Enemy = null

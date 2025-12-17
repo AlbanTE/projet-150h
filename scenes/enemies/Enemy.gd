@@ -20,7 +20,8 @@ var can_attack: bool = false
 @export var path_update_interval: float = 0.2
 
 @export_group("Debug")
-@export var debug_navigation: bool = true
+@export var debug_navigation: bool = false
+@export var debug_attack: bool = false
 
 # ────────────────
 # 🧠 State
@@ -270,7 +271,8 @@ func _draw() -> void:
 	#if not is_following:
 		#draw_arc(Vector2.ZERO, detection_radius, 0, TAU, 64, Color.BLUE, 2.0, true)
 
-	draw_arc(Vector2.ZERO, attack_range, 0, TAU, 64, Color.RED, 2.0, true)
+	if debug_attack:
+		draw_arc(Vector2.ZERO, attack_range, 0, TAU, 64, Color.RED, 2.0, true)
 
 	if debug_navigation and navigation_agent: #and is_following:
 		var path = navigation_agent.get_current_navigation_path()

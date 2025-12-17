@@ -6,13 +6,12 @@ var isPauseMenuOpen: bool = false
 var player: Player
 
 func update_items():
+	var inv_size: int = player.inventory_manager.inventory.size()
 	for i in range(3):
-		if i == player.inventory_manager.inventory.size():
-			return
-		var item = player.inventory_manager.inventory[i]
-		if item:
-			var tex = get_node("GridContainer/Item" + str(i+1))
-			tex.set_item(item)
+		var item = player.inventory_manager.inventory[i] if i < inv_size else null
+		var tex = get_node("GridContainer/Item" + str(i+1))
+		tex.set_item(item)
+			
 
 func update_weapon():
 	$ActiveWeapon/TextureRect.texture = player.weapon_component.current_weapon.sprite
