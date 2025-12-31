@@ -1,13 +1,16 @@
 extends Area2D
 
 var Broom: PackedScene = preload("res://scenes/objects/items/nimbus_2000.tscn")
+var opened: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$AnimatedSprite2D.animation_finished.connect(destroy)
 	
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is Player:
+	if body is Player and not opened:
+		opened = true
+		
 		$AnimatedSprite2D.play("default")
 		var player: Player = body
 		

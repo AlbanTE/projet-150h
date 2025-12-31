@@ -1,12 +1,15 @@
-extends Item
-class_name Broom
+extends Control
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	PlayerStats.add_modifier_to(PlayerStats.vitesse, Stat.OperationTypes.MULT, 0.2, self)
-	print("Broom active -----------")
+	pass
+	#$ItemBox.connect("replaced", no_changes)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	pass
+	
+func no_changes() -> void:
 	pass

@@ -16,14 +16,22 @@ var tile_builder: CustomTileManager
 @export var dungeon_generator: DungeonGeneratorScript
 @export var _seed: int = -1
 
+@onready var UI: GameUI = $CanvasLayer/GameUI
+
 func upgrade():
-	$CanvasLayer/GameUI.openRewardMenu()
+	UI.openRewardMenu()
 	
 func update_weapon_ui():
-	$CanvasLayer/GameUI.update_weapon()
+	UI.update_weapon()
 
 func update_items_ui():
-	$CanvasLayer/GameUI.update_items()
+	UI.update_items()
+
+func choosing_item_ui(item: Item):
+	UI.openChooseMenu(item)
+
+func item_chosen_ui():
+	UI.closeChooseMenu()
 
 func _ready():
 	seed(_seed)
@@ -32,6 +40,14 @@ func _ready():
 	
 	player.weapon_component.connect("weapon_equiped", update_weapon_ui)
 	player.inventory_manager.connect("update_inventory", update_items_ui)
+	player.inventory_manager.connect("choosing_item", choosing_item_ui)
+	player.inventory_manager.connect("item_chosen", item_chosen_ui)
+	
+	# Replace item signals connect
+	for i in range(3):
+		var item_box = UI.get_node("GridContainer/Item" + str(i+1))
+		item_box.connect("replaced", player.inventory_manager.replace_item)
+	UI.get_node("InGameMenu/ChooseItem/ItemBox").connect("replaced", player.inventory_manager.replace_item)
 
 func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	var enemy: Enemy = null

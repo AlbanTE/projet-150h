@@ -1,14 +1,17 @@
 extends Button
 
 var item: Item
+var item_slot: int = 0
 
 var hover_cross: StyleBoxTexture
+
+var replacing: bool = false
+signal replaced(slot)
 
 func _ready() -> void:
 	hover_cross = StyleBoxTexture.new()
 	hover_cross.texture = preload("res://assets/UI/red_cross.png")
 	
-
 
 func _process(_delta: float) -> void:
 	pass
@@ -18,11 +21,12 @@ func _draw():
 	if normal_style:
 		normal_style.draw(get_canvas_item(), Rect2(Vector2.ZERO, size))
 		
-	if is_hovered():
+	if is_hovered() and item and replacing and (get_parent().process_mode != PROCESS_MODE_DISABLED):
 		hover_cross.draw(get_canvas_item(), Rect2(Vector2(16, 16), size - Vector2(32, 32)))
 
-func set_item(it: Item):
+func set_item(it: Item, slot: int):
 	item = it
+	item_slot = slot
 	if item:
 		$TextureRect.texture = it.item_sprite
 	else:
@@ -53,3 +57,8 @@ func _make_custom_tooltip(_text: String) -> Control:
 	margin.add_child(label)
 	
 	return panel
+
+
+func _on_pressed() -> void:
+	if item and replacing:
+		replaced.emit(item_slot)

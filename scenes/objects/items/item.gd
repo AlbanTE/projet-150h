@@ -10,3 +10,8 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	pass
+
+func destroy() -> void:
+	PlayerStats.remove_modifiers_from_source(self)
+	print("Removing broom ----------")
+	queue_free()
