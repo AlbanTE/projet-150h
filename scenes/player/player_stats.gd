@@ -28,6 +28,13 @@ var duration              : Stat = Stat.new(1.0, "Duration")
 var luck                  : Stat = Stat.new(1.0, "Luck")
 
 # -----------------------------------
+#   INGAME COUNTERS
+# -----------------------------------
+
+var UPGRADES_COUNT: int = 0
+var UPGRADES_MAX: int = 10
+
+# -----------------------------------
 #   GETTERS FOR FINAL CALCULATED VALUES
 # -----------------------------------
 func get_vitesse() -> float:

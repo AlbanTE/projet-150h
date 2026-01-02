@@ -249,11 +249,13 @@ func _apply_knockback(direction: Vector2, amount: float) -> void:
 	
 
 func _apply_death_effects() -> void:
-	if randf() < 1:
+	if randf() < 0.2 and PlayerStats.UPGRADES_COUNT < PlayerStats.UPGRADES_MAX:
 		var portal: Portal = PortalDrop.instantiate()
 		portal.global_position = self.global_position
 		get_parent().call_deferred("add_child", portal)
 		portal.portal_pickup.connect(get_parent().upgrade)
+		
+		PlayerStats.UPGRADES_COUNT += 1
 
 
 func attack() -> void:

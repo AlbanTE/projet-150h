@@ -48,6 +48,7 @@ func generate_dungeon(_seed) -> Array:
 		rng.randomize()
 	else:
 		rng.seed = _seed
+		seed(_seed)
 
 	_generate_cells()
 	_separate_cells()
@@ -278,7 +279,6 @@ func _carve_wide_at(cx:int,cy:int):
 				if map_tiles[ty][tx]==Tile.EMPTY:
 					map_tiles[ty][tx]=Tile.CORRIDOR
 
-# --- BFS + Spawn Placement ---
 func _place_spawns_and_objects():
 	# Player room near center
 	var center=Vector2(map_tiles_w/2.,map_tiles_h/2.)
@@ -294,40 +294,41 @@ func _place_spawns_and_objects():
 	player_pos=_pick_room_tile(rooms[player_room_idx])
 	map_tiles[player_pos.y][player_pos.x] = Tile.PLAYER
 
-	# BFS graph to find farthest room
-	var graph={}
-	for i in range(rooms.size()): graph[i]=[]
-	for e in final_edges:
-		graph[e["a"]].append(e["b"])
-		graph[e["b"]].append(e["a"])
-
-	var dist=[]
-	for i in range(rooms.size()): dist.append(-1)
-	dist[player_room_idx]=0
-	var q=[player_room_idx]
-	while q.size()>0:
-		var u=q.pop_front()
-		for v in graph[u]:
-			if dist[v]==-1:
-				dist[v]=dist[u]+1
-				q.append(v)
-
+	# Exit room farthest from player
+	var player_room_center: Vector2 = rooms[player_room_idx].rect.position + rooms[player_room_idx].rect.size*0.5
 	exit_room_idx=player_room_idx
 	var max_d=-1
 	for i in range(rooms.size()):
-		if dist[i]>max_d:
-			max_d=dist[i]
+		var rc=rooms[i].rect.position + rooms[i].rect.size*0.5
+		var d=player_room_center.distance_to(rc)
+		if d>max_d:
+			max_d=d
 			exit_room_idx=i
 	exit_pos=_pick_room_tile(rooms[exit_room_idx])
 	map_tiles[exit_pos.y][exit_pos.x] = Tile.EXIT
 
 	# Object/chest spawns
-	for i in range(rooms.size()):
-		if i==player_room_idx or i==exit_room_idx:
-			continue
-		if rng.randf()<object_spawn_chance:
-			var object_pos = _pick_room_tile(rooms[i])
-			map_tiles[object_pos.y][object_pos.x] = Tile.OBJECT
+	var chest_number_chance: Array = [0.2, 0.5, 0.9, 1] # 1, 2, 3 et 4 objets
+	var number_of_chest: int = 0
+	var r = rng.randf()
+	for i in range(chest_number_chance.size()):
+		if r <= chest_number_chance[i]:
+			number_of_chest = i+1
+			break
+			
+	print("Number of objects: ", number_of_chest)
+	
+	# Place objects in rooms
+	var available_rooms: Array = range(rooms.size())
+	available_rooms.erase(player_room_idx)
+	available_rooms.erase(exit_room_idx)
+	for obj in number_of_chest:
+		var obj_room = available_rooms.pick_random()
+		available_rooms.erase(obj_room)
+		var object_pos = _pick_room_tile(rooms[obj_room])
+		map_tiles[object_pos.y][object_pos.x] = Tile.OBJECT
+		print("Object in room: ", obj_room)
+
 
 func _pick_room_tile(room:Cell) -> Vector2:
 	var candidates:Array=[]
@@ -344,6 +345,7 @@ func _pick_room_tile(room:Cell) -> Vector2:
 	if candidates.size()>0:
 		return candidates[rng.randi_range(0,candidates.size()-1)]
 
+	print("Pick room fallback")
 	# fallback: search brute-force for ANY valid ROOM tile in this room
 	for yy in range(y0,y0+h):
 		for xx in range(x0,x0+w):

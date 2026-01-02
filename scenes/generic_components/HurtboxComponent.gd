@@ -144,7 +144,7 @@ func _handle_bullet_collision(bullet: Node2D) -> void:
 	else:
 		push_warning("Bullet does not have get_knockback()")
 
-	print("HurtboxComponent: Bullet hit for ", damage, " damage, and ", knockback, " knockback")
+	# print("HurtboxComponent: Bullet hit for ", damage, " damage, and ", knockback, " knockback")
 	emit_signal("hit_by_bullet", bullet, damage, knockback)
 
 	if health:

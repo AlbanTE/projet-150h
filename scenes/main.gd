@@ -9,12 +9,16 @@ const EnemyType2Scene = preload("res://scenes/enemies/EnemyType2.tscn")
 
 const ENEMY_TYPE_COUNT = 2
 
+# Scène des objets etc...
+var exit: PackedScene = preload("res://scenes/objects/exit_stairs.tscn")
+
 @onready var player: Player = $Character
 @export var ground_layer: TileMapLayer
 @export var wall_layer: TileMapLayer
 var tile_builder: CustomTileManager
 @export var dungeon_generator: DungeonGeneratorScript
 @export var _seed: int = -1
+@export var current_level: int = 0
 
 @onready var UI: GameUI = $CanvasLayer/GameUI
 
@@ -48,6 +52,12 @@ func _ready():
 		var item_box = UI.get_node("GridContainer/Item" + str(i+1))
 		item_box.connect("replaced", player.inventory_manager.replace_item)
 	UI.get_node("InGameMenu/ChooseItem/ItemBox").connect("replaced", player.inventory_manager.replace_item)
+
+func next_level() -> void:
+	print("Go to next level")
+	current_level += 1
+	build_dungeon_area()
+	
 
 func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	var enemy: Enemy = null
@@ -99,8 +109,17 @@ func build_dungeon_area():
 	print("Building dungeon...")
 	ground_layer.clear()
 	wall_layer.clear()
+	for child in ground_layer.get_children():
+		child.queue_free()
+		print("ground child freed !")
+	for child in wall_layer.get_children():
+		child.queue_free()
+		print("wall child freed !")
+		
+	for child in get_children():
+		print(child.name)
 	
-	var dungeon: Array = dungeon_generator.generate_dungeon(_seed)
+	var dungeon: Array = dungeon_generator.generate_dungeon(_seed + current_level)
 	
 	dungeon_generator._print_ascii_map()
 
@@ -118,12 +137,35 @@ func build_dungeon_area():
 			if dungeon[y][x] == DungeonGenerator.Tile.PLAYER:
 				player_spawn = Vector2i(x, y)
 				break
-				
 	
-
 	# Move player to spawn
 	teleport_player_to_spawn(player_spawn, offset)
 	
+	place_exit(dungeon, offset)
+	
+func place_exit(grid_data: Array, offset: Vector2i = Vector2i.ZERO) -> void:
+	var exit_coords: Vector2i = Vector2i(0, 0)
+	for y in grid_data.size():
+		for x in grid_data[y].size():
+			if grid_data[y][x] == DungeonGenerator.Tile.EXIT:
+				exit_coords = Vector2i(x, y)
+				break
+				
+	# Tile coordinate in grid space
+	var tile_coord: Vector2i = exit_coords + offset
+
+	# Convert to world position manually
+	var tile_size: Vector2 = ground_layer.tile_set.tile_size
+	var exit_position: Vector2 = Vector2(tile_coord.x, tile_coord.y) * tile_size #* ground_layer.scale
+	exit_position += tile_size / 2  # center of tile
+	
+	var exit_instance: Node2D = exit.instantiate()
+	exit_instance.global_position = exit_position
+	ground_layer.add_child(exit_instance)
+	exit_instance.connect("exit_reached", next_level)
+	
+	print("Added exit at: ", exit_coords)
+
 func teleport_player_to_spawn(spawn_tile: Vector2i, offset: Vector2i) -> void:
 	if not player:
 		push_error("Player node not found!")

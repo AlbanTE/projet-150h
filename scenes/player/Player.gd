@@ -47,7 +47,7 @@ func _physics_process(delta: float) -> void:
 # callbacks
 # ────────────────
 func _on_health_changed(prev_health: int, current_health: int, max_health: int) -> void:
-	print("Health: %d/%d" % [current_health, max_health])
+	# print("Health: %d/%d" % [current_health, max_health])
 	if (current_health > prev_health):
 		# Play heal effect
 		pass
