@@ -32,7 +32,7 @@ var luck                  : Stat = Stat.new(1.0, "Luck")
 # -----------------------------------
 
 var UPGRADES_COUNT: int = 0
-var UPGRADES_MAX: int = 10
+var UPGRADES_MAX: int = 6
 
 # -----------------------------------
 #   GETTERS FOR FINAL CALCULATED VALUES

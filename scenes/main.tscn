@@ -1421,7 +1421,6 @@ script = ExtResource("6_main")
 ground_layer = NodePath("TileSets/dungeon_terrain")
 wall_layer = NodePath("TileSets/wall_terrain")
 dungeon_generator = SubResource("Resource_choun")
-_seed = 3
 
 [node name="Character" parent="." instance=ExtResource("3_o6xl0")]
 

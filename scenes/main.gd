@@ -9,6 +9,8 @@ const EnemyType2Scene = preload("res://scenes/enemies/EnemyType2.tscn")
 
 const ENEMY_TYPE_COUNT = 2
 
+var enemies_loaded: Array[Enemy] = []
+
 # Scène des objets etc...
 var exit: PackedScene = preload("res://scenes/objects/exit_stairs.tscn")
 
@@ -56,6 +58,7 @@ func _ready():
 func next_level() -> void:
 	print("Go to next level")
 	current_level += 1
+	PlayerStats.UPGRADES_COUNT = 0
 	build_dungeon_area()
 	
 
@@ -75,6 +78,15 @@ func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	
 	enemy.global_position = world_position
 	add_child(enemy)
+	
+	# To remove ennemies when exiting level
+	enemies_loaded.append(enemy)
+	
+	# Modifiers based on current level
+	enemy.health_component.set_max_health((current_level+1)*enemy.health_component.max_health)
+	enemy.health_component.set_current_health((current_level+1)*enemy.health_component.current_health)
+	enemy.damage = enemy.damage * (current_level + 1)
+	
 	return enemy
 
 func spawn_enemy_batch(count: int = 25):
@@ -111,13 +123,16 @@ func build_dungeon_area():
 	wall_layer.clear()
 	for child in ground_layer.get_children():
 		child.queue_free()
-		print("ground child freed !")
+		print("ground child freed !") # Exit, items etc...
 	for child in wall_layer.get_children():
 		child.queue_free()
-		print("wall child freed !")
+		print("wall child freed !") # Torches etc...
 		
-	for child in get_children():
-		print(child.name)
+	for enemy in enemies_loaded:
+		if enemy:
+			enemies_loaded.erase(enemy)
+			enemy.queue_free()
+			print("Removed leftover enemy")
 	
 	var dungeon: Array = dungeon_generator.generate_dungeon(_seed + current_level)
 	
