@@ -10,6 +10,12 @@
 
 [sub_resource type="Resource" id="Resource_choun"]
 script = ExtResource("2_85g3d")
+cell_count = 250
+map_tiles_w = 128
+map_tiles_h = 128
+min_room_size = 4
+extra_edge_chance = 0.3
+min_room_count = 12
 metadata/_custom_type_script = "uid://epuexnwso7gw"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_85g3d"]
@@ -1435,7 +1441,7 @@ scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_85g3d")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.0142752165, 0.014275219, 0.014275211, 1)
+color = Color(0.04, 0.04, 0.04, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource("12_trceg")

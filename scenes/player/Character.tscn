@@ -55,8 +55,8 @@ _data = {
 }
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
-offsets = PackedFloat32Array(0, 0.5504587)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+offsets = PackedFloat32Array(0, 0.507732, 0.5103093)
+colors = PackedColorArray(1, 1, 1, 1, 0.06103295, 0.06103295, 0.06103295, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_eb6dy"]
 gradient = SubResource("Gradient_ya4ey")
@@ -150,7 +150,7 @@ libraries = {
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 color = Color(0.99561507, 0.9884071, 0.64249647, 1)
-energy = 1.5
+energy = 0.5
 shadow_filter = 1
 texture = SubResource("GradientTexture2D_eb6dy")
 texture_scale = 1.5

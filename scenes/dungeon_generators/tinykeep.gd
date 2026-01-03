@@ -5,7 +5,7 @@ class_name TinyKeepDungeon
 
 
 # --- Tunables (export for quick iteration) ---
-@export var cell_count: int = 150
+@export var cell_count: int = 50
 @export var map_tiles_w: int = 96
 @export var map_tiles_h: int = 96
 @export var tile_size: int = 6
@@ -20,7 +20,7 @@ class_name TinyKeepDungeon
 @export var min_room_count: int = 8
 
 # --- Spawn/Object Parameters ---
-@export var object_spawn_chance: float = 0.1
+@export var chest_number_chance: Array = [0.2, 0.5, 0.9, 1] # 1, 2, 3 et 4 objets
 @export var safe_EMPTY_margin: int = 1   # min distance from EMPTY for objects/spawns
 
 class Cell:
@@ -308,7 +308,6 @@ func _place_spawns_and_objects():
 	map_tiles[exit_pos.y][exit_pos.x] = Tile.EXIT
 
 	# Object/chest spawns
-	var chest_number_chance: Array = [0.2, 0.5, 0.9, 1] # 1, 2, 3 et 4 objets
 	var number_of_chest: int = 0
 	var r = rng.randf()
 	for i in range(chest_number_chance.size()):
