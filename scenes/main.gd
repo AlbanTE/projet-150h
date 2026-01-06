@@ -123,16 +123,15 @@ func build_dungeon_area():
 	wall_layer.clear()
 	for child in ground_layer.get_children():
 		child.queue_free()
-		print("ground child freed !") # Exit, items etc...
+		# print("ground child freed !") # Exit, items etc...
 	for child in wall_layer.get_children():
 		child.queue_free()
-		print("wall child freed !") # Torches etc...
+		# print("wall child freed !") # Torches etc...
 		
 	for enemy in enemies_loaded:
-		if enemy:
-			enemies_loaded.erase(enemy)
+		if is_instance_valid(enemy):
 			enemy.queue_free()
-			print("Removed leftover enemy")
+	enemies_loaded.clear()
 	
 	var dungeon: Array = dungeon_generator.generate_dungeon(_seed + current_level)
 	
