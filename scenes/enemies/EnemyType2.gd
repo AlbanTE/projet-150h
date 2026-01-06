@@ -1,8 +1,6 @@
 extends Enemy
 class_name EnemyType2
 
-var activated: bool = false
-
 func _apply_damage_effects(amount: int) -> void:
 	#print("EnemyType2 a pris ", amount, " dégats — HP:", health_component.current_health)
 	pass

@@ -34,6 +34,8 @@ var path_update_timer: float = 0.0
 var detection_radius: float = 200.0
 var attack_range: float = 50.0
 
+var activated: bool = false
+
 # ────────────────
 # Node References
 # ────────────────
@@ -88,7 +90,7 @@ func _connect_signals() -> void:
 # Physics
 # ────────────────
 func _physics_process(delta: float) -> void:
-	if not is_alive or not player:
+	if not is_alive or not player or not activated:
 		return
 
 	path_update_timer += delta
@@ -267,7 +269,7 @@ func attack() -> void:
 # Debug
 # ────────────────
 func _draw() -> void:
-	if not is_alive:
+	if not is_alive or not activated:
 		return
 
 	#if not is_following:
