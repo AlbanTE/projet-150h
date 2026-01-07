@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://x6rvsc2ejisq"]
+[gd_scene load_steps=77 format=3 uid="uid://x6rvsc2ejisq"]
 
 [ext_resource type="Script" uid="uid://epuexnwso7gw" path="res://scenes/dungeon_generators/tinykeep.gd" id="2_85g3d"]
 [ext_resource type="Texture2D" uid="uid://lvds0l4f8rww" path="res://assets/dungeon-gathering-assets/Set 1.0.png" id="2_tipki"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://h2y5bjiifow" path="res://scenes/fps_counter.gd" id="12_trceg"]
 [ext_resource type="AudioStream" uid="uid://cboh7or3uuot1" path="res://audio/music/HeatOfBattle.wav" id="13_jkv2x"]
 [ext_resource type="AudioStream" uid="uid://bymxdj3rnqutj" path="res://audio/music/Incoming Boss.wav" id="14_dp3eg"]
+[ext_resource type="Shader" uid="uid://wmuer5t4fb5s" path="res://shaders/Aberration.gdshader" id="15_jkv2x"]
 
 [sub_resource type="Resource" id="Resource_choun"]
 script = ExtResource("2_85g3d")
@@ -1423,6 +1424,11 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_tipki")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jbj1t"]
+shader = ExtResource("15_jkv2x")
+shader_parameter/ab_x = 0.0
+shader_parameter/ab_y = 0.0
+
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_jkv2x"]
 clip_count = 4
 clip_0/name = &"1"
@@ -1507,6 +1513,14 @@ offset_left = -40.0
 offset_bottom = 13.0
 grow_horizontal = 0
 theme_override_font_sizes/font_size = 64
+
+[node name="Aberration" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_jbj1t")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="PortalItem" parent="." instance=ExtResource("9_85g3d")]
 position = Vector2(249, 0)

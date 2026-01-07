@@ -65,6 +65,7 @@ func _on_health_changed(prev_health: int, current_health: int, max_health: int) 
 		pass
 	else:
 		$FlashEffectAnim.play("hit")
+		$"../CanvasLayer".damage_flash()
 
 func _on_health_depleted() -> void:
 	print("Player died!")
