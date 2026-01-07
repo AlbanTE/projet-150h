@@ -20,7 +20,8 @@ var can_attack: bool = false
 @export var path_update_interval: float = 0.2
 
 @export_group("Debug")
-@export var debug_navigation: bool = true
+@export var debug_navigation: bool = false
+@export var debug_attack: bool = false
 
 # ────────────────
 # 🧠 State
@@ -32,6 +33,8 @@ var path_update_timer: float = 0.0
 
 var detection_radius: float = 200.0
 var attack_range: float = 50.0
+
+var activated: bool = false
 
 # ────────────────
 # Node References
@@ -87,7 +90,7 @@ func _connect_signals() -> void:
 # Physics
 # ────────────────
 func _physics_process(delta: float) -> void:
-	if not is_alive or not player:
+	if not is_alive or not player or not activated:
 		return
 
 	path_update_timer += delta
@@ -248,11 +251,13 @@ func _apply_knockback(direction: Vector2, amount: float) -> void:
 	
 
 func _apply_death_effects() -> void:
-	if randf() < 1:
+	if randf() < 0.2 and PlayerStats.UPGRADES_COUNT < PlayerStats.UPGRADES_MAX:
 		var portal: Portal = PortalDrop.instantiate()
 		portal.global_position = self.global_position
 		get_parent().call_deferred("add_child", portal)
 		portal.portal_pickup.connect(get_parent().upgrade)
+		
+		PlayerStats.UPGRADES_COUNT += 1
 
 
 func attack() -> void:
@@ -264,13 +269,14 @@ func attack() -> void:
 # Debug
 # ────────────────
 func _draw() -> void:
-	if not is_alive:
+	if not is_alive or not activated:
 		return
 
 	#if not is_following:
 		#draw_arc(Vector2.ZERO, detection_radius, 0, TAU, 64, Color.BLUE, 2.0, true)
 
-	draw_arc(Vector2.ZERO, attack_range, 0, TAU, 64, Color.RED, 2.0, true)
+	if debug_attack:
+		draw_arc(Vector2.ZERO, attack_range, 0, TAU, 64, Color.RED, 2.0, true)
 
 	if debug_navigation and navigation_agent: #and is_following:
 		var path = navigation_agent.get_current_navigation_path()

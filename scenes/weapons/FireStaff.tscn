@@ -2,17 +2,13 @@
 
 [ext_resource type="Script" uid="uid://mo35c7bib8fh" path="res://scenes/weapons/FireStaff.gd" id="1_swko5"]
 [ext_resource type="PackedScene" uid="uid://dqtwli6nqof26" path="res://scenes/projectiles/Fireball.tscn" id="2_v10ha"]
-[ext_resource type="Texture2D" uid="uid://dy1g6hnlridox" path="res://assets/weapons/shot gun.png" id="3_lqeq7"]
+[ext_resource type="Texture2D" uid="uid://dc2nn2r1irgxw" path="res://assets/weapons/bullet.png" id="3_v10ha"]
 
 [node name="Gun" type="Node2D"]
 scale = Vector2(2, 2)
 script = ExtResource("1_swko5")
 projectile_scene = ExtResource("2_v10ha")
-
-[node name="GunSprite" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(8, 0)
-texture = ExtResource("3_lqeq7")
+sprite = ExtResource("3_v10ha")
 
 [node name="OldMuzzle" type="Marker2D" parent="."]
 position = Vector2(22, -3)

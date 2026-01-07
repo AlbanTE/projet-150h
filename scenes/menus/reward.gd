@@ -30,17 +30,6 @@ func generate_upgrade() -> void:
 	reward_list.clear()
 	reward_list = PlayerStats.generate_random_buffs(3)
 	update_buttons()
-	open()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
-	
-func open():
-	get_tree().paused = true
-	visible = true
 	
 func close():
-	visible = false
-	get_tree().paused = false
 	emit_signal("close_reward_menu")

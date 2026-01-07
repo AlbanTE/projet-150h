@@ -73,7 +73,7 @@ animations = [{
 }]
 
 [sub_resource type="Gradient" id="Gradient_etrdt"]
-offsets = PackedFloat32Array(0, 0.08027523, 0.4472477)
+offsets = PackedFloat32Array(0, 0.085051544, 0.4472477)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_x1r1x"]
@@ -97,7 +97,7 @@ frame_progress = 0.19731799
 light_mask = 3
 visibility_layer = 3
 color = Color(0.9043261, 0.5873669, 0.15170373, 1)
-energy = 0.75
+energy = 0.33
 range_item_cull_mask = 3
 shadow_filter = 1
 texture = SubResource("GradientTexture2D_x1r1x")

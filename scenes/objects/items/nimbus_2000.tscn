@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbl2ewae80qwo"]
+
+[ext_resource type="Script" uid="uid://dvapfwfgenj13" path="res://scenes/objects/items/nimbus_2000.gd" id="1_te01e"]
+[ext_resource type="Texture2D" uid="uid://bgovototovr28" path="res://assets/textures/broom.png" id="2_cvght"]
+
+[node name="Nimbus2000" type="Node2D"]
+script = ExtResource("1_te01e")
+item_name = "Nimbus 2000"
+item_desc = "A swift broom that increases your speed by 20%."
+item_sprite = ExtResource("2_cvght")

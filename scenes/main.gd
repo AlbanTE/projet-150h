@@ -10,20 +10,40 @@ const EnemyType2Scene = preload("res://scenes/enemies/EnemyType2.tscn")
 
 const ENEMY_TYPE_COUNT = 2
 
-@onready var player = $Character
+var enemies_loaded: Array[Enemy] = []
+
+# Scène des objets etc...
+var exit: PackedScene = preload("res://scenes/objects/exit_stairs.tscn")
+
+@onready var player: Player = $Character
 @export var ground_layer: TileMapLayer
 @export var wall_layer: TileMapLayer
 var tile_builder: CustomTileManager
 @export var dungeon_generator: DungeonGeneratorScript
 @export var _seed: int = -1
+@export var current_level: int = 0
+
+@onready var UI: GameUI = $CanvasLayer/GameUI
 
 func advance_level() -> void:
 	AudioGlobal.current_level = (AudioGlobal.current_level % 4) + 1
 	$AudioManager.update_music()
 	
 func upgrade():
-	$CanvasLayer/GameUI.openRewardMenu()
+	UI.openRewardMenu()
 	
+func update_weapon_ui():
+	UI.update_weapon()
+
+func update_items_ui():
+	UI.update_items()
+
+func choosing_item_ui(item: Item):
+	UI.openChooseMenu(item)
+
+func item_chosen_ui():
+	UI.closeChooseMenu()
+
 func _ready():
 	seed(_seed)
 	tile_builder = CustomTileManager.new()
@@ -31,6 +51,23 @@ func _ready():
 	
 	# Audio init
 	AudioGlobal.current_level = 1
+	
+	player.weapon_component.connect("weapon_equiped", update_weapon_ui)
+	player.inventory_manager.connect("update_inventory", update_items_ui)
+	player.inventory_manager.connect("choosing_item", choosing_item_ui)
+	player.inventory_manager.connect("item_chosen", item_chosen_ui)
+	
+	# Replace item signals connect
+	for i in range(3):
+		var item_box = UI.get_node("GridContainer/Item" + str(i+1))
+		item_box.connect("replaced", player.inventory_manager.replace_item)
+	UI.get_node("InGameMenu/ChooseItem/ItemBox").connect("replaced", player.inventory_manager.replace_item)
+
+func next_level() -> void:
+	print("Go to next level")
+	current_level += 1
+	PlayerStats.UPGRADES_COUNT = 0
+	build_dungeon_area()
 
 func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	var enemy: Enemy = null
@@ -48,6 +85,15 @@ func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	
 	enemy.global_position = world_position
 	add_child(enemy)
+	
+	# To remove ennemies when exiting level
+	enemies_loaded.append(enemy)
+	
+	# Modifiers based on current level
+	enemy.health_component.set_max_health((current_level+1)*enemy.health_component.max_health)
+	enemy.health_component.set_current_health((current_level+1)*enemy.health_component.current_health)
+	enemy.damage = enemy.damage * (current_level + 1)
+	
 	return enemy
 
 func spawn_enemy_batch(count: int = 25):
@@ -82,8 +128,19 @@ func build_dungeon_area():
 	print("Building dungeon...")
 	ground_layer.clear()
 	wall_layer.clear()
+	for child in ground_layer.get_children():
+		child.queue_free()
+		# print("ground child freed !") # Exit, items etc...
+	for child in wall_layer.get_children():
+		child.queue_free()
+		# print("wall child freed !") # Torches etc...
+		
+	for enemy in enemies_loaded:
+		if is_instance_valid(enemy):
+			enemy.queue_free()
+	enemies_loaded.clear()
 	
-	var dungeon: Array = dungeon_generator.generate_dungeon(_seed)
+	var dungeon: Array = dungeon_generator.generate_dungeon(_seed + current_level)
 	
 	dungeon_generator._print_ascii_map()
 
@@ -101,12 +158,35 @@ func build_dungeon_area():
 			if dungeon[y][x] == DungeonGenerator.Tile.PLAYER:
 				player_spawn = Vector2i(x, y)
 				break
-				
 	
-
 	# Move player to spawn
 	teleport_player_to_spawn(player_spawn, offset)
 	
+	place_exit(dungeon, offset)
+	
+func place_exit(grid_data: Array, offset: Vector2i = Vector2i.ZERO) -> void:
+	var exit_coords: Vector2i = Vector2i(0, 0)
+	for y in grid_data.size():
+		for x in grid_data[y].size():
+			if grid_data[y][x] == DungeonGenerator.Tile.EXIT:
+				exit_coords = Vector2i(x, y)
+				break
+				
+	# Tile coordinate in grid space
+	var tile_coord: Vector2i = exit_coords + offset
+
+	# Convert to world position manually
+	var tile_size: Vector2 = ground_layer.tile_set.tile_size
+	var exit_position: Vector2 = Vector2(tile_coord.x, tile_coord.y) * tile_size #* ground_layer.scale
+	exit_position += tile_size / 2  # center of tile
+	
+	var exit_instance: Node2D = exit.instantiate()
+	exit_instance.global_position = exit_position
+	ground_layer.add_child(exit_instance)
+	exit_instance.connect("exit_reached", next_level)
+	
+	print("Added exit at: ", exit_coords)
+
 func teleport_player_to_spawn(spawn_tile: Vector2i, offset: Vector2i) -> void:
 	if not player:
 		push_error("Player node not found!")

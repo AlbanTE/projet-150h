@@ -8,8 +8,6 @@ class_name EnemyType1
 @onready var blood_particles: AnimatedSprite2D = $Visual/BloodSprite
 
 
-var activated: bool = false
-
 func _apply_damage_effects(_amount: int) -> void:
 	#print("Supposed to play hit effect")
 	if anim_player and anim_player.has_animation("hit"):

@@ -6,6 +6,7 @@ class_name Weapon
 @export var projectile_scene: PackedScene
 @export var projectile_count: int = 1
 @export var cooldown: float = 0.2
+@export var sprite: CompressedTexture2D
 
 
 var _can_fire := true
