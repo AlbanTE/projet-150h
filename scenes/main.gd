@@ -22,7 +22,6 @@ var exit: PackedScene = preload("res://scenes/objects/exit_stairs.tscn")
 var tile_builder: CustomTileManager
 @export var dungeon_generator: DungeonGeneratorScript
 @export var _seed: int = -1
-@export var current_level: int = 0
 
 @onready var UI: GameUI = $CanvasLayer/GameUI
 
@@ -66,7 +65,7 @@ func _ready():
 
 func next_level() -> void:
 	print("Go to next level")
-	current_level += 1
+	advance_level()
 	PlayerStats.UPGRADES_COUNT = 0
 	build_dungeon_area()
 
@@ -94,6 +93,7 @@ func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	enemies_loaded.append(enemy)
 	
 	# Modifiers based on current level
+	var current_level = AudioGlobal.current_level
 	enemy.health_component.set_max_health((current_level+1)*enemy.health_component.max_health)
 	enemy.health_component.set_current_health((current_level+1)*enemy.health_component.current_health)
 	enemy.damage = enemy.damage * (current_level + 1)
@@ -144,7 +144,7 @@ func build_dungeon_area():
 			enemy.queue_free()
 	enemies_loaded.clear()
 	
-	var dungeon: Array = dungeon_generator.generate_dungeon(_seed + current_level)
+	var dungeon: Array = dungeon_generator.generate_dungeon(_seed + AudioGlobal.current_level)
 	
 	dungeon_generator._print_ascii_map()
 
