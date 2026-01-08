@@ -1,5 +1,5 @@
 extends Enemy
-class_name EnemyType2
+class_name EnemyType3
 
 # ────────────────
 # Visuals

@@ -27,7 +27,7 @@ func _apply_death_effects() -> void:
 
 
 func attack() -> void:
-	player.take_damage(10)
+	player.take_damage(damage)
 	super()
 	
 func follow_player(player_position: Vector2, _delta: float) -> float:

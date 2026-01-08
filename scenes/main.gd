@@ -6,9 +6,10 @@ const DungeonGeneratorScript = preload("res://scenes/dungeon_generators/DungeonG
 # Préchargement des scènes d'ennemis
 const EnemyType1Scene = preload("res://scenes/enemies/EnemyType1.tscn")
 const EnemyType2Scene = preload("res://scenes/enemies/EnemyType2.tscn")
+const EnemyType3Scene = preload("res://scenes/enemies/EnemyType3.tscn")
 
 
-const ENEMY_TYPE_COUNT = 2
+const ENEMY_TYPE_COUNT = 3
 
 var enemies_loaded: Array[Enemy] = []
 
@@ -79,6 +80,9 @@ func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 		1:
 			enemy = EnemyType2Scene.instantiate()
 			enemy.name = "EnemyType2_" + str(randi())
+		2:
+			enemy = EnemyType3Scene.instantiate()
+			enemy.name = "EnemyType3_" + str(randi())
 		_:
 			push_error("Type d'ennemi non reconnu: " + str(enemy_type))
 			return null

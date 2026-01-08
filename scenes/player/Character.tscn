@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cxyn22o6bqdfj"]
+[gd_scene load_steps=29 format=3 uid="uid://cxyn22o6bqdfj"]
 
 [ext_resource type="Script" uid="uid://swhibyo66w2d" path="res://scenes/player/Player.gd" id="1_uxdko"]
 [ext_resource type="Script" uid="uid://c8jr3cc8mkcw4" path="res://scenes/player/components/MovementPlayer.gd" id="2_lqr8u"]
@@ -126,6 +126,12 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8grqf"]
+bg_color = Color(0.03839723, 0.038397145, 0.038397186, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qn341"]
+bg_color = Color(0.6, 0, 0, 1)
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 z_index = 5
 collision_layer = 4
@@ -186,3 +192,20 @@ metadata/_custom_type_script = "uid://bve61ktx3i5av"
 show_behind_parent = true
 position = Vector2(0, 18)
 scale = Vector2(1.4, 1.4)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.5
+offset_top = 35.0
+offset_right = 40.5
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 16
+theme_override_styles/background = SubResource("StyleBoxFlat_8grqf")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qn341")
+value = 100.0

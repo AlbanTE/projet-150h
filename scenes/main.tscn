@@ -18,13 +18,12 @@
 
 [sub_resource type="Resource" id="Resource_choun"]
 script = ExtResource("2_85g3d")
-cell_count = 500
-map_tiles_w = 256
-map_tiles_h = 256
-min_room_size = 8
-max_room_size = 12
+cell_count = 250
+map_tiles_w = 128
+map_tiles_h = 128
+min_room_size = 4
 extra_edge_chance = 0.3
-min_room_count = 20
+min_room_count = 12
 metadata/_custom_type_script = "uid://epuexnwso7gw"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_85g3d"]
