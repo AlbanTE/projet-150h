@@ -6,11 +6,11 @@ var opened: bool = false
 func _ready() -> void:
 	
 	if available_items.is_empty():
-		#available_items.append(preload("res://scenes/objects/items/nimbus_2000.tscn"))
-		#available_items.append(preload("res://scenes/objects/items/gloves.tscn"))
+		available_items.append(preload("res://scenes/objects/items/nimbus_2000.tscn"))
+		available_items.append(preload("res://scenes/objects/items/gloves.tscn"))
 		available_items.append(preload("res://scenes/objects/items/crystal.tscn"))
-		#available_items.append(preload("res://scenes/objects/items/incense_burner.tscn"))
-		#available_items.append(preload("res://scenes/objects/items/clover.tscn"))
+		available_items.append(preload("res://scenes/objects/items/incense_burner.tscn"))
+		available_items.append(preload("res://scenes/objects/items/clover.tscn"))
 		
 	$AnimatedSprite2D.animation_finished.connect(destroy)
 	
