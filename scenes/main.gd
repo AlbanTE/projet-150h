@@ -134,13 +134,15 @@ func spawn_enemy_batch(count: int = 25):
 		for c in to_remove:
 			used_cells.erase(c)
 		
-	print("Cells enemy cannot spawn: ", to_remove)
+	# print("Cells enemy cannot spawn: ", to_remove)
 	
 	for i in count:
 		var random_cell = used_cells[randi() % used_cells.size()]
 		var world_pos = cell_to_world_position(random_cell)
 		var random_type = randi() % ENEMY_TYPE_COUNT
-		SpawnEnnemi(world_pos, random_type)
+		
+		var random_offset: Vector2 = Vector2(randf(), randf()) * (Vector2(ground_layer.tile_set.tile_size) * ground_layer.scale) / 2
+		SpawnEnnemi(world_pos + random_offset, random_type)
 
 func cell_to_world_position(cell_coord: Vector2i) -> Vector2:
 	var tile_size = Vector2(ground_layer.tile_set.tile_size)
@@ -263,9 +265,9 @@ func _process(_delta: float) -> void:
 	time_label.text = "%d:%02d" % [floor(timer.time_left / 60), int(timer.time_left) % 60]
 		
 	if int(timer.time_left) == next_enemy_spawn and abs(int(timer.time_left) - next_wave_spawn) > 3:
-		spawn_enemy_batch(10)
+		spawn_enemy_batch(randi_range(5, 10))
 		next_enemy_spawn = int(timer.time_left) - randi_range(7, 20)
 	if int(timer.time_left) == next_wave_spawn:
-		spawn_enemy_batch(30)
+		spawn_enemy_batch(randi_range(20, 30))
 		next_wave_spawn = int(timer.time_left) - 30
 	

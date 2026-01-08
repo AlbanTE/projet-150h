@@ -6,5 +6,5 @@
 [node name="Crystal" type="Node2D"]
 script = ExtResource("1_7uesg")
 item_name = "Duplication Crystal"
-item_desc = "Add 3 projectiles  but reduces damages by 50%"
+item_desc = "Add 3 projectiles but reduces damages by 50%"
 item_sprite = ExtResource("2_bmm50")
