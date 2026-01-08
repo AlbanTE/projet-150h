@@ -79,6 +79,27 @@ func _ready() -> void:
 	
 	update_items()
 
+	# Totalement statique
+	if player and player.get("shield_instance"):
+		var shield = player.shield_instance
+		$SpellContainer/SpellBox1.set_spell(shield)
+		$SpellContainer/Label.text = '"' + str(get_action_key_string(shield.input_action)) + '"'
+
+
+	else:
+		$SpellContainer/SpellBox1.set_spell(null)
+		$SpellContainer/Label.text = ""
+	
+	# A faire pour les autres spell
+
+func get_action_key_string(action_name: String) -> String:
+	var events = InputMap.action_get_events(action_name)
+	if events.size() > 0:
+		for event in events:
+			if event is InputEventKey:
+				return OS.get_keycode_string(event.physical_keycode if event.physical_keycode != 0 else event.keycode)
+	return ""
+
 func process_input():
 	if Input.is_action_just_pressed("escape"):
 		if (isRewardMenuOpen and isPauseMenuOpen) or (isChooseMenuOpen and isPauseMenuOpen):

@@ -7,9 +7,11 @@ class_name Player
 @onready var movement_component: MovementComponent = $MovementPlayer
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var weapon_component: WeaponComponent = $WeaponComponent
-@onready var shield_spell_component: ShieldSpellComponent = $ShieldSpellComponent
 @onready var inventory_manager: InventoryManager = $InventoryManager
 @onready var health_bar: ProgressBar = $HealthBar
+
+var shield_spell_scene : PackedScene = preload("res://scenes/objects/spells/shield.tscn")
+var shield_instance : Shield
 
 # ────────────────
 # Player state
@@ -38,7 +40,13 @@ func _ready() -> void:
 		health_component.health_depleted.connect(_on_health_depleted)
 		health_component.health_changed.connect(_on_health_changed)
 
+
 	print("Player ready with %d HP" % health_component.current_health)
+
+	if shield_spell_scene:
+		shield_instance = shield_spell_scene.instantiate()
+		add_child(shield_instance)
+		shield_instance.target_sprite = $AnimatedSprite2D
 	
 func _physics_process(delta: float) -> void:
 	if not is_alive:
@@ -81,6 +89,11 @@ func _on_health_depleted() -> void:
 func take_damage(damage: int) -> void:
 	if not is_alive or not health_component:
 		return
+
+	if shield_instance and shield_instance.is_active:
+		shield_instance.deactivate()
+		return
+	
 	health_component.damage(damage)
 	play_sound_by_name("Damaged")
 
@@ -96,5 +109,5 @@ func heal(amount: int) -> void:
 func _input(event: InputEvent) -> void:
 	if weapon_component and is_alive:
 		weapon_component.handle_input(event)
-	if shield_spell_component:
-		shield_spell_component.handle_input(event)
+	if shield_instance:
+		shield_instance.handle_input(event)

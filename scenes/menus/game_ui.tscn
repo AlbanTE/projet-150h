@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://biarr6h25aa4"]
+[gd_scene load_steps=20 format=3 uid="uid://biarr6h25aa4"]
 
 [ext_resource type="Script" uid="uid://djkc2jhnmrfc0" path="res://scenes/menus/game_ui.gd" id="1_3quv2"]
 [ext_resource type="Material" uid="uid://df5t35brb3oqk" path="res://materials/blur.tres" id="1_6v45u"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b50hi8lh6aryp" path="res://assets/weapons/lance-tomate-fixed.png" id="6_ivene"]
 [ext_resource type="Texture2D" uid="uid://cl50nk3spxr4b" path="res://assets/UI/Pxiel Art UI borders.png" id="6_v144c"]
 [ext_resource type="PackedScene" uid="uid://buf15ot11ktdr" path="res://scenes/menus/ItemBox.tscn" id="7_fhv6m"]
+[ext_resource type="PackedScene" uid="uid://b1wtcfsba3x6b" path="res://scenes/menus/spell_box.tscn" id="8_spellbox"]
 
 [sub_resource type="Animation" id="Animation_v144c"]
 resource_name = "blur"
@@ -489,7 +490,7 @@ layout_mode = 2
 texture = ExtResource("6_ivene")
 
 [node name="GridContainer" type="GridContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
 offset_left = 20.0
 offset_top = 360.0
 offset_right = 320.0
@@ -504,6 +505,47 @@ layout_mode = 2
 
 [node name="Item3" parent="GridContainer" instance=ExtResource("7_fhv6m")]
 layout_mode = 2
+
+[node name="SpellContainer" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = -180.0
+offset_right = 461.0
+offset_bottom = -50.0
+grow_vertical = 0
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="SpellBox1" parent="SpellContainer" instance=ExtResource("8_spellbox")]
+layout_mode = 2
+
+[node name="SpellBox2" parent="SpellContainer" instance=ExtResource("8_spellbox")]
+layout_mode = 2
+
+[node name="SpellBox3" parent="SpellContainer" instance=ExtResource("8_spellbox")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SpellContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="SpellContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="SpellContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

@@ -1,0 +1,59 @@
+[gd_scene load_steps=11 format=3 uid="uid://b1wtcfsba3x6b"]
+
+[ext_resource type="Texture2D" uid="uid://cl50nk3spxr4b" path="res://assets/UI/Pxiel Art UI borders.png" id="1_2mgou"]
+[ext_resource type="Script" uid="uid://dr7ktvbs2l8da" path="res://scenes/menus/spell_box.gd" id="2_2mgou"]
+[ext_resource type="Texture2D" uid="uid://bsounugeqa72m" path="res://assets/textures/RPG Chests.png" id="3_apidt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcfec"]
+atlas = ExtResource("1_2mgou")
+region = Rect2(306.67828, 18.521955, 91.008514, 91.008514)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xdum0"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+texture = SubResource("AtlasTexture_wcfec")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+draw_center = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xdum0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wcfec"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2s6ye"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e32el"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g57ao"]
+atlas = ExtResource("3_apidt")
+region = Rect2(231, 8, 18, 16)
+
+[node name="SpellBox" type="Button"]
+z_index = 1
+z_as_relative = false
+offset_right = 100.0
+offset_bottom = 100.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_xdum0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xdum0")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_wcfec")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_2s6ye")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_e32el")
+script = ExtResource("2_2mgou")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_as_relative = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 84.0
+offset_bottom = 84.0
+texture = SubResource("AtlasTexture_g57ao")
+expand_mode = 1
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
