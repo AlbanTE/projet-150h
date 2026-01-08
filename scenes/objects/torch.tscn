@@ -105,7 +105,6 @@ texture_scale = 0.75
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_ypd75")
-volume_db = 10.0
 autoplay = true
 max_distance = 200.0
 attenuation = 1.5157164

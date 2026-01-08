@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cxyn22o6bqdfj"]
+[gd_scene load_steps=30 format=3 uid="uid://cxyn22o6bqdfj"]
 
 [ext_resource type="Script" uid="uid://swhibyo66w2d" path="res://scenes/player/Player.gd" id="1_uxdko"]
 [ext_resource type="Script" uid="uid://c8jr3cc8mkcw4" path="res://scenes/player/components/MovementPlayer.gd" id="2_lqr8u"]
@@ -183,6 +183,7 @@ script = ExtResource("8_shield_spell")
 
 [node name="Audio_CatScream" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_catscream")
+bus = &"sfx"
 
 [node name="InventoryManager" type="Node" parent="."]
 script = ExtResource("11_rlo5i")

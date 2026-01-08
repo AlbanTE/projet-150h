@@ -223,6 +223,7 @@ func _on_health_changed(prev_health: int, current_health: int, _max_health: int)
 		# Play block effect or something...
 		pass
 	else:
+		play_hit_effect()
 		_apply_damage_effects(current_health)
 	
 
@@ -243,6 +244,13 @@ func die() -> void:
 # ────────────────
 func _apply_damage_effects(_amount: int) -> void:
 	pass
+	
+@onready var damage_stream: Node = $Hit_Cue
+
+func play_hit_effect() -> void:
+		if damage_stream :
+			damage_stream.play()
+	
 
 func _apply_knockback(direction: Vector2, amount: float) -> void:
 	#print("Knockback for ", amount, " in direction: ", direction)

@@ -1547,7 +1547,7 @@ music_player = NodePath("backgroundPlayer")
 [node name="backgroundPlayer" type="AudioStreamPlayer" parent="AudioManager"]
 process_mode = 3
 stream = SubResource("AudioStreamInteractive_jkv2x")
-volume_db = -15.0
+volume_db = -20.0
 autoplay = true
 bus = &"music"
 

@@ -1,11 +1,12 @@
-[gd_scene load_steps=45 format=3 uid="uid://ccs1elagcfnvj"]
+[gd_scene load_steps=46 format=3 uid="uid://ccs1elagcfnvj"]
 
-[ext_resource type="Script" uid="uid://bss78vfgapuol" path="res://scenes/enemies/EnemyType3.gd" id="1_fqukb"]
+[ext_resource type="Script" path="res://scenes/enemies/EnemyType3.gd" id="1_fqukb"]
 [ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/generic_components/HealthComponent.gd" id="2_hql6v"]
 [ext_resource type="Shader" uid="uid://ce4sr8akrqun2" path="res://shaders/flash_effect.gdshader" id="3_l85hf"]
 [ext_resource type="Texture2D" uid="uid://dv8eekk12io2a" path="res://assets/ennemies/blue-slime-spritesheet.png" id="4_fqukb"]
 [ext_resource type="Texture2D" uid="uid://71rpcndnhpiw" path="res://assets/textures/NEw pack blood/1_100x100px_blue.png" id="5_fqukb"]
 [ext_resource type="Script" uid="uid://ctad5dfg4nsm6" path="res://scenes/generic_components/HurtboxComponent.gd" id="6_j7vf4"]
+[ext_resource type="AudioStream" uid="uid://bf2aet3h85e7g" path="res://audio/soundeffects/slime-impact-352473.mp3" id="7_hql6v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hl4sy"]
 size = Vector2(47, 34)
@@ -14,7 +15,7 @@ size = Vector2(47, 34)
 radius = 200.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2"]
-radius = 37.0
+radius = 25.019993
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0tf3x"]
 resource_local_to_scene = true
@@ -317,7 +318,6 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_2")
 
 [node name="Visual" type="Node2D" parent="."]
@@ -353,5 +353,10 @@ shape = SubResource("RectangleShape2D_hl4sy")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenNotifier2D" parent="."]
 rect = Rect2(-21, -15, 42, 30)
+
+[node name="Hit_Cue" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_hql6v")
+volume_db = -25.0
+bus = &"sfx"
 
 [connection signal="screen_entered" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_entered"]
