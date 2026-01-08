@@ -127,10 +127,12 @@ func spawn_enemy_batch(count: int = 25):
 	var to_remove = []
 	for cell in used_cells:
 		var cell_pos: Vector2 = cell_to_world_position(cell)
-		if cell_pos.distance_to(player.global_position) < get_viewport_rect().size[1] / 2:
+		if cell_pos.distance_to(player.global_position) < get_viewport_rect().size[1] / 2 or cell_pos.distance_to(player.global_position) > 3 * (get_viewport_rect().size[1] / 2):
 			to_remove.append(cell)
-	for c in to_remove:
-		used_cells.erase(c)
+	
+	if to_remove.size() < used_cells.size():
+		for c in to_remove:
+			used_cells.erase(c)
 		
 	print("Cells enemy cannot spawn: ", to_remove)
 	
@@ -173,11 +175,11 @@ func build_dungeon_area():
 			enemy.queue_free()
 	enemies_loaded.clear()
 	
-	var dungeon: Array = dungeon_generator.generate_dungeon(_seed + AudioGlobal.current_level)
+	var dungeon: Array = dungeon_generator.generate_dungeon(_seed + AudioGlobal.current_level - 1)
 	
-	timer.start(60 * (1 + current_level+1))
-	next_enemy_spawn = 60 * (1 + current_level+1) - randi_range(7, 20)
-	next_wave_spawn = 60 * (1 + current_level+1) - 30
+	timer.start(60 * (1 + AudioGlobal.current_level))
+	next_enemy_spawn = 60 * (1 + AudioGlobal.current_level) - randi_range(7, 20)
+	next_wave_spawn = 60 * (1 + AudioGlobal.current_level) - 30
 	
 	dungeon_generator._print_ascii_map()
 
