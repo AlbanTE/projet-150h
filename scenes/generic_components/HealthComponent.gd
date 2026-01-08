@@ -4,7 +4,7 @@ class_name HealthComponent
 ## ────────────────
 ## Signals
 ## ────────────────
-signal health_changed(current_health: int, max_health: int)
+signal health_changed(prev_health: int, current_health: int, max_health: int)
 signal health_depleted
 
 ## ────────────────
@@ -32,14 +32,13 @@ var last_zone_damage_time: Dictionary = {}  # zone_id -> timestamp
 ## Methods
 ## ────────────────
 func _ready() -> void:
-	current_health = clamp(current_health, 0, max_health)
-	# emit_signal("health_changed", current_health, current_health, max_health)
+	current_health = max_health
 
 
 func damage(amount: int) -> void:
 	if amount <= 0:
 		return
-	#print("HealthComponent: -", amount, " HP (", current_health, " -> ", max(0, current_health - amount), ")")
+	print("HealthComponent: -", amount, " HP (", current_health, " -> ", max(0, current_health - amount), ")")
 	current_health = max(0, current_health - amount)
 
 

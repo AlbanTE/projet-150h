@@ -83,12 +83,13 @@ func _ready() -> void:
 	if player and player.get("shield_instance"):
 		var shield = player.shield_instance
 		$SpellContainer/SpellBox1.set_spell(shield)
-		$SpellContainer/Label.text = '"' + str(get_action_key_string(shield.input_action)) + '"'
+		$SpellContainer/Label1.text = '"' + str(get_action_key_string(shield.input_action)) + '"'
+	
+	if player and player.get("heal_instance"):
+		var heal = player.heal_instance
+		$SpellContainer/SpellBox2.set_spell(heal)
+		$SpellContainer/Label2.text = '"' + str(get_action_key_string(heal.input_action)) + '"'
 
-
-	else:
-		$SpellContainer/SpellBox1.set_spell(null)
-		$SpellContainer/Label.text = ""
 	
 	# A faire pour les autres spell
 

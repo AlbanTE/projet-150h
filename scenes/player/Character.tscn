@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cxyn22o6bqdfj"]
+[gd_scene load_steps=28 format=3 uid="uid://cxyn22o6bqdfj"]
 
 [ext_resource type="Script" uid="uid://swhibyo66w2d" path="res://scenes/player/Player.gd" id="1_uxdko"]
 [ext_resource type="Script" uid="uid://c8jr3cc8mkcw4" path="res://scenes/player/components/MovementPlayer.gd" id="2_lqr8u"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://cptgddc1u64sh" path="res://assets/textures/WitchFlying.png" id="7_qn341"]
 [ext_resource type="AudioStream" uid="uid://cfab83pno3gc2" path="res://audio/soundeffects/Cat_scream.mp3" id="11_catscream"]
 [ext_resource type="Script" uid="uid://bve61ktx3i5av" path="res://scenes/player/components/InventoryManager.gd" id="11_rlo5i"]
-[ext_resource type="PackedScene" uid="uid://br6by2pks1p32" path="res://scenes/objects/heal.tscn" id="12_8grqf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
 size = Vector2(38, 46)
@@ -145,6 +144,7 @@ script = ExtResource("2_lqr8u")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_pwldm")
+max_health = 300
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.5, 1.5)
@@ -184,11 +184,6 @@ bus = &"sfx"
 [node name="InventoryManager" type="Node" parent="."]
 script = ExtResource("11_rlo5i")
 metadata/_custom_type_script = "uid://bve61ktx3i5av"
-
-[node name="Heal" parent="." instance=ExtResource("12_8grqf")]
-show_behind_parent = true
-position = Vector2(0, 18)
-scale = Vector2(1.4, 1.4)
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 anchors_preset = 7

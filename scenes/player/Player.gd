@@ -13,6 +13,9 @@ class_name Player
 var shield_spell_scene : PackedScene = preload("res://scenes/objects/spells/shield.tscn")
 var shield_instance : Shield
 
+var heal_spell_scene : PackedScene = preload("res://scenes/objects/spells/heal.tscn")
+var heal_instance : Heal
+
 # ────────────────
 # Player state
 # ────────────────
@@ -48,6 +51,11 @@ func _ready() -> void:
 		add_child(shield_instance)
 		shield_instance.target_sprite = $AnimatedSprite2D
 	
+	if heal_spell_scene:
+		heal_instance = heal_spell_scene.instantiate()
+		add_child(heal_instance)
+		heal_instance.target_player = self
+	
 func _physics_process(delta: float) -> void:
 	if not is_alive:
 		return
@@ -67,12 +75,12 @@ func _physics_process(delta: float) -> void:
 func _on_health_changed(prev_health: int, current_health: int, max_health: int) -> void:
 	health_bar.value = current_health
 	if (current_health > prev_health):
-		# Play heal effect
-		pass
+		if heal_instance:
+			heal_instance.play_anim()
 	elif (current_health == prev_health):
-		# Play block effect or something...
 		pass
 	else:
+		print("Player took ", prev_health - current_health)
 		$FlashEffectAnim.play("hit")
 		get_node("../ScreenEffects").damage_flash()
 
@@ -111,3 +119,5 @@ func _input(event: InputEvent) -> void:
 		weapon_component.handle_input(event)
 	if shield_instance:
 		shield_instance.handle_input(event)
+	if heal_instance:
+		heal_instance.handle_input(event)

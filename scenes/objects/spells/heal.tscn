@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://br6by2pks1p32"]
+[gd_scene load_steps=8 format=3 uid="uid://br6by2pks1p32"]
 
 [ext_resource type="Texture2D" uid="uid://brbaotfcrxxhb" path="res://assets/textures/heal1.png" id="1_i0q25"]
+[ext_resource type="Script" uid="uid://bgfsx1j5k0rhe" path="res://scenes/objects/spells/heal.gd" id="1_n2eem"]
 [ext_resource type="Texture2D" uid="uid://chirlfpcdanab" path="res://assets/textures/heal2.png" id="2_ie2hv"]
 [ext_resource type="Texture2D" uid="uid://cgm7yt6h1i5bk" path="res://assets/textures/heal3.png" id="3_d6d67"]
 [ext_resource type="Texture2D" uid="uid://dnvvqwanwhul1" path="res://assets/textures/heal4.png" id="4_dbjy3"]
@@ -30,8 +31,18 @@ animations = [{
 }]
 
 [node name="Heal" type="Node2D"]
+show_behind_parent = true
+position = Vector2(0, 2)
+scale = Vector2(2, 2)
+script = ExtResource("1_n2eem")
+spell_name = "Regeneration"
+spell_desc = "Heals you for 3% HP for 10 seconds"
+item_sprite = ExtResource("1_i0q25")
+cooldown = 30.0
+input_action = "Heal_Key"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = -1
 sprite_frames = SubResource("SpriteFrames_q3nu0")
 animation = &"heal_anim"
 autoplay = "heal_anim"
