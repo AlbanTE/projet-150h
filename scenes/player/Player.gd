@@ -9,6 +9,7 @@ class_name Player
 @onready var weapon_component: WeaponComponent = $WeaponComponent
 @onready var shield_spell_component: ShieldSpellComponent = $ShieldSpellComponent
 @onready var inventory_manager: InventoryManager = $InventoryManager
+@onready var health_bar: ProgressBar = $HealthBar
 
 # ────────────────
 # Player state
@@ -47,7 +48,7 @@ func _physics_process(delta: float) -> void:
 # callbacks
 # ────────────────
 func _on_health_changed(prev_health: int, current_health: int, max_health: int) -> void:
-	# print("Health: %d/%d" % [current_health, max_health])
+	health_bar.value = current_health
 	if (current_health > prev_health):
 		# Play heal effect
 		pass
