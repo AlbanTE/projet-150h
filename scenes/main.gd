@@ -52,6 +52,7 @@ func item_chosen_ui():
 func _ready():
 	seed(_seed)
 	tile_builder = CustomTileManager.new()
+	
 	build_dungeon_area()
 	
 	# Audio init
@@ -179,9 +180,54 @@ func build_dungeon_area():
 	
 	var dungeon: Array = dungeon_generator.generate_dungeon(_seed + AudioGlobal.current_level - 1)
 	
-	timer.start(60 * (1 + AudioGlobal.current_level))
-	next_enemy_spawn = 60 * (1 + AudioGlobal.current_level) - randi_range(7, 20)
-	next_wave_spawn = 60 * (1 + AudioGlobal.current_level) - 30
+	var level_time: int = 60 * (2 + AudioGlobal.current_level)
+	timer.start(level_time)
+	next_enemy_spawn = level_time - randi_range(7, 20)
+	next_wave_spawn = level_time - 30
+	
+	dungeon_generator._print_ascii_map()
+
+	# Find half dimensions to center dungeon at (0,0)
+	var half_w: int = int(dungeon[0].size() / 2.)
+	var half_h: int = int(dungeon.size() / 2.)
+	var offset = Vector2i(-half_w, -half_h)
+
+	# Build dungeon tiles
+	tile_builder.build_from_grid(ground_layer, wall_layer, dungeon, offset)
+
+	var player_spawn: Vector2i = Vector2i(0, 0)
+	for y in dungeon.size():
+		for x in dungeon[y].size():
+			if dungeon[y][x] == DungeonGenerator.Tile.PLAYER:
+				player_spawn = Vector2i(x, y)
+				break
+	
+	# Move player to spawn
+	teleport_player_to_spawn(player_spawn, offset)
+	
+	place_exit(dungeon, offset)
+	
+func build_boss_arena():
+	print("Building arena...")
+	ground_layer.clear()
+	wall_layer.clear()
+	for child in ground_layer.get_children():
+		child.queue_free()
+		# print("ground child freed !") # Exit, items etc...
+	for child in wall_layer.get_children():
+		child.queue_free()
+		# print("wall child freed !") # Torches etc...
+		
+	for enemy in enemies_loaded:
+		if is_instance_valid(enemy):
+			enemy.queue_free()
+	enemies_loaded.clear()
+	
+	var dungeon: Array = dungeon_generator.generate_boss_arena()
+	
+	timer.stop()
+	next_enemy_spawn = -1
+	next_wave_spawn = -1
 	
 	dungeon_generator._print_ascii_map()
 
@@ -206,13 +252,18 @@ func build_dungeon_area():
 	place_exit(dungeon, offset)
 	
 func place_exit(grid_data: Array, offset: Vector2i = Vector2i.ZERO) -> void:
+	var exit_found: bool = false
 	var exit_coords: Vector2i = Vector2i(0, 0)
 	for y in grid_data.size():
 		for x in grid_data[y].size():
 			if grid_data[y][x] == DungeonGenerator.Tile.EXIT:
 				exit_coords = Vector2i(x, y)
+				exit_found = true
 				break
-				
+	
+	if not exit_found:
+		return
+	
 	# Tile coordinate in grid space
 	var tile_coord: Vector2i = exit_coords + offset
 
@@ -262,7 +313,10 @@ func kill_nearest_enemy():
 		nearest_enemy.die()
 		
 func _process(_delta: float) -> void:
-	time_label.text = "%d:%02d" % [floor(timer.time_left / 60), int(timer.time_left) % 60]
+	if timer.is_stopped():
+		time_label.text = "???"
+	else:
+		time_label.text = "%d:%02d" % [floor(timer.time_left / 60), int(timer.time_left) % 60]
 		
 	if int(timer.time_left) == next_enemy_spawn and abs(int(timer.time_left) - next_wave_spawn) > 3:
 		spawn_enemy_batch(randi_range(5, 10))
