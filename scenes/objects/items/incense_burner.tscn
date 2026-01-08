@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3hi11yl28c8j"]
+
+[ext_resource type="Script" uid="uid://h13uuy1g5f0v" path="res://scenes/objects/items/incense_burner.gd" id="1_2or78"]
+[ext_resource type="Texture2D" uid="uid://cll6oylnps7q2" path="res://assets/textures/incense_burner.png" id="2_h3c25"]
+
+[node name="Incense_burner" type="Node2D"]
+script = ExtResource("1_2or78")
+item_name = "Persistant Incense Burner"
+item_desc = "Up Duration by 50% but reduces speed by 25%"
+item_sprite = ExtResource("2_h3c25")

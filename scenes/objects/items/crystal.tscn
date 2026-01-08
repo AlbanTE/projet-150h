@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://u0u8jbhjmj2v"]
+
+[ext_resource type="Script" uid="uid://ca20b6wp0y2ce" path="res://scenes/objects/items/crystal.gd" id="1_7uesg"]
+[ext_resource type="Texture2D" uid="uid://b7q405djekd0v" path="res://assets/textures/crystal.png" id="2_bmm50"]
+
+[node name="Crystal" type="Node2D"]
+script = ExtResource("1_7uesg")
+item_name = "Duplication Crystal"
+item_desc = "Add 3 projectiles  but reduces damages by 50%"
+item_sprite = ExtResource("2_bmm50")

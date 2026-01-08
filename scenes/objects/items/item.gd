@@ -13,5 +13,5 @@ func _process(_delta: float) -> void:
 
 func destroy() -> void:
 	PlayerStats.remove_modifiers_from_source(self)
-	print("Removing broom ----------")
+	print("Removing item ----------")
 	queue_free()

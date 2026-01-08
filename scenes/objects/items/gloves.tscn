@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://di16nghu6gmif"]
+
+[ext_resource type="Script" uid="uid://d00k6lwlq3llv" path="res://scenes/objects/items/gloves.gd" id="1_136a8"]
+[ext_resource type="Texture2D" uid="uid://b12dto1q322st" path="res://assets/textures/gloves.png" id="2_g8il0"]
+
+[node name="Gloves" type="Node2D"]
+script = ExtResource("1_136a8")
+item_name = "Frenetic Gloves"
+item_desc = "Sharp glovas that enhances your attack speed by 30% but reduces knockback by 10%"
+item_sprite = ExtResource("2_g8il0")
