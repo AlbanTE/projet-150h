@@ -25,6 +25,10 @@ var tile_builder: CustomTileManager
 @export var current_level: int = 0
 
 @onready var UI: GameUI = $CanvasLayer/GameUI
+@onready var time_label: Label = $CanvasLayer/TimeRemaining
+@onready var timer: Timer = $Timer
+var next_enemy_spawn: int = 0
+var next_wave_spawn: int = 0
 
 func upgrade():
 	UI.openRewardMenu()
@@ -56,13 +60,23 @@ func _ready():
 		var item_box = UI.get_node("GridContainer/Item" + str(i+1))
 		item_box.connect("replaced", player.inventory_manager.replace_item)
 	UI.get_node("InGameMenu/ChooseItem/ItemBox").connect("replaced", player.inventory_manager.replace_item)
+	
+	timer.process_mode = Node.PROCESS_MODE_PAUSABLE
+	timer.timeout.connect(game_over)
+	timer.autostart = false
+	timer.one_shot = true
 
 func next_level() -> void:
 	print("Go to next level")
 	current_level += 1
 	PlayerStats.UPGRADES_COUNT = 0
 	build_dungeon_area()
-	
+
+func game_over() -> void:
+	print("Game over !")
+	get_tree().paused = true
+	await get_tree().create_timer(3).timeout
+	get_tree().quit()
 
 func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	var enemy: Enemy = null
@@ -95,9 +109,22 @@ func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	return enemy
 
 func spawn_enemy_batch(count: int = 25):
+	print("Spawning ", count, " enemies !")
+	
 	var used_cells = ground_layer.get_used_cells()
 	if used_cells.is_empty():
 		return
+	
+	# Remove cells too close to the player
+	var to_remove = []
+	for cell in used_cells:
+		var cell_pos: Vector2 = cell_to_world_position(cell)
+		if cell_pos.distance_to(player.global_position) < get_viewport_rect().size[1] / 2:
+			to_remove.append(cell)
+	for c in to_remove:
+		used_cells.erase(c)
+		
+	print("Cells enemy cannot spawn: ", to_remove)
 	
 	for i in count:
 		var random_cell = used_cells[randi() % used_cells.size()]
@@ -139,6 +166,10 @@ func build_dungeon_area():
 	enemies_loaded.clear()
 	
 	var dungeon: Array = dungeon_generator.generate_dungeon(_seed + current_level)
+	
+	timer.start(60 * (1 + current_level+1))
+	next_enemy_spawn = 60 * (1 + current_level+1) - randi_range(7, 20)
+	next_wave_spawn = 60 * (1 + current_level+1) - 30
 	
 	dungeon_generator._print_ascii_map()
 
@@ -217,3 +248,14 @@ func kill_nearest_enemy():
 	
 	if nearest_enemy:
 		nearest_enemy.die()
+		
+func _process(_delta: float) -> void:
+	time_label.text = "%d:%02d" % [floor(timer.time_left / 60), int(timer.time_left) % 60]
+		
+	if int(timer.time_left) == next_enemy_spawn and abs(int(timer.time_left) - next_wave_spawn) > 3:
+		spawn_enemy_batch(10)
+		next_enemy_spawn = int(timer.time_left) - randi_range(7, 20)
+	if int(timer.time_left) == next_wave_spawn:
+		spawn_enemy_batch(30)
+		next_wave_spawn = int(timer.time_left) - 30
+	

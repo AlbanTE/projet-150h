@@ -1452,7 +1452,7 @@ light_mask = 1024
 visibility_layer = 1024
 z_as_relative = false
 
-[node name="Label" type="Label" parent="CanvasLayer"]
+[node name="FPS" type="Label" parent="CanvasLayer"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -1460,3 +1460,18 @@ offset_left = -40.0
 offset_bottom = 13.0
 grow_horizontal = 0
 theme_override_font_sizes/font_size = 64
+
+[node name="TimeRemaining" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -12.0
+offset_right = 12.0
+offset_bottom = 13.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 48
+text = "3:00"
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
