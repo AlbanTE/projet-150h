@@ -1,7 +1,8 @@
 extends CharacterBody2D
+class_name Boss
 
-enum State { IDLE, MELEE, LASER_BEAM, MOVING, TELEPORTING, ENTRANCE }
-var state_label: Array[String] = ["IDLE", "MELEE", "LASER", "MOVING", "TELEPORTING", "ENTRANCE"]
+enum State { IDLE, MELEE, LASER_BEAM, MOVING, TELEPORTING, ENTRANCE, DEATH }
+var state_label: Array[String] = ["IDLE", "MELEE", "LASER", "MOVING", "TELEPORTING", "ENTRANCE", "DEATH"]
 
 # ────────────────
 # Components
@@ -48,6 +49,8 @@ var shake_duration := 0.0
 
 @onready var laser: PackedScene = preload("res://scenes/enemies/lightning.tscn")
 
+signal boss_dead
+
 func _ready():
 	_setup_connections()
 	_setup_collisions()
@@ -82,6 +85,9 @@ func _configure_boss():
 	print("Boss health: ", health_component.max_health)
 
 func _process(delta):
+	if current_state == State.DEATH:
+		return
+	
 	if not activated:
 		return
 	
@@ -177,6 +183,9 @@ func perform_laser_cycle():
 	perform_laser_attack()
 
 func change_state(new_state: State):
+	if current_state == State.DEATH:
+		return 
+	
 	if current_state == State.MELEE and new_state != State.MELEE:
 		disable_damage()
 	
@@ -201,12 +210,33 @@ func change_state(new_state: State):
 			animation_player.play("teleport")
 		State.ENTRANCE:
 			animation_player.play("entrance")
+		State.DEATH:
+			animation_player.play("entrance")
 
 func spawn_laser_at_relative(position: Vector2):
 	var laser_inst: Lightning = laser.instantiate()
 	add_child(laser_inst)
 	laser_inst.damageable = false
 	laser_inst.global_position = global_position + position * 5
+	
+func spawn_lasers_in_circle(n: int, s: float, d: float) -> void:
+	if n <= 0:
+		return
+
+	var angle_step := TAU / n
+
+	for i in range(n):
+		var angle := i * angle_step
+		var offset := Vector2(cos(angle), sin(angle)) * d
+
+		var laser_inst: Lightning = laser.instantiate()
+		add_child(laser_inst)
+		laser_inst.damageable = false
+		laser_inst.global_position = global_position + offset
+
+		if i < n - 1:
+			await get_tree().create_timer(s).timeout
+
 
 func perform_laser_attack():
 	change_state(State.LASER_BEAM)
@@ -253,7 +283,7 @@ func teleport_closer_to_player():
 	global_position = target_pos
 
 func update_flip_direction():
-	if not player or current_state == State.TELEPORTING:
+	if not player or current_state == State.TELEPORTING or current_state == State.DEATH:
 		return
 	
 	var direction = (player.global_position - global_position).normalized()
@@ -275,13 +305,16 @@ func _on_animation_finished(anim_name: String):
 		"laser_beam":
 			change_state(State.IDLE)
 		"entrance":
-			if player and player.has_method("enable_input"):
-				player.enable_input()
-			cooldown_timer = 1
-			change_state(State.IDLE)
-			# Initialiser le compteur de cycles
-			attack_cycles_completed = 0
-			cycles_before_pause = randi_range(3, 5)
+			if current_state != State.DEATH:
+				if player and player.has_method("enable_input"):
+					player.enable_input()
+				cooldown_timer = 1
+				change_state(State.IDLE)
+				# Initialiser le compteur de cycles
+				attack_cycles_completed = 0
+				cycles_before_pause = randi_range(3, 5)
+			else:
+				queue_free()
 
 # Fonctions d'animation
 func play_sprite_animation(anim_name: String):
@@ -315,13 +348,26 @@ func disable_damage():
 func activate():
 	activated = true
 	$VisibleOnScreenEnabler2D.queue_free()
+	get_parent().get_node("AudioManager").update_music()
+	get_parent().get_node("AudioManager").resume_music()
 	play_entrance()
 
 func play_entrance():
 	if player and player.has_method("disable_input"):
 		player.disable_input()
 	
+	var target_offset = global_position - player.global_position
+	
+	var tween_1 = create_tween()
+	tween_1.tween_property(camera, "position", target_offset, 0.5)
 	change_state(State.ENTRANCE)
+	
+	await get_tree().create_timer(3).timeout
+	
+	hurtbox_component.monitoring = true
+
+	var tween_2 = create_tween()
+	tween_2.tween_property(camera, "position", Vector2(0, 0), 0.5)
 
 # ────────────────
 # Callbacks
@@ -330,10 +376,17 @@ func _apply_damage_effects(_amount: int) -> void:
 	pass
 
 func _apply_death_effects() -> void:
-	pass
+	change_state(State.DEATH)
+	
+	if left_arm_collision:
+		left_arm_collision.set_deferred("monitoring", false)
+	if right_arm_collision:
+		right_arm_collision.set_deferred("monitoring", false)
+	
+	boss_dead.emit()
 
 func _on_hit_by_bullet(_bullet: Node2D, bullet_damage: int, bullet_knockback: float) -> void:
-	if not is_alive:
+	if not is_alive or current_state == State.DEATH:
 		return
 	_apply_damage_effects(bullet_damage)
 
@@ -352,5 +405,5 @@ func _on_health_depleted() -> void:
 func die() -> void:
 	is_alive = false
 	velocity = Vector2.ZERO
+	player.make_invicible()
 	_apply_death_effects()
-	queue_free()

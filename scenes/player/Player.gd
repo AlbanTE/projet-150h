@@ -55,6 +55,9 @@ func _physics_process(delta: float) -> void:
 			else:
 				$AnimatedSprite2D.flip_h = true
 
+func make_invicible():
+	health_component.health_depleted.disconnect(_on_health_depleted)
+	health_component.health_changed.disconnect(_on_health_changed)
 
 # ────────────────
 # callbacks

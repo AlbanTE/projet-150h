@@ -193,7 +193,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3e6u2")
 }],
-"loop": true,
+"loop": false,
 "name": &"entrance",
 "speed": 8.0
 }, {
@@ -415,32 +415,14 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.6571667, 0.9871667, 1.3171668, 1.6416668, 1.9771668, 2.3071668, 2.6371665),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.66),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [10.0, 3.0],
 "method": &"screen_shake"
 }, {
-"args": [Vector2(30, 0)],
-"method": &"spawn_laser_at_relative"
-}, {
-"args": [Vector2(20, 20)],
-"method": &"spawn_laser_at_relative"
-}, {
-"args": [Vector2(10, 25)],
-"method": &"spawn_laser_at_relative"
-}, {
-"args": [Vector2(0, 30)],
-"method": &"spawn_laser_at_relative"
-}, {
-"args": [Vector2(-10, 25)],
-"method": &"spawn_laser_at_relative"
-}, {
-"args": [Vector2(-20, -20)],
-"method": &"spawn_laser_at_relative"
-}, {
-"args": [Vector2(-30, 0)],
-"method": &"spawn_laser_at_relative"
+"args": [7, 0.3, 100.0],
+"method": &"spawn_lasers_in_circle"
 }]
 }
 
@@ -561,16 +543,17 @@ script = ExtResource("1_ub7yk")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_yye4w")
-max_health = 10
+max_health = 50
 metadata/_custom_type_script = "uid://dkgjxovaxsw7m"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_uq4kr")
-animation = &"entrance"
+animation = &"idle"
 
 [node name="HurtboxComponent" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 16
+monitoring = false
 script = ExtResource("5_rvo7g")
 health_component = NodePath("../HealthComponent")
 metadata/_custom_type_script = "uid://ctad5dfg4nsm6"
