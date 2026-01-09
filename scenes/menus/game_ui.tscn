@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://biarr6h25aa4"]
+[gd_scene load_steps=21 format=3 uid="uid://biarr6h25aa4"]
 
 [ext_resource type="Script" uid="uid://djkc2jhnmrfc0" path="res://scenes/menus/game_ui.gd" id="1_3quv2"]
 [ext_resource type="Material" uid="uid://df5t35brb3oqk" path="res://materials/blur.tres" id="1_6v45u"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b50hi8lh6aryp" path="res://assets/weapons/lance-tomate-fixed.png" id="6_ivene"]
 [ext_resource type="Texture2D" uid="uid://cl50nk3spxr4b" path="res://assets/UI/Pxiel Art UI borders.png" id="6_v144c"]
 [ext_resource type="PackedScene" uid="uid://buf15ot11ktdr" path="res://scenes/menus/ItemBox.tscn" id="7_fhv6m"]
+[ext_resource type="Script" uid="uid://df8itub5haxtq" path="res://scenes/menus/bindings_container.gd" id="7_js7mx"]
 [ext_resource type="PackedScene" uid="uid://b1wtcfsba3x6b" path="res://scenes/menus/spell_box.tscn" id="8_spellbox"]
 
 [sub_resource type="Animation" id="Animation_v144c"]
@@ -464,6 +465,394 @@ theme = ExtResource("3_030jj")
 text = "QUIT"
 autowrap_trim_flags = 0
 
+[node name="OptionsMenu" type="MarginContainer" parent="InGameMenu"]
+visible = false
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="InGameMenu/OptionsMenu"]
+layout_mode = 2
+color = Color(0.32004195, 0.25499195, 0.32004195, 1)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="InGameMenu/OptionsMenu"]
+clip_contents = true
+layout_mode = 2
+texture = ExtResource("2_030jj")
+region_rect = Rect2(95, 1375, 450, 450)
+patch_margin_left = 65
+patch_margin_top = 65
+patch_margin_right = 65
+patch_margin_bottom = 65
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InGameMenu/OptionsMenu"]
+custom_minimum_size = Vector2(500, 800)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Scroll" type="ScrollContainer" parent="InGameMenu/OptionsMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Container" type="VBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="VolumeContainer" type="VBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Volume"
+vertical_alignment = 1
+uppercase = true
+
+[node name="HSeparator" type="HSeparator" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer"]
+layout_mode = 2
+
+[node name="MasterVolume" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer"]
+layout_mode = 2
+
+[node name="MasterVolumeText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MasterVolume"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Master Volume"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MasterVolume"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+value = 50.0
+
+[node name="MusicVolume" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer"]
+layout_mode = 2
+
+[node name="MusicVolumeText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MusicVolume"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Music Volume"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MusicVolume"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+value = 50.0
+
+[node name="SFXVolume" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer"]
+layout_mode = 2
+
+[node name="SFXVolumeText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/SFXVolume"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "SFX Volume"
+
+[node name="SFXVolumeSlider" type="HSlider" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/SFXVolume"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+value = 50.0
+
+[node name="BindingsContainer" type="VBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container"]
+layout_mode = 2
+theme_override_constants/separation = 10
+script = ExtResource("7_js7mx")
+
+[node name="Label" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Bindings"
+vertical_alignment = 1
+uppercase = true
+
+[node name="HSeparator" type="HSeparator" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+
+[node name="MoveUPBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+
+[node name="MoveUpText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Move Up"
+
+[node name="MoveUpButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="InputMoveUp" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding/MoveUpButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -6.5
+offset_right = 20.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoveLeftBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+
+[node name="MoveLeftText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Move Left"
+
+[node name="MoveLeftButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="InputMoveLeft" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding/MoveLeftButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -6.5
+offset_right = 20.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoveDownBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+
+[node name="MoveDownText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Move Down"
+
+[node name="MoveDownButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="InputMoveDown" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding/MoveDownButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -6.5
+offset_right = 20.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoveRightBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+
+[node name="MoveRightText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Move Right"
+
+[node name="MoveRightButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="InputMoveRight" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding/MoveRightButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -6.5
+offset_right = 20.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TriggerWeaponBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+
+[node name="TriggerWeaponText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Trigger Weapon"
+
+[node name="TriggerWeaponButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="InputTriggerWeapon" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding/TriggerWeaponButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -6.5
+offset_right = 20.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SwitchWeaponBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+
+[node name="SwitchWeaponText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Switch Weapon"
+
+[node name="SwitchWeaponButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="InputSwitchWeapon" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding/SwitchWeaponButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -6.5
+offset_right = 20.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ShieldBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+
+[node name="ShieldText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Shield"
+
+[node name="ShieldButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="InputShield" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding/ShieldButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -6.5
+offset_right = 20.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HealBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+
+[node name="HealText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Heal"
+
+[node name="HealButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="InputHeal" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding/HealButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -6.5
+offset_right = 20.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ZoomiesBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+layout_mode = 2
+
+[node name="ZoomiesText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Zoomies"
+
+[node name="ZoomiesButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="InputZoomies" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding/ZoomiesButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -6.5
+offset_right = 20.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Ok Button" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_030jj")
+theme_override_font_sizes/font_size = 50
+text = "OK
+"
+autowrap_trim_flags = 0
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
 offset_left = 20.0
@@ -551,3 +940,16 @@ vertical_alignment = 1
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="value_changed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MasterVolume/MasterVolumeSlider" to="." method="_on_master_volume_slider_value_changed"]
+[connection signal="value_changed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MusicVolume/MusicVolumeSlider" to="." method="_on_music_volume_slider_value_changed"]
+[connection signal="value_changed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/SFXVolume/SFXVolumeSlider" to="." method="_on_sfx_volume_slider_value_changed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding/MoveUpButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_up_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding/MoveLeftButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_left_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding/MoveDownButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_down_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding/MoveRightButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_right_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding/TriggerWeaponButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_trigger_weapon_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding/SwitchWeaponButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_switch_weapon_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding/ShieldButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_shield_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding/HealButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_heal_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding/ZoomiesButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_zoomies_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Ok Button" to="." method="_on_ok_button_pressed"]
