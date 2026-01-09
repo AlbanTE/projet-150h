@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cxyn22o6bqdfj"]
+[gd_scene load_steps=29 format=3 uid="uid://cxyn22o6bqdfj"]
 
 [ext_resource type="Script" uid="uid://swhibyo66w2d" path="res://scenes/player/Player.gd" id="1_uxdko"]
 [ext_resource type="Script" uid="uid://c8jr3cc8mkcw4" path="res://scenes/player/components/MovementPlayer.gd" id="2_lqr8u"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cptgddc1u64sh" path="res://assets/textures/WitchFlying.png" id="7_qn341"]
 [ext_resource type="AudioStream" uid="uid://cfab83pno3gc2" path="res://audio/soundeffects/Cat_scream.mp3" id="11_catscream"]
 [ext_resource type="Script" uid="uid://bve61ktx3i5av" path="res://scenes/player/components/InventoryManager.gd" id="11_rlo5i"]
+[ext_resource type="Script" uid="uid://clgpqood3lfrv" path="res://scenes/player/health_bar.gd" id="12_8grqf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
 size = Vector2(38, 46)
@@ -200,4 +201,4 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 16
 theme_override_styles/background = SubResource("StyleBoxFlat_8grqf")
 theme_override_styles/fill = SubResource("StyleBoxFlat_qn341")
-value = 100.0
+script = ExtResource("12_8grqf")

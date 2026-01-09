@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://n78kjoj3u3dp"]
+
+[ext_resource type="Script" uid="uid://bwem5xif14e6v" path="res://scenes/objects/spells/zoomies.gd" id="1_oifwk"]
+[ext_resource type="Texture2D" uid="uid://bm4c0yltoaj6d" path="res://assets/textures/zoomies.png" id="2_sxavq"]
+[ext_resource type="AudioStream" uid="uid://uklas5qmftvi" path="res://audio/soundeffects/purring-cat-401727.mp3" id="3_sxavq"]
+
+[node name="Zoomies" type="Node"]
+script = ExtResource("1_oifwk")
+spell_name = "Zoomies"
+spell_desc = "The cat is subject to frenetic random activity giving you +100% damage for 10 seconds"
+item_sprite = ExtResource("2_sxavq")
+cooldown = 60.0
+input_action = "Zoomies_Key"
+metadata/_custom_type_script = "uid://bsi1qeqeokr8s"
+
+[node name="zoomie_sfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_sxavq")
+pitch_scale = 1.2
+bus = &"sfx"
+parameters/looping = false

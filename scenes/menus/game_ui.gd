@@ -89,9 +89,12 @@ func _ready() -> void:
 		var heal = player.heal_instance
 		$SpellContainer/SpellBox2.set_spell(heal)
 		$SpellContainer/Label2.text = '"' + str(get_action_key_string(heal.input_action)) + '"'
+		
+	if player and player.get("zoomies_instance"):
+		var zoomies = player.zoomies_instance
+		$SpellContainer/SpellBox3.set_spell(zoomies)
+		$SpellContainer/Label3.text = '"' + str(get_action_key_string(zoomies.input_action)) + '"'
 
-	
-	# A faire pour les autres spell
 
 func get_action_key_string(action_name: String) -> String:
 	var events = InputMap.action_get_events(action_name)

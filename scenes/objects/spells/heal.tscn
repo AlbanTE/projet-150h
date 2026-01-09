@@ -32,7 +32,7 @@ animations = [{
 
 [node name="Heal" type="Node2D"]
 show_behind_parent = true
-position = Vector2(0, 2)
+position = Vector2(0, 7)
 scale = Vector2(2, 2)
 script = ExtResource("1_n2eem")
 spell_name = "Regeneration"

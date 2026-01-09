@@ -16,6 +16,9 @@ var shield_instance : Shield
 var heal_spell_scene : PackedScene = preload("res://scenes/objects/spells/heal.tscn")
 var heal_instance : Heal
 
+var zoomies_spell_scene : PackedScene = preload("res://scenes/objects/spells/zoomies.tscn")
+var zoomies_instance : Zoomies
+
 # ────────────────
 # Player state
 # ────────────────
@@ -55,6 +58,11 @@ func _ready() -> void:
 		heal_instance = heal_spell_scene.instantiate()
 		add_child(heal_instance)
 		heal_instance.target_player = self
+	
+	if zoomies_spell_scene:
+		zoomies_instance = zoomies_spell_scene.instantiate()
+		add_child(zoomies_instance)
+		zoomies_instance.target_player = self
 	
 func _physics_process(delta: float) -> void:
 	if not is_alive:
@@ -121,3 +129,5 @@ func _input(event: InputEvent) -> void:
 		shield_instance.handle_input(event)
 	if heal_instance:
 		heal_instance.handle_input(event)
+	if zoomies_instance:
+		zoomies_instance.handle_input(event)

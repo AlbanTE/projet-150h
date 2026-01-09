@@ -35,6 +35,10 @@ func activate() -> void:
 func deactivate() -> void:
 	if not is_active:
 		return
+	play_shield_break()
 	is_active = false
 	if target_sprite:
 		target_sprite.material = original_material
+
+func play_shield_break() -> void :
+	$break_sfx.play()

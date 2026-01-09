@@ -31,7 +31,6 @@ var is_alive: bool = true
 # var is_following: bool = false
 var path_update_timer: float = 0.0
 
-var detection_radius: float = 200.0
 var attack_range: float = 50.0
 
 var activated: bool = false
@@ -67,10 +66,7 @@ func _ready() -> void:
 		
 func _get_references() -> void:
 	navigation_agent = $NavigationAgent2D
-	# detection_area = $DetectionArea
 	attack_area = $AttackArea
-	
-	# detection_radius = (detection_area.get_child(0) as CollisionShape2D).shape.radius
 	attack_range = (attack_area.get_child(0) as CollisionShape2D).shape.radius
 
 	if has_node("Visual/AnimatedSprite2D"):
@@ -78,9 +74,6 @@ func _get_references() -> void:
 
 
 func _connect_signals() -> void:
-	#if detection_area:
-		#detection_area.body_entered.connect(_on_detection_area_entered)
-
 	if attack_area:
 		attack_area.body_entered.connect(_on_attack_area_entered)
 		attack_area.body_exited.connect(_on_attack_area_exited)
@@ -215,25 +208,22 @@ func _on_hit_by_bullet(_bullet: Node2D, bullet_damage: int, bullet_knockback: fl
 # Health callback
 # ────────────────
 func _on_health_changed(prev_health: int, current_health: int, _max_health: int) -> void:
-	#print("Enemy: health changed signal received")
 	if (current_health > prev_health):
-		# Play heal effect
 		pass
 	elif (current_health == prev_health):
-		# Play block effect or something...
 		pass
 	else:
+		var amount =  prev_health - current_health
+		print("Callback enemy : -", amount, " HP (", prev_health, " -> ", max(0, current_health), ")")
 		play_hit_effect()
 		_apply_damage_effects(current_health)
 	
 
 func _on_health_depleted() -> void:
-	#print("Enemy: Die signal received")
 	die()
 
 func die() -> void:
 	is_alive = false
-	#is_following = false
 	velocity = Vector2.ZERO
 	_apply_death_effects()
 	queue_free()
