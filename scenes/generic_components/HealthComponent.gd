@@ -33,6 +33,7 @@ var last_zone_damage_time: Dictionary = {}  # zone_id -> timestamp
 ## ────────────────
 func _ready() -> void:
 	current_health = max_health
+	# emit_signal("health_changed", current_health, current_health, max_health)
 
 
 func damage(amount: int) -> void:

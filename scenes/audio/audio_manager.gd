@@ -20,3 +20,9 @@ func update_music():
 	# Récupérer le string associé au Stream Interactive
 	var current_level_music = str(current_level)
 	music_player["parameters/switch_to_clip"] = current_level_music
+	
+func pause_music():
+	music_player.stream_paused = true
+
+func resume_music():
+	music_player.stream_paused = false

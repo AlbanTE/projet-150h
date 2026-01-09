@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://cxyn22o6bqdfj"]
+[gd_scene load_steps=30 format=3 uid="uid://cxyn22o6bqdfj"]
 
 [ext_resource type="Script" uid="uid://swhibyo66w2d" path="res://scenes/player/Player.gd" id="1_uxdko"]
 [ext_resource type="Script" uid="uid://c8jr3cc8mkcw4" path="res://scenes/player/components/MovementPlayer.gd" id="2_lqr8u"]
@@ -156,6 +156,7 @@ libraries = {
 }
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
 color = Color(0.99561507, 0.9884071, 0.64249647, 1)
 energy = 0.5
 shadow_filter = 1

@@ -379,6 +379,7 @@ shape = SubResource("RectangleShape2D_hl4sy")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_jd3ge")
+max_health = 200
 metadata/_custom_type_script = "uid://dkgjxovaxsw7m"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
