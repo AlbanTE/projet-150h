@@ -156,6 +156,7 @@ libraries = {
 }
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
 color = Color(0.99561507, 0.9884071, 0.64249647, 1)
 energy = 0.5
 shadow_filter = 1

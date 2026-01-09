@@ -94,6 +94,7 @@ autoplay = "burn"
 frame_progress = 0.19731799
 
 [node name="PointLight2D" type="PointLight2D" parent="AnimatedSprite2D"]
+visible = false
 light_mask = 3
 visibility_layer = 3
 color = Color(0.9043261, 0.5873669, 0.15170373, 1)

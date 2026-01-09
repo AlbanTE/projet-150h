@@ -53,10 +53,15 @@ func _ready():
 	seed(_seed)
 	tile_builder = CustomTileManager.new()
 	
-	build_dungeon_area()
+	advance_level()
+	advance_level()
+	advance_level()
+	build_boss_arena()
+	
+	# build_dungeon_area()
 	
 	# Audio init
-	AudioGlobal.current_level = 1
+	#AudioGlobal.current_level = 1
 	
 	player.weapon_component.connect("weapon_equiped", update_weapon_ui)
 	player.inventory_manager.connect("update_inventory", update_items_ui)

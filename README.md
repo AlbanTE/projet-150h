@@ -28,3 +28,4 @@ Projet de 150h de développement d'un jeu vidéo 2D de type roguelike/dungeon cr
 - https://xyezawr.itch.io/gif-free-pixel-effects-pack-5-blood-effects
 - https://toffeecraft.itch.io/cat-pack-halloween-edition
 - https://pixelserial.itch.io/rpg-pixel-art-chests
+- https://daxelheart.itch.io/crystal-knight

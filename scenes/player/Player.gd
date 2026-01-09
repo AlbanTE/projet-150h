@@ -16,6 +16,8 @@ class_name Player
 # ────────────────
 var is_alive: bool = true
 
+var disabled_inputs: bool = false
+
 # ────────────────
 # Audio streams
 # ────────────────
@@ -44,7 +46,8 @@ func _physics_process(delta: float) -> void:
 	if not is_alive:
 		return
 	if movement_component:
-		movement_component.update_movement(self, delta)
+		if not disabled_inputs:
+			movement_component.update_movement(self, delta)
 		
 		if velocity != Vector2.ZERO and velocity.normalized() != Vector2.UP and velocity.normalized() != Vector2.DOWN:
 			if abs(rad_to_deg(velocity.angle())) > 90:
@@ -94,7 +97,16 @@ func heal(amount: int) -> void:
 # Input
 # ────────────────
 func _input(event: InputEvent) -> void:
+	if disabled_inputs:
+		return
+	
 	if weapon_component and is_alive:
 		weapon_component.handle_input(event)
 	if shield_spell_component:
 		shield_spell_component.handle_input(event)
+
+func disable_input():
+	disabled_inputs = true
+	
+func enable_input():
+	disabled_inputs = false
