@@ -135,8 +135,30 @@ func _on_restart_button_pressed() -> void:
 
 
 func _on_options_button_pressed() -> void:
-	pass # Replace with function body.
+	$InGameMenu/MainPauseMenu.visible = false
+	$InGameMenu/OptionsMenu.visible = true
+
+
+func _on_ok_button_pressed() -> void:
+	$InGameMenu/OptionsMenu.visible = false
+	$InGameMenu/MainPauseMenu.visible = true
 
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
+
+
+# ========== AUDIO ==========
+# Slider : 0-100 → dB : -25 à +25 (50 = 0 dB)
+
+func _on_master_volume_slider_value_changed(value: float) -> void:
+	var db = (value - 50.0) * 0.5
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), db)
+
+func _on_music_volume_slider_value_changed(value: float) -> void:
+	var db = (value - 50.0) * 0.5
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("music"), db)
+
+func _on_sfx_volume_slider_value_changed(value: float) -> void:
+	var db = (value - 50.0) * 0.5
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("sfx"), db)
