@@ -24,6 +24,19 @@ func _process(delta: float) -> void:
 			time_healing -= delta
 			
 			if target_player and target_player.health_component:
+				# Play sound only if we are actually healing (health < max)
+				if target_player.health_component.current_health < target_player.health_component.max_health:
+					if not $heal_sfx.playing:
+						$heal_sfx.play()
+				else:
+					if $heal_sfx.playing:
+						$heal_sfx.stop()
+					
+					# Also stop the animation if we are at full health
+					if animated_sprite and animated_sprite.visible:
+						animated_sprite.visible = false
+						animated_sprite.stop()
+
 				var heal_amount_per_sec = float(target_player.health_component.max_health) * 0.03
 				healing_accumulator += heal_amount_per_sec * delta
 				
@@ -50,8 +63,7 @@ func activate() -> void:
 	time_healing = max_time_healing
 	healing_accumulator = 0.0
 	print("Heal activated!")
-
-
+	
 func deactivate() -> void:
 	if not is_active:
 		return
@@ -61,6 +73,9 @@ func deactivate() -> void:
 	if animated_sprite:
 		animated_sprite.visible = false
 		animated_sprite.stop()
+		
+	# Audio
+	$heal_sfx.stop()
 
 func play_anim() -> void:
 	if animated_sprite:
