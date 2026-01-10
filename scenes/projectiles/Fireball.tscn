@@ -36,6 +36,7 @@ rotation = 1.5707964
 texture = ExtResource("2_msk11")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
 scale = Vector2(0.38509116, 0.24804688)
 color = Color(1, 0.29096648, 0.18785837, 1)
 energy = 0.5

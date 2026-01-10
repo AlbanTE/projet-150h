@@ -9,7 +9,7 @@ scale = Vector2(2, 2)
 script = ExtResource("1_13jah")
 weapon_name = "Bulle Gun"
 projectile_scene = ExtResource("2_tsij3")
-projectile_count = 3
+projectile_count = 5
 cooldown = 0.5
 sprite = ExtResource("3_ppgkm")
 

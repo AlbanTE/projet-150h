@@ -1,10 +1,11 @@
-[gd_scene load_steps=32 format=3 uid="uid://cj6uty2kq1xkf"]
+[gd_scene load_steps=35 format=3 uid="uid://cj6uty2kq1xkf"]
 
 [ext_resource type="Texture2D" uid="uid://bweb8gthg2cgh" path="res://assets/ennemies/boss_test.png" id="1_1ex25"]
 [ext_resource type="Texture2D" uid="uid://bkik3xisx6s6n" path="res://assets/ennemies/Crystal Knight.png" id="1_3uc6t"]
 [ext_resource type="Script" uid="uid://bvmct5kjyug4g" path="res://scenes/enemies/boss.gd" id="1_ub7yk"]
 [ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/generic_components/HealthComponent.gd" id="2_yye4w"]
 [ext_resource type="Script" uid="uid://ctad5dfg4nsm6" path="res://scenes/generic_components/HurtboxComponent.gd" id="5_rvo7g"]
+[ext_resource type="Script" uid="uid://clgpqood3lfrv" path="res://scenes/player/health_bar.gd" id="6_rvo7g"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cbm28"]
 atlas = ExtResource("1_3uc6t")
@@ -401,7 +402,7 @@ tracks/0/path = NodePath("AnimatedSprite2D")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(-0.008333334),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [&"entrance", 1.0, false],
@@ -535,6 +536,12 @@ _data = {
 &"teleport": SubResource("Animation_rvo7g")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uq4kr"]
+bg_color = Color(0.03839723, 0.038397145, 0.038397186, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dnpc"]
+bg_color = Color(0.6, 0, 0, 1)
+
 [node name="Boss" type="CharacterBody2D"]
 scale = Vector2(3, 3)
 collision_layer = 2
@@ -548,7 +555,7 @@ metadata/_custom_type_script = "uid://dkgjxovaxsw7m"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_uq4kr")
-animation = &"idle"
+animation = &"laser_beam"
 
 [node name="HurtboxComponent" type="Area2D" parent="."]
 collision_layer = 8
@@ -585,7 +592,42 @@ libraries = {
 &"": SubResource("AnimationLibrary_ian0n")
 }
 
+[node name="HealthBar" type="ProgressBar" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -45.0
+offset_right = 100.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(100, 6.5)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/background = SubResource("StyleBoxFlat_uq4kr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7dnpc")
+max_value = 300.0
+value = 30.0
+show_percentage = false
+script = ExtResource("6_rvo7g")
+
+[node name="Label" type="Label" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.5
+offset_bottom = 1.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "60"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Label" type="Label" parent="."]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5

@@ -49,7 +49,7 @@ var shake_duration := 0.0
 
 @onready var laser: PackedScene = preload("res://scenes/enemies/lightning.tscn")
 
-signal boss_dead
+signal boss_dead(position: Vector2)
 
 func _ready():
 	_setup_connections()
@@ -82,6 +82,8 @@ func _configure_boss():
 	if visible_notifier:
 		visible_notifier.enable_mode = VisibleOnScreenEnabler2D.ENABLE_MODE_ALWAYS
 	
+	$HealthBar.max_value = health_component.max_health
+	$HealthBar/Label.text = str(health_component.current_health) + " / " + str(health_component.max_health)
 	print("Boss health: ", health_component.max_health)
 
 func _process(delta):
@@ -292,8 +294,8 @@ func update_flip_direction():
 func flip_boss(flip: bool):
 	is_flipped = flip
 	scale.x = -3 if flip else 3
-	if has_node("Label"):
-		$Label.scale.x = -1 if flip else 1
+	if has_node("HealthBar"):
+		$HealthBar.scale.x = -1 if flip else 1
 
 func _on_animation_finished(anim_name: String):
 	match anim_name:
@@ -314,6 +316,7 @@ func _on_animation_finished(anim_name: String):
 				attack_cycles_completed = 0
 				cycles_before_pause = randi_range(3, 5)
 			else:
+				boss_dead.emit(global_position)
 				queue_free()
 
 # Fonctions d'animation
@@ -382,15 +385,16 @@ func _apply_death_effects() -> void:
 		left_arm_collision.set_deferred("monitoring", false)
 	if right_arm_collision:
 		right_arm_collision.set_deferred("monitoring", false)
-	
-	boss_dead.emit()
 
 func _on_hit_by_bullet(_bullet: Node2D, bullet_damage: int, bullet_knockback: float) -> void:
 	if not is_alive or current_state == State.DEATH:
 		return
 	_apply_damage_effects(bullet_damage)
 
-func _on_health_changed(prev_health: int, current_health: int, _max_health: int) -> void:
+func _on_health_changed(prev_health: int, current_health: int, max_health: int) -> void:
+	$HealthBar.value = current_health
+	$HealthBar.max_value = max_health
+	$HealthBar/Label.text = str(current_health) + " / " + str(max_health)
 	if current_health > prev_health:
 		pass  # Play heal effect
 	elif current_health == prev_health:

@@ -557,110 +557,117 @@ patch_margin_top = 65
 patch_margin_right = 65
 patch_margin_bottom = 65
 
-[node name="VBoxContainer" type="VBoxContainer" parent="InGameMenu/OptionsMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="InGameMenu/OptionsMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer"]
 custom_minimum_size = Vector2(500, 800)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Scroll" type="ScrollContainer" parent="InGameMenu/OptionsMenu/VBoxContainer"]
+[node name="Scroll" type="ScrollContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Container" type="VBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll"]
+[node name="Container" type="VBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="VolumeContainer" type="VBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container"]
+[node name="VolumeContainer" type="VBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer"]
+[node name="Label" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Volume"
 vertical_alignment = 1
 uppercase = true
 
-[node name="HSeparator" type="HSeparator" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer"]
+[node name="HSeparator" type="HSeparator" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer"]
 layout_mode = 2
 
-[node name="MasterVolume" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer"]
+[node name="MasterVolume" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer"]
 layout_mode = 2
 
-[node name="MasterVolumeText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MasterVolume"]
+[node name="MasterVolumeText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer/MasterVolume"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Master Volume"
 
-[node name="MasterVolumeSlider" type="HSlider" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MasterVolume"]
+[node name="MasterVolumeSlider" type="HSlider" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer/MasterVolume"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 1
 value = 50.0
 
-[node name="MusicVolume" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer"]
+[node name="MusicVolume" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer"]
 layout_mode = 2
 
-[node name="MusicVolumeText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MusicVolume"]
+[node name="MusicVolumeText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer/MusicVolume"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Music Volume"
 
-[node name="MusicVolumeSlider" type="HSlider" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MusicVolume"]
+[node name="MusicVolumeSlider" type="HSlider" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer/MusicVolume"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 1
 value = 50.0
 
-[node name="SFXVolume" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer"]
+[node name="SFXVolume" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer"]
 layout_mode = 2
 
-[node name="SFXVolumeText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/SFXVolume"]
+[node name="SFXVolumeText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer/SFXVolume"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "SFX Volume"
 
-[node name="SFXVolumeSlider" type="HSlider" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/SFXVolume"]
+[node name="SFXVolumeSlider" type="HSlider" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer/SFXVolume"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 1
 value = 50.0
 
-[node name="BindingsContainer" type="VBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container"]
+[node name="BindingsContainer" type="VBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container"]
 layout_mode = 2
 theme_override_constants/separation = 10
 script = ExtResource("7_js7mx")
 
-[node name="Label" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="Label" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Bindings"
 vertical_alignment = 1
 uppercase = true
 
-[node name="HSeparator" type="HSeparator" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="HSeparator" type="HSeparator" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 
-[node name="MoveUPBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="MoveUPBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 
-[node name="MoveUpText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding"]
+[node name="MoveUpText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Move Up"
 
-[node name="MoveUpButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding"]
+[node name="MoveUpButton" type="Button" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="InputMoveUp" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding/MoveUpButton"]
+[node name="InputMoveUp" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding/MoveUpButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -677,20 +684,20 @@ theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveLeftBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="MoveLeftBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 
-[node name="MoveLeftText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding"]
+[node name="MoveLeftText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Move Left"
 
-[node name="MoveLeftButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding"]
+[node name="MoveLeftButton" type="Button" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="InputMoveLeft" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding/MoveLeftButton"]
+[node name="InputMoveLeft" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding/MoveLeftButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -707,20 +714,20 @@ theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveDownBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="MoveDownBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 
-[node name="MoveDownText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding"]
+[node name="MoveDownText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Move Down"
 
-[node name="MoveDownButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding"]
+[node name="MoveDownButton" type="Button" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="InputMoveDown" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding/MoveDownButton"]
+[node name="InputMoveDown" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding/MoveDownButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -737,20 +744,20 @@ theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveRightBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="MoveRightBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 
-[node name="MoveRightText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding"]
+[node name="MoveRightText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Move Right"
 
-[node name="MoveRightButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding"]
+[node name="MoveRightButton" type="Button" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="InputMoveRight" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding/MoveRightButton"]
+[node name="InputMoveRight" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding/MoveRightButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -767,20 +774,20 @@ theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TriggerWeaponBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="TriggerWeaponBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 
-[node name="TriggerWeaponText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding"]
+[node name="TriggerWeaponText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Trigger Weapon"
 
-[node name="TriggerWeaponButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding"]
+[node name="TriggerWeaponButton" type="Button" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="InputTriggerWeapon" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding/TriggerWeaponButton"]
+[node name="InputTriggerWeapon" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding/TriggerWeaponButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -797,20 +804,20 @@ theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SwitchWeaponBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="SwitchWeaponBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 
-[node name="SwitchWeaponText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding"]
+[node name="SwitchWeaponText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Switch Weapon"
 
-[node name="SwitchWeaponButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding"]
+[node name="SwitchWeaponButton" type="Button" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="InputSwitchWeapon" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding/SwitchWeaponButton"]
+[node name="InputSwitchWeapon" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding/SwitchWeaponButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -827,20 +834,20 @@ theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ShieldBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="ShieldBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 
-[node name="ShieldText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding"]
+[node name="ShieldText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Shield"
 
-[node name="ShieldButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding"]
+[node name="ShieldButton" type="Button" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="InputShield" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding/ShieldButton"]
+[node name="InputShield" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding/ShieldButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -857,20 +864,20 @@ theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HealBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="HealBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 
-[node name="HealText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding"]
+[node name="HealText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Heal"
 
-[node name="HealButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding"]
+[node name="HealButton" type="Button" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="InputHeal" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding/HealButton"]
+[node name="InputHeal" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding/HealButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -887,20 +894,20 @@ theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ZoomiesBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer"]
+[node name="ZoomiesBinding" type="HBoxContainer" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer"]
 layout_mode = 2
 
-[node name="ZoomiesText" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding"]
+[node name="ZoomiesText" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Zoomies"
 
-[node name="ZoomiesButton" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding"]
+[node name="ZoomiesButton" type="Button" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="InputZoomies" type="Label" parent="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding/ZoomiesButton"]
+[node name="InputZoomies" type="Label" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding/ZoomiesButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -917,12 +924,12 @@ theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Ok Button" type="Button" parent="InGameMenu/OptionsMenu/VBoxContainer"]
+[node name="Ok Button" type="Button" parent="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("3_030jj")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 48
 text = "OK
 "
 autowrap_trim_flags = 0
@@ -1015,16 +1022,16 @@ vertical_alignment = 1
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
-[connection signal="value_changed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MasterVolume/MasterVolumeSlider" to="." method="_on_master_volume_slider_value_changed"]
-[connection signal="value_changed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/MusicVolume/MusicVolumeSlider" to="." method="_on_music_volume_slider_value_changed"]
-[connection signal="value_changed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/VolumeContainer/SFXVolume/SFXVolumeSlider" to="." method="_on_sfx_volume_slider_value_changed"]
-[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding/MoveUpButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_up_button_pressed"]
-[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding/MoveLeftButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_left_button_pressed"]
-[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding/MoveDownButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_down_button_pressed"]
-[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding/MoveRightButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_right_button_pressed"]
-[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding/TriggerWeaponButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_trigger_weapon_button_pressed"]
-[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding/SwitchWeaponButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_switch_weapon_button_pressed"]
-[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding/ShieldButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_shield_button_pressed"]
-[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding/HealButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_heal_button_pressed"]
-[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding/ZoomiesButton" to="InGameMenu/OptionsMenu/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_zoomies_button_pressed"]
-[connection signal="pressed" from="InGameMenu/OptionsMenu/VBoxContainer/Ok Button" to="." method="_on_ok_button_pressed"]
+[connection signal="value_changed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer/MasterVolume/MasterVolumeSlider" to="." method="_on_master_volume_slider_value_changed"]
+[connection signal="value_changed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer/MusicVolume/MusicVolumeSlider" to="." method="_on_music_volume_slider_value_changed"]
+[connection signal="value_changed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/VolumeContainer/SFXVolume/SFXVolumeSlider" to="." method="_on_sfx_volume_slider_value_changed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveUPBinding/MoveUpButton" to="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_up_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveLeftBinding/MoveLeftButton" to="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_left_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveDownBinding/MoveDownButton" to="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_down_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/MoveRightBinding/MoveRightButton" to="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_move_right_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/TriggerWeaponBinding/TriggerWeaponButton" to="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_trigger_weapon_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/SwitchWeaponBinding/SwitchWeaponButton" to="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_switch_weapon_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/ShieldBinding/ShieldButton" to="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_shield_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/HealBinding/HealButton" to="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_heal_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer/ZoomiesBinding/ZoomiesButton" to="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Scroll/Container/BindingsContainer" method="_on_zoomies_button_pressed"]
+[connection signal="pressed" from="InGameMenu/OptionsMenu/MarginContainer/VBoxContainer/Ok Button" to="." method="_on_ok_button_pressed"]

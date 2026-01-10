@@ -7,6 +7,16 @@ class_name EnemyType2
 @onready var anim_player: AnimationPlayer = $Visual/FlashEffectAnim
 @onready var blood_particles: AnimatedSprite2D = $Visual/BloodSprite
 
+func _ready() -> void:
+	$HealthBar.max_value = health_component.max_health
+	$HealthBar/Label.text = str(health_component.current_health) + " / " + str(health_component.max_health)
+	super()
+
+func _on_health_changed(prev_health: int, current_health: int, max_health: int) -> void:
+	$HealthBar.value = current_health
+	$HealthBar.max_value = health_component.max_health
+	$HealthBar/Label.text = str(current_health) + " / " + str(max_health)
+	super(prev_health, current_health, max_health)
 
 func _apply_damage_effects(_amount: int) -> void:
 	#print("Supposed to play hit effect")

@@ -16,7 +16,7 @@ func creer_projectile(base_direction: Vector2, player: Node2D):
 	var bulle: Bulle = projectile_scene.instantiate()
 	bulle.global_position = muzzle.global_position
 	
-	var angle = randf_range(-10.0, 10.0)  
+	var angle = randf_range(-20.0, 20.0)  
 	var random_direction = base_direction.rotated(deg_to_rad(angle))
 	bulle.speed *= randf_range(0.8, 1.2)
 	

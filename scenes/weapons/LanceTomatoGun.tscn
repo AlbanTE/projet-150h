@@ -9,7 +9,6 @@ scale = Vector2(2, 2)
 script = ExtResource("1_lancetomate")
 weapon_name = "Lance-tomate"
 projectile_scene = ExtResource("2_tomate")
-projectile_count = 3
 cooldown = 0.5
 sprite = ExtResource("3_4i8tv")
 

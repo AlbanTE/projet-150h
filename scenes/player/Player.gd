@@ -25,6 +25,9 @@ var zoomies_instance : Zoomies
 var is_alive: bool = true
 
 var disabled_inputs: bool = false
+var invicible: bool = false
+
+signal player_died
 
 # ────────────────
 # Audio streams
@@ -48,7 +51,7 @@ func _ready() -> void:
 		health_component.health_depleted.connect(_on_health_depleted)
 		health_component.health_changed.connect(_on_health_changed)
 
-
+	$HealthBar/Label.text = str(health_component.current_health) + " / " + str(health_component.max_health)
 	print("Player ready with %d HP" % health_component.current_health)
 
 	if shield_spell_scene:
@@ -80,14 +83,17 @@ func _physics_process(delta: float) -> void:
 				$AnimatedSprite2D.flip_h = true
 
 func make_invicible():
-	health_component.health_depleted.disconnect(_on_health_depleted)
-	health_component.health_changed.disconnect(_on_health_changed)
+	invicible = true
+
+func unmake_invincible():
+	invicible = false
 
 # ────────────────
 # callbacks
 # ────────────────
 func _on_health_changed(prev_health: int, current_health: int, max_health: int) -> void:
 	health_bar.value = current_health
+	$HealthBar/Label.text = str(current_health) + " / " + str(max_health)
 	if (current_health > prev_health):
 		if heal_instance:
 			heal_instance.play_anim()
@@ -97,11 +103,17 @@ func _on_health_changed(prev_health: int, current_health: int, max_health: int) 
 		print("Player took ", prev_health - current_health)
 		$FlashEffectAnim.play("hit")
 		get_node("../ScreenEffects").damage_flash()
+		play_sound_by_name("Damaged")
+		
+		make_invicible()
+		get_tree().create_timer(1).timeout.connect(unmake_invincible)
+		
 
 func _on_health_depleted() -> void:
 	print("Player died!")
 	is_alive = false
 	velocity = Vector2.ZERO
+	player_died.emit()
 	# death animation or respawn 
 
 
@@ -109,7 +121,7 @@ func _on_health_depleted() -> void:
 # Damage & Heal 
 # ────────────────
 func take_damage(damage: int) -> void:
-	if not is_alive or not health_component:
+	if not is_alive or not health_component or invicible:
 		return
 
 	if shield_instance and shield_instance.is_active:
@@ -117,7 +129,6 @@ func take_damage(damage: int) -> void:
 		return
 	
 	health_component.damage(damage)
-	play_sound_by_name("Damaged")
 
 
 func heal(amount: int) -> void:

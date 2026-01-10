@@ -55,9 +55,14 @@ func choosing_item_ui(item: Item):
 func item_chosen_ui():
 	UI.closeChooseMenu()
 
-func _ready():
+func init():
 	seed(_seed)
 	tile_builder = CustomTileManager.new()
+	
+	#advance_level()
+	#advance_level()
+	#advance_level()
+	#build_boss_arena()
 	
 	build_dungeon_area()
 	
@@ -68,6 +73,7 @@ func _ready():
 	player.inventory_manager.connect("update_inventory", update_items_ui)
 	player.inventory_manager.connect("choosing_item", choosing_item_ui)
 	player.inventory_manager.connect("item_chosen", item_chosen_ui)
+	player.player_died.connect(game_over)
 	
 	# Replace item signals connect
 	for i in range(3):
@@ -79,6 +85,9 @@ func _ready():
 	timer.timeout.connect(game_over)
 	timer.autostart = false
 	timer.one_shot = true
+
+func _ready():
+	UI.start_game.connect(init)
 
 func next_level() -> void:
 	print("Go to next level")
@@ -126,9 +135,9 @@ func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 	
 	# Modifiers based on current level
 	var current_level = AudioGlobal.current_level
-	enemy.health_component.set_max_health((current_level+1)*enemy.health_component.max_health)
-	enemy.health_component.set_current_health((current_level+1)*enemy.health_component.current_health)
-	enemy.damage = enemy.damage * (current_level + 1)
+	enemy.health_component.set_max_health(current_level*enemy.health_component.max_health)
+	enemy.health_component.set_current_health(current_level*enemy.health_component.current_health)
+	enemy.damage = enemy.damage * current_level
 	
 	return enemy
 
@@ -178,7 +187,10 @@ func _input(event):
 			next_level() 
 
 func build_dungeon_area():
-	print("Building dungeon...")
+	UI.openLoadingMenu()
+	# Attendre un court instant pour refresh l'UI
+	await get_tree().create_timer(0.1).timeout
+	
 	ground_layer.clear()
 	wall_layer.clear()
 	for child in ground_layer.get_children():
@@ -195,7 +207,7 @@ func build_dungeon_area():
 	
 	dungeon = dungeon_generator.generate_dungeon(_seed + AudioGlobal.current_level - 1)
 	
-	var level_time: int = 60 * (2 + AudioGlobal.current_level)
+	var level_time: int = 60 * (4 + AudioGlobal.current_level)
 	timer.start(level_time)
 	next_enemy_spawn = level_time - randi_range(7, 20)
 	next_wave_spawn = level_time - 30
@@ -221,6 +233,8 @@ func build_dungeon_area():
 	teleport_player_to_spawn(player_spawn, offset)
 	
 	place_exit()
+	
+	UI.closeLoadingMenu()
 	
 func build_boss_arena():
 	print("Building arena...")
@@ -267,7 +281,19 @@ func build_boss_arena():
 	var boss_inst: Boss = BossScene.instantiate()
 	add_child(boss_inst)
 	boss_inst.global_position = Vector2(0, 0)
-	boss_inst.connect("boss_dead", place_exit)
+	boss_inst.connect("boss_dead", place_exit_at)
+	
+func place_exit_at(position: Vector2) -> void:
+	print("Boss died at :", position)
+
+	var exit_instance: Node2D = exit.instantiate()
+	exit_instance.global_position = position
+	exit_instance.scale = Vector2(4, 4)
+	add_child(exit_instance)
+	exit_instance.connect("exit_reached", next_level)
+	
+	print("Added exit at: ", position)
+	
 		
 func place_exit() -> void:
 	var half_w: int = int(dungeon[0].size() / 2.)
@@ -341,9 +367,9 @@ func _process(_delta: float) -> void:
 		time_label.text = "%d:%02d" % [floor(timer.time_left / 60), int(timer.time_left) % 60]
 		
 	if int(timer.time_left) == next_enemy_spawn and abs(int(timer.time_left) - next_wave_spawn) > 3:
-		spawn_enemy_batch(randi_range(5, 10))
+		spawn_enemy_batch(randi_range(3, 8))
 		next_enemy_spawn = int(timer.time_left) - randi_range(7, 20)
 	if int(timer.time_left) == next_wave_spawn:
-		spawn_enemy_batch(randi_range(20, 30))
+		spawn_enemy_batch(randi_range(10, 15))
 		next_wave_spawn = int(timer.time_left) - 30
 	

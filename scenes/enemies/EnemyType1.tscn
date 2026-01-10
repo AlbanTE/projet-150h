@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://xpdepp3as7tr"]
+[gd_scene load_steps=60 format=3 uid="uid://xpdepp3as7tr"]
 
 [ext_resource type="Script" uid="uid://bc82mxcksspc5" path="res://scenes/enemies/EnemyType1.gd" id="1_0h5gj"]
 [ext_resource type="Script" uid="uid://dkgjxovaxsw7m" path="res://scenes/generic_components/HealthComponent.gd" id="2_jd3ge"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://ctad5dfg4nsm6" path="res://scenes/generic_components/HurtboxComponent.gd" id="4_hl4sy"]
 [ext_resource type="Texture2D" uid="uid://byyp01lxqpi2c" path="res://assets/textures/NEw pack blood/1_100x100px.png" id="5_0tf3x"]
 [ext_resource type="AudioStream" uid="uid://bf2aet3h85e7g" path="res://audio/soundeffects/slime-impact-352473.mp3" id="7_pqpmu"]
+[ext_resource type="Script" uid="uid://clgpqood3lfrv" path="res://scenes/player/health_bar.gd" id="8_8uly8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hl4sy"]
 size = Vector2(47, 34)
@@ -366,12 +367,17 @@ animations = [{
 "speed": 60.0
 }]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pcypu"]
+bg_color = Color(0.03839723, 0.038397145, 0.038397186, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bunis"]
+bg_color = Color(0.6, 0, 0, 1)
+
 [node name="EnemyType1" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_0h5gj")
-speed = 100.0
-damage = 15
+speed = 75.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -379,7 +385,6 @@ shape = SubResource("RectangleShape2D_hl4sy")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_jd3ge")
-max_health = 200
 metadata/_custom_type_script = "uid://dkgjxovaxsw7m"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
@@ -436,11 +441,43 @@ position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_hl4sy")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(5, 5)
 rect = Rect2(-21, -15, 42, 30)
 
 [node name="Hit_Cue" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_pqpmu")
 volume_db = -25.0
 bus = &"sfx"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.5
+offset_top = 25.0
+offset_right = 40.5
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 16
+theme_override_styles/background = SubResource("StyleBoxFlat_pcypu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bunis")
+max_value = 300.0
+value = 30.0
+show_percentage = false
+script = ExtResource("8_8uly8")
+
+[node name="Label" type="Label" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "60"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="screen_entered" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_entered"]

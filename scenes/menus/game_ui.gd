@@ -8,6 +8,8 @@ var isHomePageOpen: bool = true
 
 var player: Player
 
+signal start_game
+
 func update_items():
 	var inv_size: int = player.inventory_manager.inventory.size()
 	for i in range(3):
@@ -75,6 +77,12 @@ func closeChooseMenu():
 	isChooseMenuOpen = false
 	if not isPauseMenuOpen:
 		resume()
+
+func openLoadingMenu():
+	$LoadingPage.visible = true
+
+func closeLoadingMenu():
+	$LoadingPage.visible = false
 
 func _ready() -> void:
 	# Ensure HomePage is on top of everything
@@ -185,3 +193,5 @@ func _on_play_button_pressed() -> void:
 	isHomePageOpen = false
 	$HomePage.visible = false
 	get_tree().paused = false
+	
+	start_game.emit()
