@@ -369,6 +369,7 @@ script = ExtResource("1_3quv2")
 
 [node name="HomePage" type="MarginContainer" parent="."]
 process_mode = 3
+visible = false
 z_index = 20
 layout_mode = 1
 anchors_preset = 15
@@ -404,6 +405,7 @@ theme_override_font_sizes/font_size = 40
 text = "PLAY"
 
 [node name="LoadingPage" type="MarginContainer" parent="."]
+visible = false
 z_index = 30
 layout_mode = 1
 anchors_preset = 15
