@@ -1,9 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://biarr6h25aa4"]
+[gd_scene load_steps=23 format=3 uid="uid://biarr6h25aa4"]
 
 [ext_resource type="Script" uid="uid://djkc2jhnmrfc0" path="res://scenes/menus/game_ui.gd" id="1_3quv2"]
 [ext_resource type="Material" uid="uid://df5t35brb3oqk" path="res://materials/blur.tres" id="1_6v45u"]
 [ext_resource type="Texture2D" uid="uid://blfe54bgsr4qx" path="res://assets/UI/Pxiel Art UI borders_x5.png" id="2_030jj"]
+[ext_resource type="Material" uid="uid://dwcunu8s3mti0" path="res://materials/hypnotic_spiral.tres" id="2_spiral_mat"]
 [ext_resource type="Theme" uid="uid://cri857iigtf4x" path="res://assets/UI/ButtonDefault.tres" id="3_030jj"]
+[ext_resource type="Material" uid="uid://bahcfe83edytk" path="res://materials/loading_ring.tres" id="3_loading_mat"]
 [ext_resource type="PackedScene" uid="uid://clip5s2cpxjs6" path="res://scenes/menus/reward.tscn" id="5_h8aso"]
 [ext_resource type="PackedScene" uid="uid://dcturawk8jyq5" path="res://scenes/menus/choose_item.tscn" id="6_fhv6m"]
 [ext_resource type="Texture2D" uid="uid://b50hi8lh6aryp" path="res://assets/weapons/lance-tomate-fixed.png" id="6_ivene"]
@@ -364,6 +366,76 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3quv2")
+
+[node name="HomePage" type="MarginContainer" parent="."]
+process_mode = 3
+z_index = 20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="HomePage"]
+material = ExtResource("2_spiral_mat")
+layout_mode = 2
+color = Color(0.0901961, 0.0666667, 0.109804, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HomePage"]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="Title" type="Label" parent="HomePage/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.670588, 0.498039, 0.854902, 1)
+theme_override_font_sizes/font_size = 150
+text = "The Cat Escape"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="PlayButton" type="Button" parent="HomePage/VBoxContainer"]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_030jj")
+theme_override_font_sizes/font_size = 40
+text = "PLAY"
+
+[node name="LoadingPage" type="MarginContainer" parent="."]
+z_index = 30
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="LoadingPage"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LoadingPage"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Label" type="Label" parent="LoadingPage/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.67058825, 0.49803922, 0.85490197, 1)
+theme_override_font_sizes/font_size = 64
+text = "Loading
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spinner" type="ColorRect" parent="LoadingPage/VBoxContainer"]
+material = ExtResource("3_loading_mat")
+custom_minimum_size = Vector2(200, 128)
+layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="BlurAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -936,6 +1008,7 @@ theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="pressed" from="HomePage/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="InGameMenu/MainPauseMenu/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]

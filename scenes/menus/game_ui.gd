@@ -4,6 +4,7 @@ class_name GameUI
 var isRewardMenuOpen: bool = false
 var isPauseMenuOpen: bool = false
 var isChooseMenuOpen: bool = false
+var isHomePageOpen: bool = true
 
 var player: Player
 
@@ -57,6 +58,12 @@ func openChooseMenu(item: Item):
 		var item_box = get_node("GridContainer/Item" + str(i+1))
 		item_box.replacing = true
 
+func openLoadingPage():
+	$LoadingPage.visible = true
+
+func closeLoadingPage():
+	$LoadingPage.visible = false
+
 func closeChooseMenu():
 	update_items()
 	$InGameMenu/ChooseItem/ItemBox.replacing = false
@@ -70,6 +77,13 @@ func closeChooseMenu():
 		resume()
 
 func _ready() -> void:
+	# Ensure HomePage is on top of everything
+	move_child($HomePage, get_child_count() - 1)
+	
+	get_tree().paused = true
+	$HomePage.visible = true
+	$HomePage/VBoxContainer/PlayButton.pressed.connect(_on_play_button_pressed)
+
 	$InGameMenu/Reward.connect("close_reward_menu", closeRewardMenu)
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
@@ -105,6 +119,9 @@ func get_action_key_string(action_name: String) -> String:
 	return ""
 
 func process_input():
+	if isHomePageOpen:
+		return
+
 	if Input.is_action_just_pressed("escape"):
 		if (isRewardMenuOpen and isPauseMenuOpen) or (isChooseMenuOpen and isPauseMenuOpen):
 			closePauseMenu()
@@ -162,3 +179,9 @@ func _on_music_volume_slider_value_changed(value: float) -> void:
 func _on_sfx_volume_slider_value_changed(value: float) -> void:
 	var db = (value - 50.0) * 0.5
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("sfx"), db)
+
+func _on_play_button_pressed() -> void:
+	print("Play button pressed")
+	isHomePageOpen = false
+	$HomePage.visible = false
+	get_tree().paused = false
