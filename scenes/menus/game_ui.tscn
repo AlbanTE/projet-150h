@@ -8,11 +8,11 @@
 [ext_resource type="Material" uid="uid://bahcfe83edytk" path="res://materials/loading_ring.tres" id="3_loading_mat"]
 [ext_resource type="PackedScene" uid="uid://clip5s2cpxjs6" path="res://scenes/menus/reward.tscn" id="5_h8aso"]
 [ext_resource type="PackedScene" uid="uid://dcturawk8jyq5" path="res://scenes/menus/choose_item.tscn" id="6_fhv6m"]
-[ext_resource type="Texture2D" uid="uid://b50hi8lh6aryp" path="res://assets/weapons/lance-tomate-fixed.png" id="6_ivene"]
 [ext_resource type="Texture2D" uid="uid://cl50nk3spxr4b" path="res://assets/UI/Pxiel Art UI borders.png" id="6_v144c"]
 [ext_resource type="PackedScene" uid="uid://buf15ot11ktdr" path="res://scenes/menus/ItemBox.tscn" id="7_fhv6m"]
 [ext_resource type="Script" uid="uid://df8itub5haxtq" path="res://scenes/menus/bindings_container.gd" id="7_js7mx"]
 [ext_resource type="PackedScene" uid="uid://b1wtcfsba3x6b" path="res://scenes/menus/spell_box.tscn" id="8_spellbox"]
+[ext_resource type="Texture2D" uid="uid://dc2nn2r1irgxw" path="res://assets/weapons/bullet.png" id="11_fjje7"]
 
 [sub_resource type="Animation" id="Animation_v144c"]
 resource_name = "blur"
@@ -957,7 +957,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_h8i80")
 
 [node name="TextureRect" type="TextureRect" parent="ActiveWeapon"]
 layout_mode = 2
-texture = ExtResource("6_ivene")
+texture = ExtResource("11_fjje7")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 1

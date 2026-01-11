@@ -56,19 +56,19 @@ func handle_input(event):
 	elif event.is_action_pressed("switch_weapon"):
 		switch_to_next_weapon()
 		
-func _process(_delta):
-	if current_weapon:
-		aim_weapon_toward_cursor()
-
-func aim_weapon_toward_cursor():
-	if not current_weapon:
-		return
-
-	var mouse_pos = get_global_mouse_position()
-	var direction = (mouse_pos - current_weapon.global_position).normalized()
-	current_weapon.rotation = direction.angle()
-
-	if abs(rad_to_deg(current_weapon.rotation)) > 90:
-		current_weapon.scale.y = -weapon_scale
-	else:
-		current_weapon.scale.y = weapon_scale
+#func _process(_delta):
+	#if current_weapon:
+		#aim_weapon_toward_cursor()
+#
+#func aim_weapon_toward_cursor():
+	#if not current_weapon:
+		#return
+#
+	#var mouse_pos = get_global_mouse_position()
+	#var direction = (mouse_pos - current_weapon.global_position).normalized()
+	#current_weapon.rotation = direction.angle()
+#
+	#if abs(rad_to_deg(current_weapon.rotation)) > 90:
+		#current_weapon.scale.y = -weapon_scale
+	#else:
+		#current_weapon.scale.y = weapon_scale

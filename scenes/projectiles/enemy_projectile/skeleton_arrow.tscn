@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7xkppl4kdpo0"]
+
+[ext_resource type="Texture2D" uid="uid://bo5xs1o3uhhlv" path="res://assets/Pixel Crawler - Free Pack/Weapons/Wood/Wood.png" id="1_5k8qb"]
+[ext_resource type="Script" uid="uid://nmklu1o1332k" path="res://scenes/projectiles/enemy_projectile/skeleton_arrow.gd" id="1_edieu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_edieu"]
+atlas = ExtResource("1_5k8qb")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5k8qb"]
+size = Vector2(14, 4)
+
+[node name="SkeletonArrow" type="Area2D"]
+scale = Vector2(2, 2)
+collision_layer = 0
+collision_mask = 5
+script = ExtResource("1_edieu")
+speed = 250.0
+damage = 3.0
+lifetime = 3.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+pivot_offset = Vector2(8, 8)
+texture = SubResource("AtlasTexture_edieu")
+expand_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_5k8qb")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

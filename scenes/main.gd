@@ -7,10 +7,11 @@ const DungeonGeneratorScript = preload("res://scenes/dungeon_generators/DungeonG
 const EnemyType1Scene = preload("res://scenes/enemies/EnemyType1.tscn")
 const EnemyType2Scene = preload("res://scenes/enemies/EnemyType2.tscn")
 const EnemyType3Scene = preload("res://scenes/enemies/EnemyType3.tscn")
+const SkeletonScene = preload("res://scenes/enemies/skeleton.tscn")
 const BossScene = preload("res://scenes/enemies/boss.tscn")
 
 
-const ENEMY_TYPE_COUNT = 3
+const ENEMY_TYPE_COUNT = 4
 
 var enemies_loaded: Array[Enemy] = []
 
@@ -123,26 +124,30 @@ func SpawnEnnemi(world_position: Vector2, enemy_type: int) -> Enemy:
 		2:
 			enemy = EnemyType3Scene.instantiate()
 			enemy.name = "EnemyType3_" + str(randi())
+		3:
+			enemy = SkeletonScene.instantiate()
+			enemy.name = "Skeleton_" + str(randi())
 		_:
 			push_error("Type d'ennemi non reconnu: " + str(enemy_type))
 			return null
 	
-	enemy.global_position = world_position
 	add_child(enemy)
+	enemy.global_position = world_position
 	
 	# To remove ennemies when exiting level
 	enemies_loaded.append(enemy)
 	
 	# Modifiers based on current level
 	var current_level = AudioGlobal.current_level
-	enemy.health_component.set_max_health(current_level*enemy.health_component.max_health)
-	enemy.health_component.set_current_health(current_level*enemy.health_component.current_health)
-	enemy.damage = enemy.damage * current_level
+	var modifier: float = 1 + (current_level-1) * 0.5
+	enemy.health_component.set_max_health(int(modifier*enemy.health_component.max_health))
+	enemy.health_component.set_current_health(int(modifier*enemy.health_component.current_health))
+	enemy.damage = int(enemy.damage * modifier)
 	
 	return enemy
 
-func spawn_enemy_batch(count: int = 25):
-	print("Spawning ", count, " enemies !")
+func spawn_enemy_batch(count: int = 25, skeleton_count: int = 0):
+	print("Spawning ", count, " enemies and ", skeleton_count, " skeletons!")
 	
 	var used_cells = ground_layer.get_used_cells()
 	if used_cells.is_empty():
@@ -158,16 +163,24 @@ func spawn_enemy_batch(count: int = 25):
 	if to_remove.size() < used_cells.size():
 		for c in to_remove:
 			used_cells.erase(c)
-		
-	# print("Cells enemy cannot spawn: ", to_remove)
 	
+	# Spawn ennemis normaux (types 0, 1, 2)
 	for i in count:
 		var random_cell = used_cells[randi() % used_cells.size()]
 		var world_pos = cell_to_world_position(random_cell)
-		var random_type = randi() % ENEMY_TYPE_COUNT
+		var random_type = randi() % (ENEMY_TYPE_COUNT - 1) # Pas de squelettes (0, 1, 2)
 		
 		var random_offset: Vector2 = Vector2(randf(), randf()) * (Vector2(ground_layer.tile_set.tile_size) * ground_layer.scale) / 2
 		SpawnEnnemi(world_pos + random_offset, random_type)
+	
+	# Spawn squelettes (type 3)
+	for i in skeleton_count:
+		var random_cell = used_cells[randi() % used_cells.size()]
+		var world_pos = cell_to_world_position(random_cell)
+		
+		var random_offset: Vector2 = Vector2(randf(), randf()) * (Vector2(ground_layer.tile_set.tile_size) * ground_layer.scale) / 2
+		SpawnEnnemi(world_pos + random_offset, 3) # Type 3 = Skeleton
+
 
 func cell_to_world_position(cell_coord: Vector2i) -> Vector2:
 	var tile_size = Vector2(ground_layer.tile_set.tile_size)
@@ -180,7 +193,7 @@ func _input(event):
 	
 	match event.keycode:
 		KEY_G:
-			spawn_enemy_batch()
+			spawn_enemy_batch(8, 1)
 		KEY_K:
 			build_dungeon_area()
 		KEY_M:
@@ -367,9 +380,19 @@ func _process(_delta: float) -> void:
 		time_label.text = "%d:%02d" % [floor(timer.time_left / 60), int(timer.time_left) % 60]
 		
 	if int(timer.time_left) == next_enemy_spawn and abs(int(timer.time_left) - next_wave_spawn) > 3:
-		spawn_enemy_batch(randi_range(3, 8))
+		# Spawn entre 4 et 8 ennemis normaux
+		var enemy_count = randi_range(4, 8)
+		# 1 chance sur 3 d'avoir un squelette en plus
+		var skeleton_bonus = 1 if randi() % 3 == 0 else 0
+		
+		spawn_enemy_batch(enemy_count, skeleton_bonus)
 		next_enemy_spawn = int(timer.time_left) - randi_range(7, 20)
+		
 	if int(timer.time_left) == next_wave_spawn:
-		spawn_enemy_batch(randi_range(10, 15))
+		# Spawn entre 8 et 13 ennemis normaux + entre 1 et 2 squelettes
+		var enemy_count = randi_range(8, 13)
+		var skeleton_count = randi_range(1, 2)
+		
+		spawn_enemy_batch(enemy_count, skeleton_count)
 		next_wave_spawn = int(timer.time_left) - 30
 	
