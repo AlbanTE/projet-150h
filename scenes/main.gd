@@ -99,6 +99,7 @@ func next_level() -> void:
 	
 	advance_level()
 	PlayerStats.UPGRADES_COUNT = 0
+	player.weapon_component.add_other_weapon()
 	
 	if AudioGlobal.current_level == 4:
 		build_boss_arena()

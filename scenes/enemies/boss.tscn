@@ -550,7 +550,7 @@ script = ExtResource("1_ub7yk")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("2_yye4w")
-max_health = 50
+max_health = 1000
 metadata/_custom_type_script = "uid://dkgjxovaxsw7m"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

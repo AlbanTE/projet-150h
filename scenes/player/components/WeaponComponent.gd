@@ -2,8 +2,12 @@
 extends Node2D
 class_name WeaponComponent
 
-@export var starting_weapon_scene: PackedScene
-@export var weapon_scenes: Array[PackedScene] = []
+const FirestaffScene: PackedScene = preload("res://scenes/weapons/FireStaff.tscn")
+const BulleGunScene: PackedScene = preload("res://scenes/weapons/BulleGun.tscn")
+const LanceTomatoScene: PackedScene = preload("res://scenes/weapons/LanceTomatoGun.tscn")
+
+var available_weapons: Array[PackedScene] = []
+var weapon_scenes: Array[PackedScene] = []
 var current_weapon: Weapon
 var current_weapon_index: int = 0
 var weapon_scale: float = 1
@@ -11,12 +15,15 @@ var weapon_scale: float = 1
 signal weapon_equiped
 
 func _ready():
-	# Initialize weapon array with starting weapon if available
-	if starting_weapon_scene and starting_weapon_scene not in weapon_scenes:
-		weapon_scenes.insert(0, starting_weapon_scene)
+	available_weapons.append(FirestaffScene)
+	available_weapons.append(BulleGunScene)
+	available_weapons.append(LanceTomatoScene)
 	
-	if weapon_scenes.size() > 0:
-		call_deferred("equip_weapon", weapon_scenes[current_weapon_index])
+	var starting_weapon_scene = available_weapons[0]
+	available_weapons.erase(starting_weapon_scene)
+	weapon_scenes.insert(0, starting_weapon_scene)
+
+	call_deferred("equip_weapon", weapon_scenes[0])
 
 func equip_weapon(weapon_scene: PackedScene):
 	if current_weapon:
@@ -55,6 +62,14 @@ func handle_input(event):
 		
 	elif event.is_action_pressed("switch_weapon"):
 		switch_to_next_weapon()
+		
+func add_other_weapon():
+	if available_weapons.size() == 0:
+		return
+		
+	var new_weapon = available_weapons[0]
+	available_weapons.erase(new_weapon)
+	add_weapon(new_weapon)
 		
 #func _process(_delta):
 	#if current_weapon:
